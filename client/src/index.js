@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// Material UI requirements
+import 'fontsource-roboto';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
