@@ -1,12 +1,10 @@
 import React from 'react';
+import {Typography} from '@material-ui/core'
 
 function Product ({titulo, precio, imagen}){
     return (
     <div>
-        <img src={imagen}></img>
-        <h1>{titulo}</h1>
-        <h2>{precio}</h2>
-
+        <Typography variant="h1">PAGINA DEL PRODUCTO</Typography>
     </div>
     )
 }
