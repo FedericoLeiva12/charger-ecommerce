@@ -22,15 +22,15 @@ module.exports = (sequelize) => {
       allowNull :false
     },
     material:{
-     type : DataTypes.ARRAY(Sequelize.TEXT),
+     type : DataTypes.ARRAY(DataTypes.TEXT),
      allowNull : true
     },
     marcas:{
-      type : Sequelize.STRING,
+      type : DataTypes.STRING,
       allowNull : true
     },
     colores:{
-      type : Sequelize.ARRAY(Sequelize.TEXT),
+      type : DataTypes.ARRAY(DataTypes.TEXT),
       validate:{
         is : /[0-9a-fA-F]+/ 
       } /* Este ultimo contiene una validación con RegExp para numero Hex :
