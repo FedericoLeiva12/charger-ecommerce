@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 import {SvgIcon} from '@material-ui/core';
 import '../productCard/style.css'
-import carrito from '../../assets/images/carrito_icon.png';
+import carrito from '../../assets/imgs/carrito_icon.png';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
