@@ -13,11 +13,11 @@ module.exports = (sequelize) => {
       allowNull :false,
       primaryKey : true
     },
-    talle:{
+    size:{
       type : DataTypes.STRING,
       allowNull :false
     },
-    precio:{
+    price:{
       type : DataTypes.FLOAT,
       allowNull :false
     },
@@ -25,11 +25,11 @@ module.exports = (sequelize) => {
      type : DataTypes.ARRAY(DataTypes.TEXT),
      allowNull : true
     },
-    marcas:{
+    brand:{
       type : DataTypes.STRING,
       allowNull : true
     },
-    colores:{
+    colors:{
       type : DataTypes.ARRAY(DataTypes.TEXT),
       validate:{
         is : /[0-9a-fA-F]+/ 
