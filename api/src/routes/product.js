@@ -41,9 +41,27 @@ server.post('/category', (req, res) => {
 					name
 				});
 			
-				category.save().then(res.send({text: 'Category created'})).catch(res.status(500).send({text: 'Internal error'}));
+				category.save().then(() => res.send({text: 'Category created'})).catch(() => res.status(500).send({text: 'Internal error'}));
 			})
 		}
+	})
+});
+
+server.delete('/category/:id', (req, res) => {
+	const { id } = req.params;
+
+	if(id === undefined) {
+		return requestAnimationFrame.status(400).send({ text: 'Invalid id' });
+	}
+
+	Categories.destroy({
+		where: {
+			id
+		}
+	}).then(() => {
+		res.send({ text: 'Category deleted'});
+	}).catch(() => {
+		res.status(500).send({ text: 'Internal error'});
 	})
 })
 
