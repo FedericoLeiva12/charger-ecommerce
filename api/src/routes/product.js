@@ -25,6 +25,20 @@ server.post('/', (req,res) =>{
 	})
 })
 
+server.get('/category', (req, res) => {
+	Categories.findAll({
+		order: [
+			['id', 'ASC']
+		]
+	}).then(cats => {
+		res.send(cats);
+	})
+	.catch(err => {
+		res.status(500).send({ text: 'Internal error.' });
+		console.error(err);
+	})
+})
+
 server.post('/category', (req, res) => {
 	const {name} = req.body;
 	
@@ -79,6 +93,28 @@ server.delete('/category/:id', (req, res) => {
 	}).catch(() => {
 		res.status(500).send({ text: 'Internal error'});
 	})
-})
+});
+
+server.put('/category/:id', (req, res) => {
+	const { id } = req.params;
+	const { name } = req.body;
+
+	if(id === undefined || name === undefined) {
+		return requestAnimationFrame.status(400).send({ text: 'Invalid id' });
+	}
+
+	Categories.findOne({
+		where: {
+			id
+		}
+	}).then(cat => {
+		cat.name = name;
+		return cat.save();
+	}).then(() => {
+		res.send({ text: 'Category updated.' });
+	}).catch(err => {
+		res.status(500).send({ text: 'Internal error' });
+	})
+});
 
 module.exports = server;
