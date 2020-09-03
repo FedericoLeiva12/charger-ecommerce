@@ -12,7 +12,7 @@ body {
   margin: auto;
   position: relative;
   overflow: hidden;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px; 
   box-shadow: 0;
   transform: scale(0.95);
   transition: box-shadow 0.5s, transform 0.5s;
@@ -78,7 +78,7 @@ body {
   transition: transform 0.5s;
 }
 .wrapper .container .bottom .left .buy:hover {
-  background: #a6cdde;
+  background: #bdd6e2;
 }
 .wrapper .container .bottom .left .buy:hover i {
   transform: translateY(5px);
@@ -86,7 +86,7 @@ body {
 }
 .wrapper .container .bottom .right {
   width: 50%;
-  background: #a6cdde;
+  background: #00ff80;
   color: white;
   float: right;
   height: 200%;
@@ -110,6 +110,7 @@ body {
   color: white;
 }
 .wrapper .container .bottom .right .remove {
+  cursor:pointer;
   width: calc(30% - 1px);
   clear: both;
   border-right: solid thin rgba(255, 255, 255, 0.3);
@@ -135,7 +136,7 @@ body {
 }
 .wrapper .inside {
   z-index: 9;
-  background: #92879b;
+  background: #0000008a;
   width: 140px;
   height: 140px;
   position: absolute;
@@ -201,4 +202,4 @@ body {
     margin-top: 20px; 
     margin-left:20px
     
-}
+};
