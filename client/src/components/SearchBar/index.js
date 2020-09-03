@@ -29,7 +29,11 @@ const SearchField = withStyles({
 
 export default function SearchBar() {
     const state = useState({
-        results: []
+        results: [{
+            title: 'CAMISETA JOHNNY B GOODE MC FLY HOMBRE PREVENTA 15 DE SEPTIEMBRE',
+            price: '$1200',
+            image: 'https://www.rockgota.com/wp-content/uploads/2020/08/118629110_345178486852052_5759129554751787277_n-300x300.jpg'
+        }]
     });
 
     return (
