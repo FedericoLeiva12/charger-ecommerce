@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
-import {Typography, Card} from '@material-ui/core';
+import {SvgIcon} from '@material-ui/core';
 import Style from '../productCard/style.css'
 import ico from '../img/icono_i.png'
 import carrito from '../img/carrito_icon.png';
-
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 
@@ -11,7 +12,6 @@ export default function ProductCard({imagen = 'https://images.unsplash.com/photo
   const [active, setActive] = useState('')
 
   function handleClick(e){
-    console.log(active)
     const clicked = e.target.id || e.target.className
       if(active === clicked) { 
           setActive('');
@@ -29,16 +29,16 @@ export default function ProductCard({imagen = 'https://images.unsplash.com/photo
         <div className="details">
           <h1>{titulo}</h1>
           <p>{precio} </p>
-        </div>
+          </div>
         <div className='buy' onClick={handleClick} id='first'> <img className='first' src={carrito} alt='carrito' onClick={handleClick}/> </div>
       </div>
       <div className="right">
-        <div className="done"><i className="material-icons">done</i></div>
+        <div className="done"><SvgIcon component={DoneIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }} /></div>
         <div className="details">
           <h1>{titulo} </h1>
           <p>Added to your cart</p>
         </div>
-        <div className={`remove ${active === 'second'? ' clicked': ''}` } onClick={handleClick} id='second'><i className="material-icons">clear</i></div>
+        <div className={`remove ${active === 'second'? ' clicked': ''}` } onClick={handleClick} id='second'><SvgIcon component={ClearIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }}/></div>
       </div>
     </div>
   </div>
