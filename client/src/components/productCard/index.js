@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import {SvgIcon} from '@material-ui/core';
-import Style from '../productCard/style.css'
-import ico from '../img/icono_i.png'
-import carrito from '../img/carrito_icon.png';
+import '../productCard/style.css'
+import carrito from '../../assets/images/carrito_icon.png';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 
 
@@ -43,11 +43,39 @@ export default function ProductCard({imagen = 'https://images.unsplash.com/photo
     </div>
   </div>
   <div className="inside">
-    <div className="icon" ><i className="material-icons" > <img id='ico' src={ico} alt='info' /> </i></div>
-    <div className="contents"> ejemplo </div>
+    <div className="icon" > <SvgIcon component={InfoOutlinedIcon} /> </div>
+    <div className="contents"> 
+    <table>
+        <tr>
+          <th>Talle</th>
+          <th>Color</th>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>Amarillo</td>
+        </tr>
+        <tr>
+          <th>M</th>
+          <th>Negro</th>
+        </tr>
+        <tr>
+          <td>L</td>
+          <td>Verde</td>
+        </tr>
+        <tr>
+          <th>XL</th>
+          <th>Rojo</th>
+        </tr>
+        <tr>
+          <td>XXL</td>
+          <td>Blanco</td>
+        </tr>
+      </table>
+     </div>
   </div>
 </div>
   )
 }
+
 
 

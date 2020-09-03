@@ -136,7 +136,7 @@ body {
 }
 .wrapper .inside {
   z-index: 9;
-  background: #92879b;
+  background: #0000008a;
   width: 140px;
   height: 140px;
   position: absolute;
@@ -202,4 +202,4 @@ body {
     margin-top: 20px; 
     margin-left:20px
     
-}
+};
