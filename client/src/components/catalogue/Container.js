@@ -1,9 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import ProductCard from '../productCard';
 
 const useStyles = makeStyles({
   root: {
@@ -21,73 +19,19 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
   const classes = useStyles();
+  const listItems = props.prendas.map((prenda) =>
+    <Grid item xs={4}>
+      <ProductCard prenda={prenda} />
+    </Grid>
+  );
+
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
-	        <Card className={classes.root}>
-       			 <CardContent>
-   			     <Typography className={classes.title} color="textSecondary" gutterBottom>
-			          Word of the Day
-			        </Typography>
-			        <Typography variant="h5" component="h2">
-    					cosa
-			        </Typography>
-			        <Typography className={classes.pos} color="textSecondary">
-			          adjective
-			        </Typography>
-			        <Typography variant="body2" component="p">
-			          well meaning and kindly.
- 				         <br />
-			          {'"a benevolent smile"'}
-			        </Typography>
-		      </CardContent>
-     		</Card>
-        </Grid>
-	 <Grid item xs={4}>
-	        <Card className={classes.root}>
-       			 <CardContent>
-   			     <Typography className={classes.title} color="textSecondary" gutterBottom>
-			          Word of the Day
-			        </Typography>
-			        <Typography variant="h5" component="h2">
-    					cosa
-			        </Typography>
-			        <Typography className={classes.pos} color="textSecondary">
-			          adjective
-			        </Typography>
-			        <Typography variant="body2" component="p">
-			          well meaning and kindly.
- 				         <br />
-			          {'"a benevolent smile"'}
-			        </Typography>
-		      </CardContent>
-     		</Card>
-        </Grid>
-      <Grid item xs={4}>
-	        <Card className={classes.root}>
-       			 <CardContent>
-   			     <Typography className={classes.title} color="textSecondary" gutterBottom>
-			          Word of the Day
-			        </Typography>
-			        <Typography variant="h5" component="h2">
-    					cosa
-			        </Typography>
-			        <Typography className={classes.pos} color="textSecondary">
-			          adjective
-			        </Typography>
-			        <Typography variant="body2" component="p">
-			          well meaning and kindly.
- 				         <br />
-			          {'"a benevolent smile"'}
-			        </Typography>
-		      </CardContent>
-     		</Card>
-        </Grid>
+        {listItems}
      </Grid>
     </div>
   );

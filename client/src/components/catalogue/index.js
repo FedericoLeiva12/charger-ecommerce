@@ -16,6 +16,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const pruebaObj = [{
+  imagen : 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=649&q=80',
+   titulo:'CAMPERA',
+   precio:'$9999'
+ },{
+   imagen : 'https://vansco.vteximg.com.br/arquivos/ids/220878-1200-1200/VN0A3WMAVNE-1-.jpg?v=637036794910600000',
+   titulo:'Zapatillas', 
+   precio:'$19999'}
+
+]
+
+
 export default function Catalogo(){
     const classes = useStyles();
     return(
@@ -33,10 +45,7 @@ export default function Catalogo(){
       		</Grid>
             </Grid>
             <div>
-                <Container></Container>
-                <Container></Container>
-                <Container></Container>
-                <Container></Container>
+                <Container prendas={pruebaObj} />
             </div>
         </div>
       </ThemeProvider>
