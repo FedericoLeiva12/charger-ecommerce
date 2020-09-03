@@ -73,7 +73,7 @@ export default function ProductCard({imagen = 'https://images.unsplash.com/photo
       </table>
      </div>
   </div>
-</div>
+</div> 
   )
 }
 
