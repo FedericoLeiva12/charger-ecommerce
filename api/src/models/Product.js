@@ -13,24 +13,24 @@ module.exports = (sequelize) => {
       allowNull :false,
       primaryKey : true
     },
-    talle:{
+    size:{
       type : DataTypes.STRING,
       allowNull :false
     },
-    precio:{
+    price:{
       type : DataTypes.FLOAT,
       allowNull :false
     },
     material:{
-     type : DataTypes.ARRAY(DataTypes.TEXT),
+     type : DataTypes.STRING,
      allowNull : true
     },
-    marcas:{
+    brand:{
       type : DataTypes.STRING,
       allowNull : true
     },
-    colores:{
-      type : DataTypes.ARRAY(DataTypes.TEXT),
+    colors:{
+      type : DataTypes.STRING,
       validate:{
         is : /[0-9a-fA-F]+/ 
       } /* Este ultimo contiene una validación con RegExp para numero Hex :
