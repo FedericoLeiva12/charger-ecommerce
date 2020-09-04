@@ -73,7 +73,7 @@ export default function ProductPage() {
                 <Grid container item  xs={6} lg={6}>
                     <ProductImage src={imagenPrueba[1]} />
                 </Grid>
-                <Grid container item  xs={6} lg={6} justifyContent='center' alignContent='center'>
+                <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
                     <InfoProduct {...productPrueba} />
                 </Grid>
             </Grid>

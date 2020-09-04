@@ -2,7 +2,6 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
-import ListSubheader from '@material-ui/core/ListSubheader'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import {Box} from '@material-ui/core'
@@ -33,8 +32,8 @@ export default function SizeSelect({talles, colors}) {
                         <em>None</em>
                     </MenuItem>
                     {talles &&
-                        talles.map(talle => {
-                            return <MenuItem value={talle}>{talle}</MenuItem>
+                        talles.map((talle, i) => {
+                            return <MenuItem key={i} value={talle}>{talle}</MenuItem>
                         })}
                 </Select>
             </FormControl>
@@ -51,8 +50,8 @@ export default function SizeSelect({talles, colors}) {
                         <em>None</em>
                     </MenuItem>
                     {colors &&
-                        colors.map(color => {
-                            return <MenuItem value={color}>{color}</MenuItem>
+                        colors.map((color, i) => {
+                            return <MenuItem key={i} value={color}>{color}</MenuItem>
                         })}
                 </Select>
             </FormControl>
