@@ -1,7 +1,7 @@
 import React from 'react'
 import SizeSelect from '../SizeSelect'
 import ColorSelect from '../ColorSelect'
-import {Grid, Typography, Divider, Box, Button} from '@material-ui/core'
+import {Grid, Typography, Box, Button} from '@material-ui/core'
 
 function InfoProduct({title, description, price, colors = [], talles = []}) {
     return (
