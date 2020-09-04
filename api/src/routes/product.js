@@ -99,7 +99,7 @@ server.delete('/category/:id', (req, res) => {
 	const { id } = req.params;
 
 	if(id === undefined) {
-		return req.status(400).send({ text: 'Invalid id' });
+		return res.status(400).send({ text: 'Invalid id' });
 	}
 
 	Categories.destroy({
