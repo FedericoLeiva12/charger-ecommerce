@@ -40,7 +40,7 @@ server.get('/category', (req, res) => {
 })
 
 server.post('/category', (req, res) => {
-	const {name} = req.body;
+	const {name} = req.body.data;
 	
 	if(!name || typeof name !== 'string' || name.length <= 0) {
 		return res.status(400).send({text: 'Invalid name'});
@@ -71,7 +71,7 @@ server.post('/category', (req, res) => {
 					name
 				});
 			
-				category.save().then(() => res.send({text: 'Category created'})).catch(() => res.status(500).send({text: 'Internal error'}));
+				category.save().then(() => res.send({text: 'Category created', category})).catch(() => res.status(500).send({text: 'Internal error'}));
 			})
 		}
 	})
@@ -97,7 +97,7 @@ server.delete('/category/:id', (req, res) => {
 
 server.put('/category/:id', (req, res) => {
 	const { id } = req.params;
-	const { name } = req.body;
+	const { name } = req.body.data;
 
 	if(id === undefined || name === undefined) {
 		return requestAnimationFrame.status(400).send({ text: 'Invalid id' });
