@@ -7,9 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import {Grid, makeStyles} from '@material-ui/core'
+import { makeStyles} from '@material-ui/core'
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-import Drawer from '../Drawer/index'
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,36 +22,40 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         color: 'white'
     },
-}))
-const sectionStyle = {
+    appBar:{
     background: 'rgba(66, 66, 66, 0.36)',
-    color: 'white'
-}
+    color: 'white',
+    [theme.breakpoints.up('sm')]:{
+        width: '100%',
+    }
+    }
+}))
 
-export default function NavBar(){
+ const NavBar =(props)=>{
     const classes = useStyles()
     return(
         <div >
-            <AppBar position="fixed" style={sectionStyle} >
+            <AppBar position="fixed" className={classes.appBar} >
                 <Toolbar>
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="menu"
+                        onClick={ () => props.accionAbrir() }
                     >
                         <MenuIcon />
-                        
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        <Button className={classes.title}> INICIAR SESIÓN </Button>
+                        <Button className={classes.title}> LOGIN </Button>
                         <Button className={classes.title}>
                         <LocalMallOutlinedIcon/>
                         </Button>
-
                     </Typography>
                     <SearchBar/>
                 </Toolbar>
             </AppBar>
         </div>
-    )}
+    )};
+
+export default NavBar
