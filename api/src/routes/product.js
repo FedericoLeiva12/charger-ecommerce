@@ -118,7 +118,7 @@ server.put('/category/:id', (req, res) => {
 	const { name } = req.body.data;
 
 	if(id === undefined || name === undefined) {
-		return requestAnimationFrame.status(400).send({ text: 'Invalid id' });
+		return res.status(400).send({ text: 'Invalid id' });
 	}
 
 	Categories.findOne({
