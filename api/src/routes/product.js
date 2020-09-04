@@ -18,7 +18,7 @@ server.post('/', (req,res) =>{
 		brand:req.body.brand,
 		colors:req.body.colors
 	}).then(product=>{
-		res.status(200).send('Se ha creado el producto: '+ product )
+		res.status(200).send('The product was created succesfully: '+ product )
 			if(!product.name||!product.price||!product.size||!product.material||!product.brand||!product.colors){
 				res.send(400).send('Product need all properties to be created')
 			}
@@ -134,5 +134,20 @@ server.put('/category/:id', (req, res) => {
 		res.status(500).send({ text: 'Internal error' });
 	})
 });
+server.get('/category/:id',(req, res) =>{
+	const { id } = req.params;
+	if(id=== undefined){
+		return res.status(400).send('You must use a valid id')
+	}
+	Product.findAll({
+		where:{
+			id
+	}}).then(product=>{
+		res.status(200).send(products)
+	}).catch((err)=>{
+		res.status(404).send('Page not found' + err)
+	})
+
+})
 
 module.exports = server;
