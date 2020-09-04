@@ -145,7 +145,7 @@ server.get('/category/:id',(req, res) =>{
 	}}).then(product=>{
 		res.status(200).send(products)
 	}).catch((err)=>{
-		res.status(404).send('Page not found' + err)
+		res.status(404).send('Page not found' + err);
 	})
 
 })
