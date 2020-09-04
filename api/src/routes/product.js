@@ -134,20 +134,6 @@ server.put('/category/:id', (req, res) => {
 		res.status(500).send({ text: 'Internal error' });
 	})
 });
-server.get('/category/:id',(req, res) =>{
-	const { id } = req.params;
-	if(id=== undefined){
-		return res.status(400).send('You must use a valid id')
-	}
-	Product.findAll({
-		where:{
-			id
-	}}).then(product=>{
-		res.status(200).send(products)
-	}).catch((err)=>{
-		res.status(404).send('Page not found' + err);
-	})
 
-})
 
 module.exports = server;
