@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
+import NewTable from './table.js'
 
 
 const darkTheme = createMuiTheme({
@@ -47,12 +48,7 @@ export default function FormCategorias(props) {
       		  </Button> 
       		</Grid>
       		<Grid item >
-       		  <Typography variant="p">
-      		    {props.categories.map(
-                    function(category, index){return (
-                    <div key={index}>{category.id} {category.name}</div>);
-                    })}
-     		   </Typography>
+      			<NewTable categories={props.categories}/>
       		</Grid>
 
       		<Divider/>
