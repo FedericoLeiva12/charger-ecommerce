@@ -70,7 +70,10 @@ server.get('/:id',(req, res) =>{
 })
 server.put('/:id', (req, res) => {
 	const { id } = req.params;
-	const { name } = req.body.data;
+	const { name } = req.body.data; /*Si vamos a manejar axios que sea a lo largo de todas las request. 
+									 rear producto y modificar sus valores se tienen que poder hacer
+									 a traves del mismo metodo de obtencion de data*/
+	 
 
 	if(id === undefined || name === undefined) {
 		return res.status(400).send({ text: 'Invalid id' });
