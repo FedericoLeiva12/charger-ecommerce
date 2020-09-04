@@ -10,6 +10,7 @@ import CheckoutPage from './pages/checkoutPage';
 import ProductPage from './pages/productPage';
 import AdminPage from './pages/adminPage';
 import CategoriaPage from './pages/categoriaPage';
+import CreateCategoria from './pages/createCategoria.js';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route exact path='/producto/:producto' component={ProductPage} />
       {/* Admin Routes */}
       <Route exact path='/admin' component={AdminPage} />
+      <Route exact path='/admin/create/categoria' component={CreateCategoria} />
     </Switch>
   );
 }

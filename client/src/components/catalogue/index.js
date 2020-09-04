@@ -3,6 +3,7 @@ import Container from './Container'
 import Selector from './Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const darkTheme = createMuiTheme({
   palette: {

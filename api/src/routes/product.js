@@ -25,6 +25,24 @@ server.post('/', (req,res) =>{
 	})
 })
 
+server.delete('/:productoId', (req, res) => {
+	const { productoId } = req.params;
+
+	if(productoId === undefined) {
+		return res.status(400).send({ text: 'Invalid id' });
+	}
+
+	Product.destroy({
+		where: {
+			id: productoId
+		}
+	}).then(() => {
+		res.status(200).send({ text: 'Product deleted' });
+	}).catch(() => {
+		res.status(500).send({ text: 'Internal error' });
+	});
+})
+
 server.get('/category', (req, res) => {
 	Categories.findAll({
 		order: [
@@ -81,7 +99,7 @@ server.delete('/category/:id', (req, res) => {
 	const { id } = req.params;
 
 	if(id === undefined) {
-		return requestAnimationFrame.status(400).send({ text: 'Invalid id' });
+		return res.status(400).send({ text: 'Invalid id' });
 	}
 
 	Categories.destroy({
