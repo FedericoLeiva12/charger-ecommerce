@@ -1,6 +1,6 @@
 import React from 'react'
 import SizeSelect from '../SizeSelect'
-import {Grid, Typography, Box, Button} from '@material-ui/core'
+import {Grid, Typography, Box} from '@material-ui/core'
 
 function InfoProduct({title, description, price, colors = [], talles = []}) {
     return (
@@ -12,7 +12,7 @@ function InfoProduct({title, description, price, colors = [], talles = []}) {
         >
             <Box mt={2} textAlign="center">
                 <Typography
-                    variant="h5"
+                    variant="h3"
                     style={{borderBottom: '2px solid white'}}
                 >
                     {title}
@@ -21,7 +21,7 @@ function InfoProduct({title, description, price, colors = [], talles = []}) {
                     <Typography variant="subtitle2">{description}</Typography>
                 </Box>
                 <Box mt={1} fontWeight="fontWeightMedium">
-                <Typography variant="h6">${price}</Typography>
+                <Typography variant="h4">${price}</Typography>
                 </Box>
             </Box>
             <Box
@@ -30,17 +30,7 @@ function InfoProduct({title, description, price, colors = [], talles = []}) {
                 textAlign="center"
                 style={{width: 250}}
             >
-                <SizeSelect talles={talles} colors={colors} />
-                <Button
-                    variant="outlined"
-                    style={{
-                        color: 'white',
-                        borderColor: 'white',
-                        width: '100%',
-                    }}
-                >
-                    ADD TO CART
-                </Button>
+                <SizeSelect talles={talles} />
             </Box>
         </Grid>
     )
