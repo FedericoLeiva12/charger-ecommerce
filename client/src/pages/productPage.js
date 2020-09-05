@@ -2,13 +2,7 @@ import React from 'react'
 import {Grid, makeStyles} from '@material-ui/core'
 import ProductImage from '../components/ProductImage'
 import InfoProduct from '../components/InfoProduct'
-
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import NavBar from '../components/NavBar/Navbar'
 
 const productPrueba = {
     title: 'Campera',
@@ -53,25 +47,10 @@ export default function ProductPage() {
     const classes = useStyles()
     return (
         <div style={sectionStyle}>
-            <AppBar position="relative" color='transparent'>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-            <Grid container justify='center' alignItems='center' style={{maxWidth:1350, maxHeight:760}}>
+            <NavBar />
+            <Grid container justify='center' alignItems='center' style={{maxWidth:1350, maxHeight:760, paddingTop: '80px'}}>
                 <Grid container item  xs={6} lg={6}>
-                    <ProductImage src={imagenPrueba[1]} />
+                    <ProductImage src={imagenPrueba[2]} />
                 </Grid>
                 <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
                     <InfoProduct {...productPrueba} />

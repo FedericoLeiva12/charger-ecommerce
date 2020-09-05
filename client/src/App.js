@@ -17,6 +17,8 @@ function App() {
       {/* User Routes */}
       <Route exact path='/' component={HomePage} />
       <Route exact path='/busqueda/:query' component={BusquedaPage} />
+      <Route exact path='/catalogo' component={BusquedaPage} />
+      <Route exact path='/producto' component={ProductPage} />
       <Route exact path='/categoria/:categoria' component={CategoriaPage} />
       <Route exact path='/checkout' component={CheckoutPage} />
       <Route exact path='/producto/:producto' component={ProductPage} />

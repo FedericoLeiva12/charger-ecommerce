@@ -1,6 +1,5 @@
 import React from 'react'
 import SizeSelect from '../SizeSelect'
-import ColorSelect from '../ColorSelect'
 import {Grid, Typography, Box, Button} from '@material-ui/core'
 
 function InfoProduct({title, description, price, colors = [], talles = []}) {
@@ -10,7 +9,6 @@ function InfoProduct({title, description, price, colors = [], talles = []}) {
             direction="column"
             justify="center"
             alignItems="center"
-            justify="center"
         >
             <Box mt={2} textAlign="center">
                 <Typography
