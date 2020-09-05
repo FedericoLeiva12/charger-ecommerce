@@ -12,7 +12,6 @@ const styles = makeStyles(theme=> ({
   drawerPaper:{
     width: 240,
     background: 'rgba(66, 66, 66, 0.36)',
-    color: 'white',
   },
   toolbar: theme.mixins.toolbar,
 }))

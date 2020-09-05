@@ -1,4 +1,4 @@
-//este es el Container
+//*este es el Container del Navbar 
 
 import React from 'react';
 import {makeStyles, Hidden} from '@material-ui/core';
@@ -22,6 +22,7 @@ const Contenedor = ()=>{
     }
 
     return(
+        
         <div className={classes.root}>
             <NavBar accionAbrir={accionAbrir}/>
             <Hidden xsDown>
@@ -41,8 +42,8 @@ const Contenedor = ()=>{
                 />
             </Hidden>
 
-            
         </div>
+           
     )
 }
 
