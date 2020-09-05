@@ -34,7 +34,7 @@ export default function SearchBar() {
 
     return (
         <form className={Style.form} onSubmit>
-            <SearchField label="Buscar"/>
+            <SearchField label="Search"/>
             <List>
                 {state[0].results.map(result => (
                     <ListItem>
