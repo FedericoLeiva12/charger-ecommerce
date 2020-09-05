@@ -9,17 +9,36 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });
 server.post('/', (req,res) =>{
+	const {
+		name, price, size, material, brand, colors
+	} = req.body.data;
 
-	Product.create({
-		name: req.body.name,
-	  	price: req.body.price,
-	  	stock: req.body.stock,
-	  	
-		//...
-	}).then(product=>{
-		res.status(200).send('Se ha creado el producto con nombre: '+ product.name );
+	if(!name || !price || !size || !material || !brand || !colors) {
+		return res.status(400).send({ text: 'Invalid data' });
+	}
+
+	let newId;
+
+	Product.findAll({
+		order: [
+			['id', 'DESC']
+		],
+		limit: 1
+	}).then(prod => {
+		if(!prod[0]) prod[0] = {id: -1};
+		newId = prod[0].id + 1;
+		return Product.create({
+			id: newId,
+			name, price, size, material, brand, colors
+		});
+	}).then(() => {
+		res.send({ text: 'Product created', product: {
+			id: newId,
+			name, price, size, material, brand, colors
+		}})
 	}).catch(err => {
-		res.status(400).send({ text: err.name });
+		res.status(500).send({ text: 'Internal error' });
+		console.error(err);
 	})
 	
 })
