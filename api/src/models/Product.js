@@ -19,14 +19,7 @@ module.exports = (sequelize) => {
         type : DataTypes.INTEGER,
         allowNull : false
 
-      },
-      /*img : {
-	type : DataTypes.STRING,
-	allowNull : false,
-	validate :{
-	  isUrl: true
-	}
-      }*/
+      }
   });
 };
 

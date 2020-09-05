@@ -26,13 +26,15 @@ modelDefiners.forEach(model => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
-sequelize.models = Object.fromEntries(capsEntries);
+sequelize.models = Object.fromEntries(capsEntries) ;
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Categories } = sequelize.models;
+const { Product, Categories, Img } = sequelize.models;
 
 // Aca vendrian las relaciones
+Product.hasMany(Img);
+Img.belongsTo(Product);
 Product.belongsToMany( Categories, { through : 'ProductCategories'} );
 Categories.belongsToMany( Product, { through : 'ProductCategories'} );
 //se usa belongsToMany pues through solo esta soportado por este. hasMany : muchos <=> muchos, belongsToMany : muchos => tabla intermedia (through) <= muchos
