@@ -1,48 +1,83 @@
 const server = require('express').Router();
-const { Product, Categories } = require('../db.js');
+const { Product, Categories, Img } = require('../db.js');
+const { Op } = require("sequelize");
 
 server.get('/', (req, res, next) => {
-	Product.findAll()
+	Product.findAll({include: Img})
 		.then(products => {
 			res.send(products);
 		})
 		.catch(next);
 });
+server.get('/:name', (req, res, next) => {
+	Product.findAll({
+	  where: {name : req.params.name},
+	  include: Img
+	})
+		.then(products => {
+			res.send(products);
+		})
+		.catch(next);
+});
+
+server.get('/search/:name', (req, res, next) => {
+	Product.findAll({
+	  where: {name :{ [Op.like] : '%'+req.params.name+'%' }},
+	  include: Img
+	})
+		.then(products => {
+			res.send(products);
+		})
+		.catch(next);
+});
+
+
+
 server.post('/', (req,res) =>{
 	const {
-		name, price, size, material, brand, colors
+		name, price, stock, img
 	} = req.body.data;
 
-	if(!name || !price || !size || !material || !brand || !colors) {
+	if(!name || !price || !stock || !img) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
-
-	let newId;
-
-	Product.findAll({
-		order: [
-			['id', 'DESC']
-		],
-		limit: 1
-	}).then(prod => {
-		if(!prod[0]) prod[0] = {id: -1};
-		newId = prod[0].id + 1;
-		return Product.create({
-			id: newId,
-			name, price, size, material, brand, colors
-		});
-	}).then(() => {
-		res.send({ text: 'Product created', product: {
-			id: newId,
-			name, price, size, material, brand, colors
-		}})
-	}).catch(err => {
+  	Product.create({
+		name, price, stock
+	})
+    	.then((createdProduct) => {
+	  	img.map(Url => {createdProduct.createImg({url:Url})});
+		res.send({ text: 'Product created', createdProduct});
+	})
+	.catch(err => {
 		res.status(500).send({ text: 'Internal error' });
 		console.error(err);
 	})
 	
+});
+server.put('/:id', (req, res) =>{
+	const {
+		name, price, stock, img
+	} = req.body.data;
+  	Product.findByPk(req.params.id)
+    	.then(product => {
+	    product.name= name;
+	    product.price= price;
+	    product.stock= stock;
+	    product.save().then(updatedProduct => {res.send(updatedProduct)})
+    	.catch(err => {res.status(500).send({ text: err})})
+	  })
 })
-
+server.delete('/:id', (req, res) =>{
+	const {
+		name, price, stock, img
+	} = req.body.data;
+  	Product.findByPk(req.params.id)
+    	.then(product => {
+	    product.destroy().then(updatedProduct => {res.send(updatedProduct)})
+    	.catch(err => {res.status(500).send({ text: err})})
+	  })
+})
+	
 /*CRUD de Categorías*/
 
 server.post('/category', (req, res) => {
