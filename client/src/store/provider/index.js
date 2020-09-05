@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS } from '../constants';
 
 const initialState = {
     categories: [],
@@ -33,6 +33,21 @@ export default function Provider(state = initialState, action) {
                 ...state,
                 categories: state.categories.filter(cat => cat.id != action.id)
             };
+        case GET_PRODUCTS:
+            return {
+                ...state,
+                products: action.products
+            }
+        case ADD_PRODUCT:
+            return {
+                ...state,
+                products: [...state.products, action.product]
+            }
+        case DELETE_PRODUCTS:
+            return {
+                ...state,
+                products: state.products.filter(prod => prod.id !== parseInt(action.id))
+            }
         case ERROR_MESSAGE:
             return {...state,
                 error: true,
