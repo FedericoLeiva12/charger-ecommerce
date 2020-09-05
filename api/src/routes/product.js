@@ -40,6 +40,7 @@ server.post('/', (req,res) =>{
 		res.status(500).send({ text: 'Internal error' });
 		console.error(err);
 	})
+	
 })
 
 /*CRUD de Categorías*/

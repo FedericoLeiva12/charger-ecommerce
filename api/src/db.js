@@ -33,7 +33,10 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Product, Categories } = sequelize.models;
 
 // Aca vendrian las relaciones
-Product.belongsTo(Categories);
+Product.belongsToMany( Categories, { through : 'ProductCategories'} );
+Categories.belongsToMany( Product, { through : 'ProductCategories'} );
+//se usa belongsToMany pues through solo esta soportado por este. hasMany : muchos <=> muchos, belongsToMany : muchos => tabla intermedia (through) <= muchos
+//https://sequelize.org/master/manual/assocs.html
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
