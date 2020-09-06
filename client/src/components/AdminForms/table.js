@@ -9,21 +9,21 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 
-export default function NewTable(props) {
+export default function NewTable({columns, data}) {
   return (
     <Paper>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>
+            {columns.map((col, index) => (<TableCell key={index}>{col}</TableCell>))}
           </TableRow>
         </TableHead>
     <TableBody>
-          {props.categories.map(row => (
-            <TableRow >
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
+          {data.map((row, index) => (
+            <TableRow key={index}>
+              {row.map((col, index) => (
+                <TableCell key={index}>{col}</TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

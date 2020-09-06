@@ -9,15 +9,21 @@ server.get('/', (req, res, next) => {
 		})
 		.catch(next);
 });
-server.get('/:name', (req, res, next) => {
-	Product.findAll({
-	  where: {name : req.params.name},
-	  include: Img
-	})
-		.then(products => {
-			res.send(products);
-		})
-		.catch(next);
+server.get('/:productId', (req, res, next) => {
+	const id = parseInt(req.params.productId);
+
+	if(!(id > 0)) {
+		next();
+	} else {
+		Product.findAll({
+			where: {id},
+			include: Img
+		  })
+			  .then(products => {
+				  res.send(products);
+			  })
+			  .catch(next);
+	}
 });
 
 server.get('/search/:name', (req, res, next) => {
@@ -36,8 +42,8 @@ server.get('/search/:name', (req, res, next) => {
 server.post('/', (req,res) =>{
 	const {
 		name, price, stock, img
-	} = req.body.data;
-
+	} = req.body;
+	console.log(req.body)
 	if(!name || !price || !stock || !img) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
@@ -46,7 +52,7 @@ server.post('/', (req,res) =>{
 	})
     	.then((createdProduct) => {
 	  	img.map(Url => {createdProduct.createImg({url:Url})});
-		res.send({ text: 'Product created', createdProduct});
+		res.send({ text: 'Product created', product: createdProduct.dataValues });
 	})
 	.catch(err => {
 		res.status(500).send({ text: 'Internal error' });
@@ -57,7 +63,8 @@ server.post('/', (req,res) =>{
 server.put('/:id', (req, res) =>{
 	const {
 		name, price, stock, img
-	} = req.body.data;
+	} = req.body;
+
   	Product.findByPk(req.params.id)
     	.then(product => {
 	    product.name= name;
@@ -66,17 +73,24 @@ server.put('/:id', (req, res) =>{
 	    product.save().then(updatedProduct => {res.send(updatedProduct)})
     	.catch(err => {res.status(500).send({ text: err})})
 	  })
-})
-server.delete('/:id', (req, res) =>{
-	const {
-		name, price, stock, img
-	} = req.body.data;
-  	Product.findByPk(req.params.id)
-    	.then(product => {
-	    product.destroy().then(updatedProduct => {res.send(updatedProduct)})
-    	.catch(err => {res.status(500).send({ text: err})})
-	  })
-})
+});
+
+server.delete('/:productId', (req, res, next) =>{
+	const id = parseInt(req.params.productId);
+
+	if(!(id > 0)) {
+		next();
+	} else {
+		Product.findByPk(id)
+			.then(product => {
+				return product.destroy()
+			}).then(() => {
+				res.send({ text: 'Product deleted' })
+			}).catch(err => {
+				res.status(500).send({ text: err})
+			})
+	}
+});
 	
 /*CRUD de Categorías*/
 
@@ -94,26 +108,11 @@ server.post('/category', (req, res) => {
 		if(cat !== null) {
 			return res.status(400).send({text: 'Category already exists'});
 		} else {
-			Categories.findAll({
-				order: [
-					['id', 'DESC']
-				],
-				limit: 1
-			}).then(cat => {
-				let newId = null;
-				if(cat.length === 0) {
-					newId = 0;
-				} else {
-					newId = cat[0].id + 1;
-				}
-			
-				const category = Categories.build({
-					id: newId,
-					name
-				});
-			
-				category.save().then(() => res.send({text: 'Category created'})).catch(() => res.status(500).send({text: 'Internal error'}));
-			})
+			const category = Categories.build({ name });
+		
+			category.save()
+				.then(() => res.send({text: 'Category created', category: category.dataValues}))
+				.catch(() => res.status(500).send({text: 'Internal error'}));
 		}
 	})
 });
@@ -149,9 +148,7 @@ server.get('/category/:id',(req, res) =>{
 })
 server.put('/category/:id', (req, res) => {
 	const { id } = req.params;
-	const { name } = req.body.data; /*Si vamos a manejar axios que sea a lo largo de todas las request. 
-									 rear producto y modificar sus valores se tienen que poder hacer
-									 a traves del mismo metodo de obtencion de data*/
+	const { name } = req.body;
 	 
 
 	if(id === undefined || name === undefined) {
