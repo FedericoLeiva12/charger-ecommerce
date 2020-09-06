@@ -70,7 +70,7 @@ function Catalogo({products, getProducts}){
       		</Grid>
             </Grid>
             <div>
-                <Container prendas={products.map(prod => ({imagen: prod.img[0].url, titulo: prod.name, precio: prod.price}))} />
+                <Container prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
             </div>
         </div>
       </ThemeProvider>
