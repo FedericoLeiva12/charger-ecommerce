@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Grid, makeStyles} from '@material-ui/core'
 import ProductImage from './ProductImage'
 import InfoProduct from './InfoProduct'
 import Container from '../NavBar/Container'
+import { connect } from 'react-redux'
+import { getProducts } from '../../store/actions'
 
 const productPrueba = {
     title: 'Bomber Supreme - S20',
@@ -30,8 +32,8 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function ProductPage() {
-    const classes = useStyles()
+function ProductPage({products, getProducts}) {
+    const classes = useStyles();
     
     const sectionStyle = {
         height: '100vh',
@@ -42,18 +44,46 @@ export default function ProductPage() {
         backdropFilter: 'blur(20px)',
         color: 'white'
     }
+
+    useEffect(() => {
+        getProducts();
+    }, []);
     
     return (
         <div style={sectionStyle}>
             <Container />
-            <Grid container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
+            {/*<Grid container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
                 <Grid container item  xs={6} lg={6}>
                     <ProductImage src={imagenPrueba[1]} />
                 </Grid>
                 <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
                     <InfoProduct {...productPrueba} />
                 </Grid>
-            </Grid>
+            </Grid>*/}
+            {products.map((prod, index) => (
+                    <Grid key={index} container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
+                        <Grid container item  xs={6} lg={6}>
+                            <ProductImage src={prod.imgs[0].url} />
+                        </Grid>
+                        <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
+                            <InfoProduct title={prod.name} description={""} price={prod.price} talle={"XL"} />
+                        </Grid>
+                    </Grid>
+                ))}
         </div>
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        products: state.products
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getProducts: () => dispatch(getProducts())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);

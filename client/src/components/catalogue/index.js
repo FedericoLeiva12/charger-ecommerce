@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Container from './Container'
 import Selector from './Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { getProducts } from '../../store/actions';
+import { connect } from 'react-redux';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -28,8 +30,13 @@ const pruebaObj = [{
 ]
 
 
-export default function Catalogo(){
+function Catalogo({products, getProducts}){
     const classes = useStyles();
+
+    useEffect(() => {
+      getProducts();
+    }, []);
+
     return(
       <ThemeProvider theme={darkTheme}>
         <div className={classes.cont}>
@@ -45,10 +52,24 @@ export default function Catalogo(){
       		</Grid>
             </Grid>
             <div>
-                <Container prendas={pruebaObj} />
+                <Container prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
             </div>
         </div>
       </ThemeProvider>
       
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        products: state.products
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getProducts: () => dispatch(getProducts())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Catalogo);
