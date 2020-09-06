@@ -25,20 +25,27 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         background: 'rgba(66, 66, 66, 0.36)',
         color: 'white',
-        justifyContent:'center',
         [theme.breakpoints.up('sm')]: {
             width: '100%',
         },
     },
     loginButton: {
         textDecoration: 'none',
-    }
+    },
+    charger: {
+        fontFamily: 'Roboto',
+        fontWeight: 500,
+        "&:hover":{
+            color: 'black'
+        }
+    },
+
 }))
 
 const NavBar = props => {
     const classes = useStyles()
     return (
-        <div>
+        <div >
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <IconButton
@@ -60,6 +67,7 @@ const NavBar = props => {
                         </Link>
                         </Button>
                     </Typography>
+                    <Link to='/' style={{textDecoration: 'none', color: 'white'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
                     <SearchBar />
                 </Toolbar>
             </AppBar>
