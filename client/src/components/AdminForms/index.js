@@ -101,7 +101,7 @@ export default function FormCategorias(props) {
                 label="Nombre"
                 onChange={(e) => setAddCategory({...addCategory, name: e.target.value})}
                 value={addCategory.name}
-                placeholder="name"
+                placeholder="Name"
                 helperText="Solo debe contener letras"
                 fullWidth
                 margin="normal"
@@ -129,7 +129,7 @@ export default function FormCategorias(props) {
                 label="Name"
                 onChange={(e) => setModifyCategory({...modifyCategory, name: e.target.value })}
                 value={modifyCategory.name}
-                placeholder="name"
+                placeholder="Name"
                 helperText="Category Name"
                 fullWidth
                 margin="normal"
@@ -163,10 +163,10 @@ export default function FormCategorias(props) {
               }}
             >
               <TextField
-                label="Nombre"
+                label="Name"
                 onChange={(e) => setRemoveCategory({...removeCategory, id: e.target.value})}
                 value={removeCategory.id}
-                placeholder="name"
+                placeholder="Name"
                 helperText="Solo debe contener letras"
                 fullWidth
                 margin="normal"
@@ -222,7 +222,7 @@ export default function FormCategorias(props) {
                 label="Name"
                 onChange={(e) => setCreateProduct({...createProduct, name:e.target.value })}
                 value={createProduct.name}
-                placeholder="name"
+                placeholder="Name"
                 helperText="Only letters"
                 fullWidth
                 margin="normal"
@@ -250,7 +250,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, img:e.target.value })}
                 value={createProduct.img}
                 placeholder="imageOne.png,imageTwo.png,imegeThree.png"
-                helperText="Only links to images, separed with ',', without spaces."
+                helperText="Only links to images, separed with ',' without spaces."
                 fullWidth
                 margin="normal"
               />

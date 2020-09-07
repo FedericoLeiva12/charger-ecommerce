@@ -13,19 +13,17 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  font-weight: 650;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-45%);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(6px);
 }
 .title h1 {
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .linkCatalogo {
@@ -35,9 +33,15 @@
   text-decoration: none;
   font-size: 18px;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  font-weight: 100;
+  font-weight: 500;
   width: 20%;
   padding: 17px 60px;
+}
+
+.linkCatalogo:hover {
+  color: #1C1C1C	;
+  background-color: #F4F4F4;
+  transition: 0.8s;
 }
 
 .divNav {
