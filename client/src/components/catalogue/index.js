@@ -3,7 +3,7 @@ import Container from './Container'
 import Selector from './Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { getProducts } from '../../store/actions';
+import { getProducts, getCategories } from '../../store/actions';
 import { connect } from 'react-redux';
 import NavBarCOntainer from '../NavBar/Container'
 const darkTheme = createMuiTheme({
@@ -42,13 +42,14 @@ const pruebaObj = [{
        precio:'$19999'},
 
 ]
+// var categorias =['size','color', 'name', 'hola'] //prueba categorias
 
-
-function Catalogo({products, getProducts}){
+function Catalogo({products, getProducts, getCategories, categories}){
     const classes = useStyles();
 
     useEffect(() => {
       getProducts();
+      getCategories();
     }, []);
 
     return(
@@ -62,12 +63,13 @@ function Catalogo({products, getProducts}){
           alignItems="flex-start"
           paddingBottom='40px'
           >
-            	<Grid item >
-                    <Selector nom="talle"/>
-      		</Grid>
-                <Grid item >
-                    <Selector  nom="ordenar"/>
-      		</Grid>
+            	{
+                categories.map(cat=>{
+                  return(
+                    <Selector nom={cat.name} desc={cat.description}/>
+                  )
+                })
+              }
             </Grid>
             <div>
                 <Container prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
@@ -80,13 +82,15 @@ function Catalogo({products, getProducts}){
 
 function mapStateToProps(state) {
     return {
-        products: state.products
+        products: state.products,
+        categories: state.categories
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getProducts: () => dispatch(getProducts())
+        getProducts: () => dispatch(getProducts()),
+        getCategories: () => dispatch(getCategories())
     }
 }
 

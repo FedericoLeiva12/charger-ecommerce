@@ -52,6 +52,12 @@ export default function Selector(props) {
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
+        {/* { props.desc.map(d=>{
+         return(
+         <MenuItem value={d}>{d}</MenuItem>
+         ) 
+       })} */}
+
         </Select>
       </FormControl>
     </div>
