@@ -31,7 +31,7 @@ export default function Provider(state = initialState, action) {
         case DELETE_CATEGORY:
             return {
                 ...state,
-                categories: state.categories.filter(cat => cat.id != action.id)
+                categories: state.categories.filter(cat => cat.id !== action.id)
             };
         case GET_PRODUCTS:
             return {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct } from '../store/actions';
 import { connect } from 'react-redux';
 import AdminForms from '../components/AdminForms/';
@@ -38,11 +38,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getCategories: () => dispatch(getCategories()),
-        addCategory: name => dispatch(addCategory(name)),
+        addCategory: (name, description) => dispatch(addCategory(name, description)),
         deleteCategory: id => dispatch(deleteCategory(id)),
         modifyCategory: (id, name) =>dispatch(modifyCategory(id, name)),
         getProducts: () => dispatch(getProducts()),
-        addProduct: (name, price, stock, img) => dispatch(addProduct(name, price, stock, img)),
+        addProduct: (name, description, price, stock, img) => dispatch(addProduct(name, description, price, stock, img)),
         deleteProduct: id => dispatch(deleteProduct(id))
     }
 }

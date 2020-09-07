@@ -24,7 +24,7 @@ export default function HomePage() {
             <Container />
             <div className={Style.title}>
                 <h1>CHARGER</h1>
-                <Link to='/catalogo' className={Style.linkCatalogo}>VIEW PRODUCTS</Link>
+                <Link to='/catalog' className={Style.linkCatalogo}>VIEW PRODUCTS</Link>
             </div>
         </div>
     )
