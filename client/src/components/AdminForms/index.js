@@ -46,7 +46,8 @@ export default function FormCategorias(props) {
   });
 
   const [createProduct, setCreateProduct] = useState({
-	  name: '',
+    name: '',
+    description: '',
 	  price: '',
 	  stock: '',
 	  img: ''
@@ -81,7 +82,7 @@ export default function FormCategorias(props) {
             </Button>
           </Grid>
           <Grid item>
-            <NewTable columns={['ID', 'Name']} data={props.categories.map(data => [data.id, data.name])} />
+            <NewTable columns={['ID', 'Name', 'Description']} data={props.categories.map(data => [data.id, data.name, data.description])} />
           </Grid>
 
           <Divider />
@@ -94,15 +95,24 @@ export default function FormCategorias(props) {
               autoComplete="off"
               onSubmit={(e) => {
                 e.preventDefault();
-                props.addCategory(addCategory.name);
+                props.addCategory(addCategory.name, addCategory.description);
               }}
             >
               <TextField
-                label="Nombre"
+                label="Name"
                 onChange={(e) => setAddCategory({...addCategory, name: e.target.value})}
                 value={addCategory.name}
-                placeholder="Name"
-                helperText="Solo debe contener letras"
+                placeholder="name"
+                helperText="Only letters"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Description"
+                onChange={(e) => setAddCategory({...addCategory, description: e.target.value})}
+                value={addCategory.description}
+                placeholder="description"
+                helperText="Only letters"
                 fullWidth
                 margin="normal"
               />
@@ -122,7 +132,7 @@ export default function FormCategorias(props) {
               autoComplete="off"
               onSubmit={(e) => {
                 e.preventDefault();
-                props.modifyCategory(modifyCategory.id, modifyCategory.name);
+                props.modifyCategory(modifyCategory.id, modifyCategory.name, modifyCategory.description);
               }}
             >
               <TextField
@@ -130,6 +140,15 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyCategory({...modifyCategory, name: e.target.value })}
                 value={modifyCategory.name}
                 placeholder="Name"
+                helperText="Category Name"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Description"
+                onChange={(e) => setModifyCategory({...modifyCategory, description: e.target.value })}
+                value={modifyCategory.description}
+                placeholder="description"
                 helperText="Category Name"
                 fullWidth
                 margin="normal"
@@ -211,7 +230,8 @@ export default function FormCategorias(props) {
               onSubmit={(e) => {
                 e.preventDefault();
                 props.addProduct(
-					createProduct.name,
+          createProduct.name,
+          createProduct.description,
 					createProduct.price,
 					createProduct.stock,
 					createProduct.img.split(',').map(x => x.replace(' ', ''))
@@ -223,6 +243,15 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, name:e.target.value })}
                 value={createProduct.name}
                 placeholder="Name"
+                helperText="Only letters"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Description"
+                onChange={(e) => setCreateProduct({...createProduct, description:e.target.value })}
+                value={createProduct.description}
+                placeholder="description"
                 helperText="Only letters"
                 fullWidth
                 margin="normal"

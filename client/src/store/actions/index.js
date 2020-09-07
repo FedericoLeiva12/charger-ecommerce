@@ -22,10 +22,10 @@ export function getCategories() {
     }
 }
 
-export function addCategory(name) {
+export function addCategory(name, description) {
     return dispatch => {
         axios.post(`http://${url}/products/category`, {
-            name
+            name, description
         }).then(res => {
             if(res.status === 200) {
                 dispatch({
@@ -120,10 +120,10 @@ export function deleteProduct(id) {
     }
 }
 
-export function addProduct(name, price, stock, img) {
+export function addProduct(name, description, price, stock, img) {
     return dispatch => {
         axios.post(`http://${url}/products`, {
-            name, price, stock, img
+            name, description, price, stock, img
         }).then(res => {
             if(res.status === 200) {
                 dispatch({

@@ -41,14 +41,14 @@ server.get('/search/:name', (req, res, next) => {
 
 server.post('/', (req,res) =>{
 	const {
-		name, price, stock, img
+		name, description, price, stock, img
 	} = req.body;
 	console.log(req.body)
-	if(!name || !price || !stock || !img) {
+	if(!name || !description || !price || !stock || !img) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
   	Product.create({
-		name, price, stock
+		name, description, price, stock
 	})
     	.then((createdProduct) => {
 	  	img.map(Url => {createdProduct.createImg({url:Url})});
@@ -137,20 +137,24 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 /*CRUD de Categorías*/
 
 server.post('/category', (req, res) => {
-	const {name} = req.body;
+	const {name, description} = req.body;
 	
 	if(!name || typeof name !== 'string' || name.length <= 0) {
 		return res.status(400).send({text: 'Invalid name'});
 	}
+	if(!description || typeof description !== 'string' || description.length <= 0) {
+		return res.status(400).send({text: 'Invalid description'});
+	}
 	Categories.findOne({
 		where: {
-			name
+			name,
+			description
 		}
 	}).then(cat => {
 		if(cat !== null) {
 			return res.status(400).send({text: 'Category already exists'});
 		} else {
-			const category = Categories.build({ name });
+			const category = Categories.build({ name, description });
 		
 			category.save()
 				.then(() => res.send({text: 'Category created', category: category.dataValues}))
