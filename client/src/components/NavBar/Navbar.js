@@ -10,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import {makeStyles} from '@material-ui/core'
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined'
 import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getCategories } from '../../store/actions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -54,7 +56,7 @@ const NavBar = props => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="menu"
-                        onClick={() => props.accionAbrir()}
+                        onClick={() => {props.getCategories(); props.accionAbrir()}}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -76,4 +78,14 @@ const NavBar = props => {
     )
 }
 
-export default NavBar
+function mapStateToProps() {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCategories: () => dispatch(getCategories())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
