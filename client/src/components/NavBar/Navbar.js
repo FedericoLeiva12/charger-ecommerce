@@ -34,9 +34,10 @@ const useStyles = makeStyles(theme => ({
     },
     charger: {
         fontFamily: 'Roboto',
-        fontWeight: 500,
+        fontWeight: 600,
         "&:hover":{
-            color: 'black'
+            color: '#1C1C1C',
+            transition: '0.3s'
         }
     },
 
@@ -67,7 +68,7 @@ const NavBar = props => {
                         </Link>
                         </Button>
                     </Typography>
-                    <Link to='/' style={{textDecoration: 'none', color: 'white'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
+                    <Link to='/' style={{textDecoration: 'none', color: 'white', marginRight: '31%'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
                     <SearchBar />
                 </Toolbar>
             </AppBar>
