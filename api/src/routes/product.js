@@ -91,7 +91,49 @@ server.delete('/:productId', (req, res, next) =>{
 			})
 	}
 });
+
+// rutas para setear categorias a objetos 
+
+server.put('/:productId/:categoryId', (req, res) => {
+	const { productId, categoryId } = req.params;
 	
+	prodNcat = Promise.all([Product.findByPk(productId),Categories.findByPk(categoryId)])
+	prodNcat.then(data =>{
+	  data[0].addCategory(data[1])
+	    .then((state) =>{
+	      res.send({ text: state} )
+	    }).catch(err => {
+	      res.status(500).send({text: err})
+	    })
+	})
+
+});
+
+server.delete('/:productId/:categoryId', (req, res) => {
+	const { productId, categoryId } = req.params;
+	
+	prodNcat = Promise.all([Product.findByPk(productId),Categories.findByPk(categoryId)])
+	prodNcat.then(data =>{
+	  data[0].removeCategory(data[1])
+	    .then((state) =>{
+	      res.send({ text: state} )
+	    }).catch(err => {
+	      res.status(500).send({text: err})
+	    })
+	})
+});
+
+//ruta para obtener los productos por categoria
+server.get('/searchByCategory/:categoryId', (req, res) => {
+	const categoryId = req.params.categoryId;
+	Categories.findByPk(categoryId)
+	.then(category => {
+	  return category.getProducts()
+	})
+	.then(products => {res.send(products)})
+  	.catch(err => {res.status(500).send({text: err})})
+})
+
 /*CRUD de Categorías*/
 
 server.post('/category', (req, res) => {
