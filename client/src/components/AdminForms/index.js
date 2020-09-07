@@ -314,6 +314,28 @@ export default function FormCategorias(props) {
                 Delete
               </Button>
             </form>
+              <form>
+                <TextField
+                  label="Id Category"
+                  placeholder="Id Category"
+                  >
+                </TextField>
+                
+                <Divider />
+                
+                <TextField
+                  label="Id Product"
+                  placeholder="Id Product"
+                  >
+                </TextField>
+                <Divider />
+                <Button variant="contained" type="submit" color="primary">
+                Add Category
+              </Button>
+              <Button variant="contained" type="submit" color="primary">
+                Remove Category
+              </Button>
+              </form>
 		  </Grid>
         </Grid>
       </Box>
