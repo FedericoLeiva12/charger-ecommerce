@@ -137,7 +137,7 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 /*CRUD de Categorías*/
 
 server.post('/category', (req, res) => {
-	const {name} = req.body;
+	const {name, description} = req.body;
 	
 	if(!name || typeof name !== 'string' || name.length <= 0) {
 		return res.status(400).send({text: 'Invalid name'});
@@ -150,7 +150,7 @@ server.post('/category', (req, res) => {
 		if(cat !== null) {
 			return res.status(400).send({text: 'Category already exists'});
 		} else {
-			const category = Categories.build({ name });
+			const category = Categories.build({ name, description });
 		
 			category.save()
 				.then(() => res.send({text: 'Category created', category: category.dataValues}))
