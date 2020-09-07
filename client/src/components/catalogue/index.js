@@ -63,10 +63,10 @@ function Catalogo({products, getProducts}){
           paddingBottom='40px'
           >
             	<Grid item >
-                    <Selector nom="talle"/>
+                    <Selector nom="Size"/>
       		</Grid>
                 <Grid item >
-                    <Selector  nom="ordenar"/>
+                    <Selector  nom="Categories"/>
       		</Grid>
             </Grid>
             <div>
