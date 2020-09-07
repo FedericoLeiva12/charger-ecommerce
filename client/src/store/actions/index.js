@@ -47,7 +47,7 @@ export function modifyCategory(id, name) {
         axios.put(`http://${url}/products/category/${id}`, {
             name
         }).then(res => {
-            if(res.status == 200) {
+            if(res.status === 200) {
                 dispatch({
                     type: MODIFY_CATEGORY,
                     id,
