@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core'
+import { getCategories } from '../../store/actions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(()=>({
     categories:{
@@ -13,25 +15,43 @@ const useStyles = makeStyles(()=>({
     }
 }))
 
-export default function List(){
+function List({categories}){
     const classes = useStyles()
+
     return(
         <div>
-            <Link to='/categoria/:categoria' className={classes.categories}>
+            {categories.filter(cat => (cat.name === 'Tipo' || cat.name === 'Temporada')).map(cat => (
+                <Link to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
+            ))}
+            {/*<Link to='/category/:category' className={classes.categories}>
                 <h1>CATEGORIA 1</h1>
             </Link>
-            <Link to='/categoria/:categoria' className={classes.categories}>
+            <Link to='/category/:category' className={classes.categories}>
                 <h1>CATEGORIA 2</h1>
             </Link>
-            <Link to='/categoria/:categoria' className={classes.categories}>
+            <Link to='/category/:categoria' className={classes.categories}>
                 <h1>CATEGORIA 3</h1>
             </Link>
-            <Link to='/categoria/:categoria' className={classes.categories}>
+            <Link to='/category/:category' className={classes.categories}>
                 <h1>CATEGORIA 4</h1>
-            </Link>
+            </Link>*/}
             <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>
         </div>
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        categories: state.categories
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCategories: () => dispatch(getCategories)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

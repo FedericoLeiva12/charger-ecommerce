@@ -41,14 +41,14 @@ server.get('/search/:name', (req, res, next) => {
 
 server.post('/', (req,res) =>{
 	const {
-		name, price, stock, img
+		name, description, price, stock, img
 	} = req.body;
 	console.log(req.body)
-	if(!name || !price || !stock || !img) {
+	if(!name || !description || !price || !stock || !img) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
   	Product.create({
-		name, price, stock
+		name, description, price, stock
 	})
     	.then((createdProduct) => {
 	  	img.map(Url => {createdProduct.createImg({url:Url})});
@@ -142,9 +142,13 @@ server.post('/category', (req, res) => {
 	if(!name || typeof name !== 'string' || name.length <= 0) {
 		return res.status(400).send({text: 'Invalid name'});
 	}
+	if(!description || typeof description !== 'string' || description.length <= 0) {
+		return res.status(400).send({text: 'Invalid description'});
+	}
 	Categories.findOne({
 		where: {
-			name
+			name,
+			description
 		}
 	}).then(cat => {
 		if(cat !== null) {

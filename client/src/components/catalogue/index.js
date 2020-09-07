@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+
 function Catalogo({products, getProducts, getCategories, categories}){
     const classes = useStyles();
 
@@ -72,3 +73,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Catalogo);
+
+

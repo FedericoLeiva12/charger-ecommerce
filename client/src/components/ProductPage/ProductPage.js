@@ -5,6 +5,7 @@ import InfoProduct from './InfoProduct'
 import Container from '../NavBar/Container'
 import { connect } from 'react-redux'
 import { getProducts } from '../../store/actions'
+import { useParams } from 'react-router-dom'
 
 // const productPrueba = {
 //     title: 'Bomber Supreme - S20',
@@ -34,6 +35,10 @@ function ProductPage({products, getProducts}) {
         color: 'white'
     }
 
+    const id = parseInt(useParams().product);
+
+    const prod = products.filter(prod => prod.id === id)[0];
+
     useEffect(() => {
         getProducts();
     }, []);
@@ -49,8 +54,8 @@ function ProductPage({products, getProducts}) {
                     <InfoProduct {...productPrueba} />
                 </Grid>
             </Grid>*/}
-            {products.map((prod, index) => (
-                    <Grid key={index} container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
+                {prod?(
+                    <Grid container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
                         <Grid container item  xs={6} lg={6}>
                             <ProductImage src={prod.imgs[0].url} />
                         </Grid>
@@ -58,7 +63,7 @@ function ProductPage({products, getProducts}) {
                             <InfoProduct title={prod.name} description={""} price={prod.price} talle={"XL"} />
                         </Grid>
                     </Grid>
-                ))}
+                ):'Loading'}
         </div>
     )
 }
