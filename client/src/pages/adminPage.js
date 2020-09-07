@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct } from '../store/actions';
 import { connect } from 'react-redux';
 import AdminForms from '../components/AdminForms/';
