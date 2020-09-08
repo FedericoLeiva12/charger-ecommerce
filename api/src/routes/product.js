@@ -123,6 +123,33 @@ server.delete('/:productId/:categoryId', (req, res) => {
 	})
 });
 
+server.get('/earchByCategory/:categoryId', (req, res) => {
+	const { categoryId } = req.params;
+
+	let categories;
+	let images;
+
+	const catPromise = Categories.findByPk(categoryId)
+	.then(cats => {
+		categories = cats;
+	});
+	
+	const imgPromise = Img.findAll()
+	.then(imgs => {
+		images = imgs;
+	});
+
+	Promise.all([catPromise, imgPromise])
+	.then(([catResults, imgResults]) => {
+		for (const key in catResults) {
+			const images = imgResults.filter(image => image.productId === catResults[key].id);
+			catResults[key].imgs = images;
+		}
+
+		res.send({products: catResults});
+	})
+})
+
 //ruta para obtener los productos por categoria
 server.get('/searchByCategory/:categoryId', (req, res) => {
 	const categoryId = req.params.categoryId;

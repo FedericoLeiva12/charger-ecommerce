@@ -57,6 +57,11 @@ export default function FormCategorias(props) {
 	  id: 0
   });
 
+  const [addCategoryProduct, setAddCategoryProduct] = useState({
+    productId: '',
+    categoryId: ''
+  })
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -314,28 +319,36 @@ export default function FormCategorias(props) {
                 Delete
               </Button>
             </form>
-              <form>
-                <TextField
-                  label="Id Category"
-                  placeholder="Id Category"
-                  >
-                </TextField>
-                
-                <Divider />
-                
-                <TextField
-                  label="Id Product"
-                  placeholder="Id Product"
-                  >
-                </TextField>
+            <form autoComplete='off' onSubmit={(e) => {
+        e.preventDefault();
+        props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+      }}>
+        <TextField
+                label="ID de la categoria"
+                onChange={(e) => setAddCategoryProduct({...addCategoryProduct, categoryId: e.target.value })}
+                value={addCategoryProduct.categoryId}
+                placeholder="0"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="ID del producto"
+                onChange={(e) => setAddCategoryProduct({...addCategoryProduct, productId: e.target.value })}
+                value={addCategoryProduct.productId}
+                placeholder="0"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
                 <Divider />
                 <Button variant="contained" type="submit" color="primary">
                 Add Category
               </Button>
               <Button variant="contained" type="submit" color="primary">
                 Remove Category
-              </Button>
-              </form>
+          </Button>
+          </form>
 		  </Grid>
         </Grid>
       </Box>
