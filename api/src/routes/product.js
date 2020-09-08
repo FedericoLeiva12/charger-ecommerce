@@ -62,17 +62,24 @@ server.post('/', (req,res) =>{
 });
 server.put('/:id', (req, res) =>{
 	const {
-		name, price, stock, img
+		name, price, stock, img, description
 	} = req.body;
+
+	let test = parseInt(req.params.id);
+	if(!(test > 0)) {
+		return next();
+	}
 
   	Product.findByPk(req.params.id)
     	.then(product => {
 	    product.name= name;
 	    product.price= price;
-	    product.stock= stock;
-	    product.save().then(updatedProduct => {res.send(updatedProduct)})
-    	.catch(err => {res.status(500).send({ text: err})})
+			product.stock= stock;
+			product.description = description;
+			product.img = img;
+	    product.save().then(updatedProduct => {res.send({text: 'Product updated ', updatedProduct: updatedProduct.dataValues})})
 	  })
+		.catch(err => {res.status(500).send({ text: err })})
 });
 
 server.delete('/:productId', (req, res, next) =>{

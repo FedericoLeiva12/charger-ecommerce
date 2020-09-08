@@ -188,16 +188,12 @@ export function modifyProduct(id, name, price, stock, description, img){
             if(res.status === 200) {
                 dispatch({
                     type: MODIFY_PRODUCT,
-                    name,
-                    description,
-                    price,
-                    stock,
-                    img
+                    product: res.data.updatedProduct
                 })
             } else {
                 dispatch({
                     type: ERROR_MESSAGE,
-                    message: res.data.text
+                        message: res.data.text
                 });
             }
         }).catch(console.error)
