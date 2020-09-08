@@ -53,9 +53,19 @@ export default function Provider(state = initialState, action) {
             return {
                 ...state
             }
-            case REMOVE_CATEGORY_PRODUCT:
+        case REMOVE_CATEGORY_PRODUCT:
             return {
                 ...state
+            }
+        case MODIFY_PRODUCT:
+            let prod = state.products.filter(prod => prod.id === action.id)[0];
+            if(prod === undefined) return {...state};
+            let index = state.products.indexOf(prod);
+            let products = [...state.products];
+            products[index].name = action.name;
+            return {
+                ...state,
+                products
             }
         case ERROR_MESSAGE:
             return {...state,
