@@ -151,7 +151,7 @@ server.get('/earchByCategory/:categoryId', (req, res) => {
 })
 
 //ruta para obtener los productos por categoria
-server.get('/searchByCategory/:categoryId', (req, res) => {
+/*server.get('/searchByCategory/:categoryId', (req, res) => {
 	const categoryId = req.params.categoryId;
 	var  prod ;
   	Categories.findByPk(categoryId)
@@ -173,7 +173,7 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 	  res.send(prod);
 	})
   	
-})
+})*/
 
 /*CRUD de Categorías*/
 
