@@ -334,7 +334,7 @@ export default function FormCategorias(props) {
       }}>
         <TextField
                 label="ID de la categoria"
-                onChange={(e) => setAddCategoryProduct({...deleteProduct, categoryId: e.target.value })}
+                onChange={(e) => setAddCategoryProduct({...addCategoryProduct, categoryId: e.target.value })}
                 value={addCategoryProduct.categoryId}
                 placeholder="0"
                 helperText="Only numbers"
@@ -343,7 +343,7 @@ export default function FormCategorias(props) {
               />
               <TextField
                 label="ID del producto"
-                onChange={(e) => setAddCategoryProduct({...deleteProduct, productId: e.target.value })}
+                onChange={(e) => setAddCategoryProduct({...addCategoryProduct, productId: e.target.value })}
                 value={addCategoryProduct.productId}
                 placeholder="0"
                 helperText="Only numbers"

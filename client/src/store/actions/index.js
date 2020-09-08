@@ -142,6 +142,7 @@ export function addProduct(name, description, price, stock, img) {
 
 export function addCategoryProduct (productId, categoryId) {
     return dispatch => {
+        console.log({productId, categoryId})
         axios.put(`http://${url}/products/${productId}/${categoryId}`)
             .then(res => {
                 if(res.status === 200) {
