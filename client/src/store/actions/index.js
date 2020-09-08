@@ -192,7 +192,7 @@ export function modifyProduct(id, name, price, stock, idCategory){
                 dispatch({
                     type: ERROR_MESSAGE,
                     message: res.data.text
-                });q
+                });
             }
         }).catch(console.error)
     }
