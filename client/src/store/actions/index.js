@@ -42,16 +42,16 @@ export function addCategory(name, description) {
     }
 }
 
-export function modifyCategory(id, name) {
+export function modifyCategory(id, name, description) {
     return dispatch => {
         axios.put(`http://${url}/products/category/${id}`, {
-            name
+            name, description
         }).then(res => {
             if(res.status === 200) {
                 dispatch({
                     type: MODIFY_CATEGORY,
                     id,
-                    name
+                    name, description
                 })
             } else {
                 dispatch({
@@ -142,6 +142,7 @@ export function addProduct(name, description, price, stock, img) {
 
 export function addCategoryProduct (productId, categoryId) {
     return dispatch => {
+        console.log({productId, categoryId})
         axios.put(`http://${url}/products/${productId}/${categoryId}`)
             .then(res => {
                 if(res.status === 200) {
@@ -152,8 +153,13 @@ export function addCategoryProduct (productId, categoryId) {
                             categoryId
                         }
                     })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
                 }
-            })
+            }).catch(console.error)
     }
 }
 
@@ -173,6 +179,7 @@ export function removeCategoryProduct (productId, categoryId) {
             })
     }
 }
+
 export function getProductsByCategory(categoryId) {
     return dispatch => {
         axios.get(`http://${url}/products/searchByCategory/${categoryId}`)
@@ -189,5 +196,29 @@ export function getProductsByCategory(categoryId) {
                     })
                 }
             }).catch(console.error)
+        }
+    }
+
+export function modifyProduct(id, name, price, stock, idCategory){
+    return (dispatch)=>{
+        axios.put(`http://${url}/products/${id}`, {
+            name
+        }).then(res => {
+            if(res.status === 200) {
+                dispatch({
+                    type: MODIFY_PRODUCT,
+                    name,
+                    description,
+                    price,
+                    stock,
+                    img
+                })
+            } else {
+                dispatch({
+                    type: ERROR_MESSAGE,
+                    message: res.data.text
+                });
+            }
+        }).catch(console.error)
     }
 }

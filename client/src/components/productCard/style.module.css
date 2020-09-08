@@ -26,6 +26,7 @@
   -moz-background-size: 100%;
   -o-background-size: 100%;
   background-size: 100%;
+  object-fit: cover;
 }
 .wrapper .container .bottom {
   width: 200%;

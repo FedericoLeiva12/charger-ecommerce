@@ -62,6 +62,10 @@ export default function FormCategorias(props) {
     categoryId: ''
   })
 
+  const [productId, setProductId] = useState({
+    productId: ''
+  });
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -308,7 +312,7 @@ export default function FormCategorias(props) {
             >
               <TextField
                 label="Id"
-                onChange={(e) => setDeleteProduct({...deleteProduct, id:e.target.value })}
+                onChange={(e) => setDeleteProduct({...deleteProduct, id: e.target.value })}
                 value={deleteProduct.id}
                 placeholder="0"
                 helperText="Only numbers"
@@ -318,8 +322,9 @@ export default function FormCategorias(props) {
               <Button variant="contained" type="submit" color="primary">
                 Delete
               </Button>
-            </form>
-            <form autoComplete='off' onSubmit={(e) => {
+              </form>
+            <Divider />
+      <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
         props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
       }}>
@@ -347,9 +352,9 @@ export default function FormCategorias(props) {
               </Button>
               <Button variant="contained" type="submit" color="primary">
                 Remove Category
-          </Button>
-          </form>
-		  </Grid>
+              </Button>
+            </form>
+		      </Grid>
         </Grid>
       </Box>
     </ThemeProvider>
