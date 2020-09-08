@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, MODIFY_PRODUCT } from '../constants';
 
 const url = 'localhost:3001';
 
@@ -180,10 +180,10 @@ export function removeCategoryProduct (productId, categoryId) {
     }
 }
 
-export function modifyProduct(id, name, price, stock, idCategory){
+export function modifyProduct(id, name, price, stock, description, img){
     return (dispatch)=>{
         axios.put(`http://${url}/products/${id}`, {
-            name
+            name, price, stock, description, img
         }).then(res => {
             if(res.status === 200) {
                 dispatch({

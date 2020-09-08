@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, MODIFY_PRODUCT } from '../constants';
 
 const initialState = {
     categories: [],
@@ -60,9 +60,13 @@ export default function Provider(state = initialState, action) {
         case MODIFY_PRODUCT:
             let prod = state.products.filter(prod => prod.id === action.id)[0];
             if(prod === undefined) return {...state};
-            let index = state.products.indexOf(prod);
+            let indexProd = state.products.indexOf(prod);
             let products = [...state.products];
-            products[index].name = action.name;
+            products[indexProd].name = action.name;
+            products[indexProd].description = action.description;
+            products[indexProd].price = action.price;
+            products[indexProd].stock = action.stock;
+            products[indexProd].img = action.img;
             return {
                 ...state,
                 products
