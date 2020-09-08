@@ -57,6 +57,14 @@ export default function FormCategorias(props) {
 	  id: 0
   });
 
+  const [productId, setProductId] = useState({
+    productId: ''
+  })
+
+  const [categoryId, setCategoryId] = useState({
+    categoryId: '',
+  })
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -214,8 +222,8 @@ export default function FormCategorias(props) {
 
 		  <Grid item>
             <NewTable
-				columns={['Id', 'Name', 'Price', 'Stock']}
-				data={props.products.map(data => [data.id,data.name,data.price,data.stock])} />
+				columns={['Id', 'Name', 'Price', 'Stock', 'CategoryId']}
+				data={props.products.map(data => [data.id,data.name,data.price,data.stock, data.categoryId])} />
           </Grid>
 
 		  <Divider />
@@ -314,9 +322,14 @@ export default function FormCategorias(props) {
                 Delete
               </Button>
             </form>
-              <form>
-                <TextField
+      <form autoComplete='off' onSubmit={(e) => {
+        e.preventDefault();
+        props.addCategoryProduct(productId.productId, categoryId.categoryId);
+      }}>
+          <TextField
                   label="Id Category"
+                  onChage={(e) => setCategoryId({...categoryId, categoryId: e.target.value})}
+                  value={categoryId.categoryId}
                   placeholder="Id Category"
                   >
                 </TextField>
@@ -325,6 +338,8 @@ export default function FormCategorias(props) {
                 
                 <TextField
                   label="Id Product"
+                  onChage={(e) => setProductId({...productId, productId: e.target.value})}
+                  value={productId.productId}
                   placeholder="Id Product"
                   >
                 </TextField>

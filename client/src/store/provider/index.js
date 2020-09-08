@@ -50,8 +50,16 @@ export default function Provider(state = initialState, action) {
                 products: state.products.filter(prod => prod.id !== parseInt(action.id))
             }
         case ADD_CATEGORY_PRODUCT:
+            let category = state.categories.filter(cat => cat.id === parseInt(action.categoryId))[0];
+            if(category === undefined) return {...state};
+            let prod = state.products.filter(prod => prod.id === parseInt(action.productId))[0];
+            if(prod === undefined) return {...state};
+            let indexProd = state.products.indexOf(prod)
+            let products = [...state.products]
+            products[indexProd].categoryId = action.cateogoryId
             return {
-                ...state
+                ...state,
+                products
             }
             case REMOVE_CATEGORY_PRODUCT:
             return {

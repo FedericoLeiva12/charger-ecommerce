@@ -152,8 +152,13 @@ export function addCategoryProduct (productId, categoryId) {
                             categoryId
                         }
                     })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
                 }
-            })
+            }).catch(console.error)
     }
 }
 
