@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT } from '../constants';
+import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT } from '../constants';
 
 const url = 'localhost:3001';
 
@@ -137,5 +137,39 @@ export function addProduct(name, description, price, stock, img) {
                 })
             }
         }).catch(console.error)
+    }
+}
+
+export function addCategoryProduct (productId, categoryId) {
+    return dispatch => {
+        axios.put(`http://${url}/products/${productId}/${categoryId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: ADD_CATEGORY_PRODUCT,
+                        data: {
+                            productId,
+                            categoryId
+                        }
+                    })
+                }
+            })
+    }
+}
+
+export function removeCategoryProduct (productId, categoryId) {
+    return dispatch => {
+        axios.put(`http://${url}/products/${productId}/${categoryId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: REMOVE_CATEGORY_PRODUCT,
+                        data: {
+                            productId,
+                            categoryId
+                        }
+                    })
+                }
+            })
     }
 }
