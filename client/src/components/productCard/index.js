@@ -6,6 +6,7 @@ import carrito from '../../assets/imgs/carrito_icon.png';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { Link } from 'react-router-dom';
 
 
 
@@ -26,7 +27,9 @@ export default function ProductCard(props) {
     
     <div className={Style.wrapper}>
   <div className={Style.container}>
+  <Link to={`/product/${props.prenda.id}`}>
     <img src={props.prenda.imagen} alt='product' className={Style.top}/>
+  </Link>
     <div className={`${Style.bottom} ${active === Style.first ? Style.clicked: ''}` } >
       <div className={Style.left}>
         <div className={Style.details}>

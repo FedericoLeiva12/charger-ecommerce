@@ -6,3 +6,4 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const DELETE_PRODUCTS = 'DELETE_PRODUCTS';
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
+export const MODIFY_PRODUCT = 'MODIFY_PRODUCT';
