@@ -11,5 +11,5 @@ module.exports = (sequelize) => {
 	  isUrl: true
 	}
       }
-  });
+  },{timestamps:false});
 };
