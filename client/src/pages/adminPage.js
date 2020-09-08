@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct, addCategoryProduct } from '../store/actions';
+import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct, addCategoryProduct, modifyProduct } from '../store/actions';
 import { connect } from 'react-redux';
 import AdminForms from '../components/AdminForms/';
 
@@ -24,6 +24,7 @@ function AdminPage({categories, products, getCategories, getProducts, addCategor
       deleteProduct={deleteProduct}
       modifyCategory={modifyCategory}
       addCategoryProduct={addCategoryProduct}
+      modifyProduct={modifyProduct}
       />
     </div>
     )
@@ -45,7 +46,8 @@ function mapDispatchToProps(dispatch) {
         getProducts: () => dispatch(getProducts()),
         addProduct: (name, description, price, stock, img) => dispatch(addProduct(name, description, price, stock, img)),
         deleteProduct: id => dispatch(deleteProduct(id)),
-        addCategoryProduct: (productId, categoryId) => dispatch(addCategoryProduct(productId, categoryId))
+        addCategoryProduct: (productId, categoryId) => dispatch(addCategoryProduct(productId, categoryId)),
+        modifyProduct: (id, name, description, price, stock, img) => dispatch(modifyProduct(name, description, price, stock, img))
     }
 }
 
