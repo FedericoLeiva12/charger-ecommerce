@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom'
 //     talles: ['S', 'M', 'L', 'XL']
 // }
 
+
 const imagenPrueba = [
     'https://images.unsplash.com/photo-1520294890956-4a240865ae85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80',
     'https://images.unsplash.com/photo-1503431194692-82dd03d18093?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1190&q=80',
@@ -22,7 +23,9 @@ const imagenPrueba = [
 ]
 
 
+
 function ProductPage({products, getProducts}) {
+
 
     
     const sectionStyle = {
@@ -60,7 +63,7 @@ function ProductPage({products, getProducts}) {
                             <ProductImage src={prod.imgs[0].url} />
                         </Grid>
                         <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
-                            <InfoProduct title={prod.name} description={""} price={prod.price} talle={"XL"} />
+                            <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} />
                         </Grid>
                     </Grid>
                 ):'Loading'}

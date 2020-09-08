@@ -179,3 +179,27 @@ export function removeCategoryProduct (productId, categoryId) {
             })
     }
 }
+
+export function modifyProduct(id, name, price, stock, idCategory){
+    return (dispatch)=>{
+        axios.put(`http://${url}/products/${id}`, {
+            name
+        }).then(res => {
+            if(res.status === 200) {
+                dispatch({
+                    type: MODIFY_PRODUCT,
+                    name,
+                    description,
+                    price,
+                    stock,
+                    img
+                })
+            } else {
+                dispatch({
+                    type: ERROR_MESSAGE,
+                    message: res.data.text
+                });
+            }
+        }).catch(console.error)
+    }
+}
