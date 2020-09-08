@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 function CategoriaPage({categories, products, getProducts, getCategories}) {
     let { categoryId } = useParams();
 
-    useEffect((categoryId) => {
+    useEffect(() => {
       getProducts(categoryId);
       getCategories();
     }, []);
@@ -19,7 +19,7 @@ function CategoriaPage({categories, products, getProducts, getCategories}) {
       	    categoryId={categoryId}
             categories={categories}
       	    products={products}
-      	    getProducts={getProductsByCategory}
+      	    getProducts={getProducts}
             getCategories={getCategories}
             />
         </div>

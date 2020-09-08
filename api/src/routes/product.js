@@ -135,31 +135,36 @@ server.delete('/:productId/:categoryId', (req, res, next) => {
 	})
 });
 
-server.get('/earchByCategory/:categoryId', (req, res) => {
+server.get('/searchByCategory/:categoryId', (req, res) => {
 	const { categoryId } = req.params;
 
-	let categories;
-	let images;
+	let products = null;
+	let images = null;
+
+	const end = () => {
+		for (const key in products) {
+			const img = images.filter(image => image.productId === products[key].id);
+			products[key].dataValues.imgs = img;
+			console.log(products[key]);
+		}
+
+		res.send({products: products || []});
+	};
 
 	const catPromise = Categories.findByPk(categoryId)
 	.then(cats => {
-		categories = cats;
-	});
+		return cats.getProducts();
+	}).then(prods => {
+		//console.log(prods)
+		products = prods
+		if(images !== null) end()
+	})
 	
 	const imgPromise = Img.findAll()
 	.then(imgs => {
 		images = imgs;
+		if(products !== null) end()
 	});
-
-	Promise.all([catPromise, imgPromise])
-	.then(([catResults, imgResults]) => {
-		for (const key in catResults) {
-			const images = imgResults.filter(image => image.productId === catResults[key].id);
-			catResults[key].imgs = images;
-		}
-
-		res.send({products: catResults});
-	})
 })
 
 //ruta para obtener los productos por categoria
@@ -213,7 +218,10 @@ server.post('/category', (req, res) => {
 		
 			category.save()
 				.then(() => res.send({text: 'Category created', category: category.dataValues}))
-				.catch(() => res.status(500).send({text: 'Internal error'}));
+				.catch(err => {
+					res.status(500).send({text: 'Internal error'});
+					console.error(err);
+				});
 		}
 	})
 });
