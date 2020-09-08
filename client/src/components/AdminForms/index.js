@@ -227,8 +227,8 @@ export default function FormCategorias(props) {
 
 		  <Grid item>
             <NewTable
-				columns={['Id', 'Name', 'Price', 'Stock', 'CategoryId']}
-				data={props.products.map(data => [data.id,data.name,data.price,data.stock, data.categoryId])} />
+				columns={['Id', 'Name', 'Price', 'Stock']}
+				data={props.products.map(data => [data.id,data.name,data.price,data.stock])} />
           </Grid>
 
 		  <Divider />
