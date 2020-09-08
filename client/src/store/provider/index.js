@@ -51,7 +51,7 @@ export default function Provider(state = initialState, action) {
             }
         case ADD_CATEGORY_PRODUCT:
             return {
-                ...state
+                ...state,
             }
         case REMOVE_CATEGORY_PRODUCT:
             return {

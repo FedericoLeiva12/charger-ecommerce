@@ -97,6 +97,8 @@ server.delete('/:productId', (req, res, next) =>{
 server.put('/:productId/:categoryId', (req, res, next) => {
 	const { productId, categoryId } = req.params;
 
+	console.log(req.params)
+
 	let test = parseInt(productId);
 	if(!(test > 0)) {
 		return next();
@@ -148,6 +150,8 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 
 server.post('/category', (req, res) => {
 	const {name, description} = req.body;
+
+	console.log(req.body)
 	
 	if(!name || typeof name !== 'string' || name.length <= 0) {
 		return res.status(400).send({text: 'Invalid name'});

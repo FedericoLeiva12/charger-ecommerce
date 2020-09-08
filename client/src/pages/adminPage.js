@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct } from '../store/actions';
+import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts, deleteProduct, addProduct, addCategoryProduct } from '../store/actions';
 import { connect } from 'react-redux';
 import AdminForms from '../components/AdminForms/';
 
-function AdminPage({categories, products, getCategories, getProducts, addCategory, addProduct, deleteCategory, deleteProduct, modifyCategory}) {
+function AdminPage({categories, products, getCategories, getProducts, addCategory, addProduct, deleteCategory, deleteProduct, modifyCategory, addCategoryProduct}) {
     const [name, setName] = useState('');
     const [id, setId] = useState(0);
 
@@ -23,6 +23,7 @@ function AdminPage({categories, products, getCategories, getProducts, addCategor
       deleteCategory={deleteCategory}
       deleteProduct={deleteProduct}
       modifyCategory={modifyCategory}
+      addCategoryProduct={addCategoryProduct}
       />
     </div>
     )
@@ -43,7 +44,8 @@ function mapDispatchToProps(dispatch) {
         modifyCategory: (id, name, description) =>dispatch(modifyCategory(id, name, description)),
         getProducts: () => dispatch(getProducts()),
         addProduct: (name, description, price, stock, img) => dispatch(addProduct(name, description, price, stock, img)),
-        deleteProduct: id => dispatch(deleteProduct(id))
+        deleteProduct: id => dispatch(deleteProduct(id)),
+        addCategoryProduct: (productId, categoryId) => dispatch(addCategoryProduct(productId, categoryId))
     }
 }
 
