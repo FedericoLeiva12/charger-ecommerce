@@ -57,6 +57,11 @@ export default function FormCategorias(props) {
 	  id: 0
   });
 
+  const [addCategoryProduct, setAddCategoryProduct] = useState({
+    productId: '',
+    categoryId: ''
+  })
+
   const [productId, setProductId] = useState({
     productId: ''
   })
@@ -311,7 +316,7 @@ export default function FormCategorias(props) {
             >
               <TextField
                 label="Id"
-                onChange={(e) => setDeleteProduct({...deleteProduct, id:e.target.value })}
+                onChange={(e) => setDeleteProduct({...deleteProduct, id: e.target.value })}
                 value={deleteProduct.id}
                 placeholder="0"
                 helperText="Only numbers"
@@ -322,35 +327,52 @@ export default function FormCategorias(props) {
                 Delete
               </Button>
             </form>
+            <Divider />
       <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
-        props.addCategoryProduct(productId.productId, categoryId.categoryId);
+        props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
       }}>
-          <TextField
+        <TextField
+                label="ID de la categoria"
+                onChange={(e) => setAddCategoryProduct({...deleteProduct, categoryId: e.target.value })}
+                value={addCategoryProduct.categoryId}
+                placeholder="0"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="ID del producto"
+                onChange={(e) => setAddCategoryProduct({...deleteProduct, productId: e.target.value })}
+                value={addCategoryProduct.productId}
+                placeholder="0"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+          {/*<TextField
                   label="Id Category"
-                  onChage={(e) => setCategoryId({...categoryId, categoryId: e.target.value})}
-                  value={categoryId.categoryId}
+                  onChage={(e) => setAddCategoryProduct({...addCategoryProduct, categoryId: e.target.value})}
+                  value={addCategoryProduct.categoryId}
                   placeholder="Id Category"
-                  >
-                </TextField>
+                  />
                 
                 <Divider />
                 
                 <TextField
                   label="Id Product"
-                  onChage={(e) => setProductId({...productId, productId: e.target.value})}
-                  value={productId.productId}
+                  onChage={(e) => setAddCategoryProduct({...addCategoryProduct, productId: e.target.value})}
+                  value={addCategoryProduct.productId}
                   placeholder="Id Product"
-                  >
-                </TextField>
+          />*/}
                 <Divider />
                 <Button variant="contained" type="submit" color="primary">
                 Add Category
               </Button>
               <Button variant="contained" type="submit" color="primary">
                 Remove Category
-              </Button>
-              </form>
+          </Button>
+          </form>
 		  </Grid>
         </Grid>
       </Box>
