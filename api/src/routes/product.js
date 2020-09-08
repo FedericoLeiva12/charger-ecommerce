@@ -94,8 +94,13 @@ server.delete('/:productId', (req, res, next) =>{
 
 // rutas para setear categorias a objetos 
 
-server.put('/:productId/:categoryId', (req, res) => {
+server.put('/:productId/:categoryId', (req, res, next) => {
 	const { productId, categoryId } = req.params;
+
+	let test = parseInt(productId);
+	if(!(test > 0)) {
+		return next();
+	}
 	
 	prodNcat = Promise.all([Product.findByPk(productId),Categories.findByPk(categoryId)])
 	prodNcat.then(data =>{
@@ -109,8 +114,13 @@ server.put('/:productId/:categoryId', (req, res) => {
 
 });
 
-server.delete('/:productId/:categoryId', (req, res) => {
+server.delete('/:productId/:categoryId', (req, res, next) => {
 	const { productId, categoryId } = req.params;
+
+	let test = parseInt(productId);
+	if(!(test > 0)) {
+		return next();
+	}
 	
 	prodNcat = Promise.all([Product.findByPk(productId),Categories.findByPk(categoryId)])
 	prodNcat.then(data =>{
@@ -184,7 +194,7 @@ server.get('/category/:id',(req, res) =>{
 	}
 	Categories.findOne({
 		where:{
-			id
+			id: parseInt(id)
 	}}).then(category=>{
 		res.status(200).send(category)
 	}).catch((err)=>{
@@ -194,7 +204,8 @@ server.get('/category/:id',(req, res) =>{
 })
 server.put('/category/:id', (req, res) => {
 	const { id } = req.params;
-	const { name } = req.body;
+	const { name, description } = req.body;
+	console.log(req.params, req.body)
 	 
 
 	if(id === undefined || name === undefined) {
@@ -203,15 +214,17 @@ server.put('/category/:id', (req, res) => {
 
 	Categories.findOne({
 		where: {
-			id
+			id: parseInt(id)
 		}
 	}).then(cat => {
 		cat.name = name;
+		cat.description = description;
 		return cat.save();
 	}).then(() => {
 		res.send({ text: 'Category updated.' });
 	}).catch(err => {
 		res.status(500).send({ text: 'Internal error' });
+		console.error(err);
 	})
 });
 server.delete('/category/:id', (req, res) => {
@@ -223,7 +236,7 @@ server.delete('/category/:id', (req, res) => {
 
 	Categories.destroy({
 		where: {
-			id
+			id: parseInt(id)
 		}
 	}).then(() => {
 		res.send({ text: 'Category deleted'});
