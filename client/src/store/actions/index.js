@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY } from '../constants';
 
 const url = 'localhost:3001';
 
@@ -171,5 +171,23 @@ export function removeCategoryProduct (productId, categoryId) {
                     })
                 }
             })
+    }
+}
+export function getProductsByCategory(categoryId) {
+    return dispatch => {
+        axios.get(`http://${url}/products/searchByCategory/${categoryId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: GET_PRODUCTS_BY_CATEGORY,
+                        products: res.data
+                    })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
+                }
+            }).catch(console.error)
     }
 }

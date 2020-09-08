@@ -126,12 +126,26 @@ server.delete('/:productId/:categoryId', (req, res) => {
 //ruta para obtener los productos por categoria
 server.get('/searchByCategory/:categoryId', (req, res) => {
 	const categoryId = req.params.categoryId;
-	Categories.findByPk(categoryId)
+	var  prod ;
+  	Categories.findByPk(categoryId)
 	.then(category => {
 	  return category.getProducts()
 	})
-	.then(products => {res.send(products)})
-  	.catch(err => {res.status(500).send({text: err})})
+  	.then(products => {
+	prod = products;
+	return Img.findAll()
+	})
+  	.then(imgs => {
+	  for(var i=0; i< prod.length; i++){
+	    for(var j=0; j< imgs.length; j++){
+	      if(prod[i].id === imgs[j].productId){
+		prod.imgs = imgs[j];
+	      }
+	    }
+	  }
+	  res.send(prod);
+	})
+  	
 })
 
 /*CRUD de Categorías*/
