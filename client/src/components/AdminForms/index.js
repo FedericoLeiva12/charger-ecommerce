@@ -117,7 +117,7 @@ export default function FormCategorias(props) {
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Guardar
+                Save
               </Button>
             </form>
           </Grid>
@@ -154,16 +154,16 @@ export default function FormCategorias(props) {
                 margin="normal"
               />
               <TextField
-                label="id"
+                label="Id"
                 onChange={(e) => setModifyCategory({...modifyCategory, id: e.target.value })}
                 value={modifyCategory.id}
                 placeholder="name"
-                helperText="Solo debe contener letras"
+                helperText="Debe contener el Id"
                 fullWidth
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Guardar
+                Save
               </Button>
             </form>
           </Grid>
@@ -186,12 +186,12 @@ export default function FormCategorias(props) {
                 onChange={(e) => setRemoveCategory({...removeCategory, id: e.target.value})}
                 value={removeCategory.id}
                 placeholder="Name"
-                helperText="Solo debe contener letras"
+                helperText="Only letters"
                 fullWidth
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Guardar
+                Save
               </Button>
             </form>
           </Grid>
@@ -284,7 +284,7 @@ export default function FormCategorias(props) {
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Guardar
+                Save
               </Button>
             </form>
           </Grid>
