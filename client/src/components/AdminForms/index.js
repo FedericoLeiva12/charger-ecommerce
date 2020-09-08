@@ -64,11 +64,7 @@ export default function FormCategorias(props) {
 
   const [productId, setProductId] = useState({
     productId: ''
-  })
-
-  const [categoryId, setCategoryId] = useState({
-    categoryId: '',
-  })
+  });
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -326,7 +322,7 @@ export default function FormCategorias(props) {
               <Button variant="contained" type="submit" color="primary">
                 Delete
               </Button>
-            </form>
+              </form>
             <Divider />
       <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
@@ -350,30 +346,15 @@ export default function FormCategorias(props) {
                 fullWidth
                 margin="normal"
               />
-          {/*<TextField
-                  label="Id Category"
-                  onChage={(e) => setAddCategoryProduct({...addCategoryProduct, categoryId: e.target.value})}
-                  value={addCategoryProduct.categoryId}
-                  placeholder="Id Category"
-                  />
-                
-                <Divider />
-                
-                <TextField
-                  label="Id Product"
-                  onChage={(e) => setAddCategoryProduct({...addCategoryProduct, productId: e.target.value})}
-                  value={addCategoryProduct.productId}
-                  placeholder="Id Product"
-          />*/}
                 <Divider />
                 <Button variant="contained" type="submit" color="primary">
                 Add Category
               </Button>
               <Button variant="contained" type="submit" color="primary">
                 Remove Category
-          </Button>
-          </form>
-		  </Grid>
+              </Button>
+            </form>
+		      </Grid>
         </Grid>
       </Box>
     </ThemeProvider>

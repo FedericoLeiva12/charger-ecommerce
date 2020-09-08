@@ -135,16 +135,62 @@ server.delete('/:productId/:categoryId', (req, res, next) => {
 	})
 });
 
-//ruta para obtener los productos por categoria
 server.get('/searchByCategory/:categoryId', (req, res) => {
+	const { categoryId } = req.params;
+
+	let products = null;
+	let images = null;
+
+	const end = () => {
+		for (const key in products) {
+			const img = images.filter(image => image.productId === products[key].id);
+			products[key].dataValues.imgs = img;
+			//console.log(products[key]);
+		}
+
+		res.send({products: products || []});
+	};
+
+	const catPromise = Categories.findByPk(categoryId)
+	.then(cats => {
+		return cats.getProducts();
+	}).then(prods => {
+		//console.log(prods)
+		products = prods
+		if(images !== null) end()
+	})
+	
+	const imgPromise = Img.findAll()
+	.then(imgs => {
+		images = imgs;
+		if(products !== null) end()
+	});
+})
+
+//ruta para obtener los productos por categoria
+/*server.get('/searchByCategory/:categoryId', (req, res) => {
 	const categoryId = req.params.categoryId;
-	Categories.findByPk(categoryId)
+	var  prod ;
+  	Categories.findByPk(categoryId)
 	.then(category => {
 	  return category.getProducts()
 	})
-	.then(products => {res.send(products)})
-  	.catch(err => {res.status(500).send({text: err})})
-})
+  	.then(products => {
+	prod = products;
+	return Img.findAll()
+	})
+  	.then(imgs => {
+	  for(var i=0; i< prod.length; i++){
+	    for(var j=0; j< imgs.length; j++){
+	      if(prod[i].id === imgs[j].productId){
+		prod.imgs = imgs[j];
+	      }
+	    }
+	  }
+	  res.send(prod);
+	})
+  	
+})*/
 
 /*CRUD de Categorías*/
 
@@ -172,7 +218,10 @@ server.post('/category', (req, res) => {
 		
 			category.save()
 				.then(() => res.send({text: 'Category created', category: category.dataValues}))
-				.catch(() => res.status(500).send({text: 'Internal error'}));
+				.catch(err => {
+					res.status(500).send({text: 'Internal error'});
+					console.error(err);
+				});
 		}
 	})
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT } from '../constants';
 
 const url = 'localhost:3001';
 
@@ -180,7 +180,26 @@ export function removeCategoryProduct (productId, categoryId) {
     }
 }
 
-export function modifyProduct(id, name, price, stock, idCategory){
+export function getProductsByCategory(categoryId) {
+    return dispatch => {
+        axios.get(`http://${url}/products/searchByCategory/${categoryId}`)
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: GET_PRODUCTS_BY_CATEGORY,
+                        products: res.data.products
+                    })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
+                }
+            }).catch(console.error)
+        }
+    }
+
+export function modifyProduct(id, name, description, price, stock, img, idCategory){
     return (dispatch)=>{
         axios.put(`http://${url}/products/${id}`, {
             name
