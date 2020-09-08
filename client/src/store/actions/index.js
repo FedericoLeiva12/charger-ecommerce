@@ -42,16 +42,16 @@ export function addCategory(name, description) {
     }
 }
 
-export function modifyCategory(id, name) {
+export function modifyCategory(id, name, description) {
     return dispatch => {
         axios.put(`http://${url}/products/category/${id}`, {
-            name
+            name, description
         }).then(res => {
             if(res.status === 200) {
                 dispatch({
                     type: MODIFY_CATEGORY,
                     id,
-                    name
+                    name, description
                 })
             } else {
                 dispatch({

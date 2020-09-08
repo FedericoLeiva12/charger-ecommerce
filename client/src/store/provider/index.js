@@ -19,19 +19,20 @@ export default function Provider(state = initialState, action) {
                 categories: [...state.categories, action.category]
             }
         case MODIFY_CATEGORY:
-            let cat = state.categories.filter(cat => cat.id === action.id)[0];
+            let cat = state.categories.filter(cat => cat.id === parseInt(action.id))[0];
             if(cat === undefined) return {...state};
             let index = state.categories.indexOf(cat);
             let categories = [...state.categories];
             categories[index].name = action.name;
+            categories[index].description = action.description;
             return {
                 ...state,
-                categories
+                categories//: state.categories.map(cat => cat.id === parseInt(action.id)?{...cat, name: action.name, description: action.description}:cat)
             }
         case DELETE_CATEGORY:
             return {
                 ...state,
-                categories: state.categories.filter(cat => cat.id !== action.id)
+                categories: state.categories.filter(cat => cat.id !== parseInt(action.id))
             };
         case GET_PRODUCTS:
             return {
