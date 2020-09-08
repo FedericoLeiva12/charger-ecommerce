@@ -145,7 +145,7 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 		for (const key in products) {
 			const img = images.filter(image => image.productId === products[key].id);
 			products[key].dataValues.imgs = img;
-			console.log(products[key]);
+			//console.log(products[key]);
 		}
 
 		res.send({products: products || []});
