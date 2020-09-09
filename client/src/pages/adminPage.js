@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch) {
         addProduct: (name, description, price, stock, img) => dispatch(addProduct(name, description, price, stock, img)),
         deleteProduct: id => dispatch(deleteProduct(id)),
         addCategoryProduct: (productId, categoryId) => dispatch(addCategoryProduct(productId, categoryId)),
-        modifyProduct: (id, name, description, price, stock, img) => dispatch(modifyProduct(name, description, price, stock, img))
+        modifyProduct: (id, name, description, price, stock, img) => dispatch(modifyProduct(id, name, description, price, stock, img))
     }
 }
 

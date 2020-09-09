@@ -65,6 +65,10 @@ server.put('/:id', (req, res) =>{
 		name, price, stock, img, description
 	} = req.body;
 
+	if(!name || !description || !price || !stock || !img) {
+		return res.status(400).send({ text: 'Invalid data' });
+	}
+
 	let test = parseInt(req.params.id);
 	if(!(test > 0)) {
 		return next();
@@ -76,10 +80,17 @@ server.put('/:id', (req, res) =>{
 	    product.price= price;
 			product.stock= stock;
 			product.description = description;
-			product.img = img;
-	    product.save().then(updatedProduct => {res.send({text: 'Product updated ', updatedProduct: updatedProduct.dataValues})})
-	  })
-		.catch(err => {res.status(500).send({ text: err })})
+			const newImg = Img.create({url: img[0]})
+			
+			return product.addImg(newImg);
+		})
+		.then(productFinal => {
+			return productFinal.save()
+		})
+		.then(updatedProduct => {
+			res.send({ text: 'Product updated', updatedProduct: updatedProduct.dataValues})
+		})
+		.catch(err => {res.status(500).send({ text: err })});
 });
 
 server.delete('/:productId', (req, res, next) =>{
