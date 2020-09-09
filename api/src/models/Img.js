@@ -2,14 +2,13 @@ const { DataTypes } = require('sequelize');
 
 
 module.exports = (sequelize) => {
-  
   sequelize.define('img', {
     url : {
-	type : DataTypes.STRING,
-	allowNull : false,
-	validate :{
-	  isUrl: true
-	}
-      }
-  },{timestamps:false});
+	  type : DataTypes.STRING,
+	  alowNull : false,
+	  validate :{
+	    isUrl: true
+	  }
+    }
+  });
 };

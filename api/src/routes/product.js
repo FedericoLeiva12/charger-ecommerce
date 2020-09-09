@@ -62,17 +62,50 @@ server.post('/', (req,res) =>{
 });
 server.put('/:id', (req, res) =>{
 	const {
-		name, price, stock, img
+		name, price, stock, img, description
 	} = req.body;
+	console.log(req.body)
 
-  	Product.findByPk(req.params.id)
-    	.then(product => {
-	    product.name= name;
-	    product.price= price;
-	    product.stock= stock;
-	    product.save().then(updatedProduct => {res.send(updatedProduct)})
-    	.catch(err => {res.status(500).send({ text: err})})
-	  })
+	if(!name || !description || !price || !stock || !img) {
+		return res.status(400).send({ text: 'Invalid data' });
+	}
+
+	let test = parseInt(req.params.id);
+	if(!(test > 0)) {
+		return next();
+	}
+
+	let prod = null;
+
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: Img
+	}).then(product => {
+		prod = product;
+		prod.imgs = prod.imgs.filter(async (image, index) => {
+			if(img.indexOf(image.url) >= 0) {
+				img.splice(img.indexOf(image.url), 1);
+				return image.url;
+			} else {
+				await image.destroy();
+				prod.imgs.splice(index, 0);
+			}
+		});
+
+		let promises = img.map(img => prod.createImg({url:img}));
+
+		return Promise.all(promises);
+	}).then(() => {
+		prod.name = name;
+		prod.price = price;
+		prod.stock = stock;
+		prod.description = description;
+		return prod.save()
+	}).then(prod => {
+		res.send({product: prod})
+	})
 });
 
 server.delete('/:productId', (req, res, next) =>{

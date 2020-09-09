@@ -53,6 +53,15 @@ export default function FormCategorias(props) {
 	  img: ''
   });
 
+  const [modifyProduct, setModifyProduct] = useState({
+    id: 0,
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+    img:''
+  })
+
   const [deleteProduct, setDeleteProduct] = useState({
 	  id: 0
   });
@@ -287,6 +296,89 @@ export default function FormCategorias(props) {
                 label="Images"
                 onChange={(e) => setCreateProduct({...createProduct, img:e.target.value })}
                 value={createProduct.img}
+                placeholder="imageOne.png,imageTwo.png,imegeThree.png"
+                helperText="Only links to images, separed with ',' without spaces."
+                fullWidth
+                margin="normal"
+              />
+              <Button variant="contained" type="submit" color="primary">
+                Save
+              </Button>
+            </form>
+          </Grid>
+
+		  <Divider />
+
+{/* MODIFY PRODUCT */}
+
+    <Grid item>
+          <Typography variant="h6">Modify products</Typography>
+      </Grid>
+
+      <Grid item>
+            <form
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                props.modifyProduct(
+          modifyProduct.id,
+          modifyProduct.name,
+          modifyProduct.description,
+					modifyProduct.price,
+					modifyProduct.stock,
+					modifyProduct.img.split(',').map(x => x.replace(' ', ''))
+				);
+              }}
+            >
+            <TextField
+                label="Id"
+                onChange={(e) => setModifyProduct({...modifyProduct, id:e.target.value })}
+                value={modifyProduct.id}
+                placeholder="Select Id of product"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Name"
+                onChange={(e) => setModifyProduct({...modifyProduct, name:e.target.value })}
+                value={modifyProduct.name}
+                placeholder="Name"
+                helperText="Only letters"
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Description"
+                onChange={(e) => setModifyProduct({...modifyProduct, description:e.target.value })}
+                value={modifyProduct.description}
+                placeholder="description"
+                helperText="Only letters"
+                fullWidth
+                margin="normal"
+              />
+			  <TextField
+                label="Price"
+                onChange={(e) => setModifyProduct({...modifyProduct, price:e.target.value })}
+                value={modifyProduct.price}
+                placeholder="100.00"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+			  <TextField
+                label="Stock"
+                onChange={(e) => setModifyProduct({...modifyProduct, stock:e.target.value })}
+                value={modifyProduct.stock}
+                placeholder="10"
+                helperText="Only numbers"
+                fullWidth
+                margin="normal"
+              />
+			  <TextField
+                label="Images"
+                onChange={(e) => setModifyProduct({...modifyProduct, img:e.target.value })}
+                value={modifyProduct.img}
                 placeholder="imageOne.png,imageTwo.png,imegeThree.png"
                 helperText="Only links to images, separed with ',' without spaces."
                 fullWidth

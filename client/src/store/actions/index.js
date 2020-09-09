@@ -202,21 +202,17 @@ export function getProductsByCategory(categoryId) {
 export function modifyProduct(id, name, description, price, stock, img, idCategory){
     return (dispatch)=>{
         axios.put(`http://${url}/products/${id}`, {
-            name
+            name, price, stock, description, img
         }).then(res => {
             if(res.status === 200) {
                 dispatch({
                     type: MODIFY_PRODUCT,
-                    name,
-                    description,
-                    price,
-                    stock,
-                    img
+                    product: res.data.product
                 })
             } else {
                 dispatch({
                     type: ERROR_MESSAGE,
-                    message: res.data.text
+                        message: res.data.text
                 });
             }
         }).catch(console.error)

@@ -65,9 +65,13 @@ export default function Provider(state = initialState, action) {
         case MODIFY_PRODUCT:
             let prod = state.products.filter(prod => prod.id === action.id)[0];
             if(prod === undefined) return {...state};
-            let indexx = state.products.indexOf(prod);
+            let indexProd = state.products.indexOf(prod);
             let products = [...state.products];
-            products[indexx].name = action.name;
+            products[indexProd].name = action.name;
+            products[indexProd].description = action.description;
+            products[indexProd].price = action.price;
+            products[indexProd].stock = action.stock;
+            products[indexProd].img = action.img;
             return {
                 ...state,
                 products
