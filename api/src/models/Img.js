@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   sequelize.define('img', {
     url : {
 	  type : DataTypes.STRING,
-	  lowNull : false,
+	  alowNull : false,
 	  validate :{
 	    isUrl: true
 	  }
