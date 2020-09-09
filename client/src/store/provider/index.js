@@ -1,8 +1,9 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART } from '../constants';
 
 const initialState = {
     categories: [],
     products: [],
+    cart:[],
     error: false,
     errorMessage: ''
 };
@@ -57,7 +58,7 @@ export default function Provider(state = initialState, action) {
             return {
                 ...state
             }
-	    case GET_PRODUCTS_BY_CATEGORY:
+	case GET_PRODUCTS_BY_CATEGORY:
             return {
                 ...state,
                 products: action.products
@@ -76,6 +77,21 @@ export default function Provider(state = initialState, action) {
                 ...state,
                 products
             }
+	case GET_CART:
+            return {
+                ...state,
+                cart: action.cart
+            }
+	case ADD_TO_CART:
+            return {
+                ...state,
+                cart: [...state.cart, action.cart]
+            }
+	case REMOVE_FROM_CART:
+            return {
+                ...state,
+                cart: state.cart.filter(prod => prod.id !== Number(action.id))
+	    }
         case ERROR_MESSAGE:
             return {...state,
                 error: true,

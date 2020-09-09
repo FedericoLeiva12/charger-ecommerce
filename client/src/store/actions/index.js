@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { loadState, saveState } from '../../localStorage';
 import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT } from '../constants';
 
 const url = 'localhost:3001';
@@ -217,4 +218,15 @@ export function modifyProduct(id, name, description, price, stock, img, idCatego
             }
         }).catch(console.error)
     }
+}
+export function getCart (){
+  return (dispatch) =>{
+    const cart = loadState();
+    if(cart !== 'error'){
+      dispatch({
+	type: ADD_TO_CART,
+	action: cart
+      })
+    }
+  }
 }
