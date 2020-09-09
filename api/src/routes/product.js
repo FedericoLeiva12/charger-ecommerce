@@ -234,13 +234,13 @@ server.get('/selectors', (req, res) => {
 		let response = {};
 		for(let i = 0; i < cats.length; i++) {
 			if(response[cats[i].name]) {
-				response[cats[i].name].push(cats[i].description);
+				response[cats[i].name].push({id: cats[i].id, description: cats[i].description});
 			} else {
-				response[cats[i].name] = [cats[i].description];
+				response[cats[i].name] = [{id: cats[i].id, description: cats[i].description}];
 			}
 		}
 
-		res.send(response);
+		res.send({selectors: response});
 	})
 	.catch(err => {
 		res.status(500).send({ text: 'Internal error.' });
