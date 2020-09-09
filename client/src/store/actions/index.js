@@ -207,7 +207,7 @@ export function modifyProduct(id, name, description, price, stock, img, idCatego
             if(res.status === 200) {
                 dispatch({
                     type: MODIFY_PRODUCT,
-                    product: res.data.updatedProduct
+                    product: res.data.product
                 })
             } else {
                 dispatch({

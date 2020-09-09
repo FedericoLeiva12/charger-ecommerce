@@ -104,7 +104,7 @@ server.put('/:id', (req, res) =>{
 		prod.description = description;
 		return prod.save()
 	}).then(prod => {
-		res.send(prod)
+		res.send({product: prod})
 	})
 });
 
