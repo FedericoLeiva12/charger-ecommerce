@@ -1,13 +1,26 @@
 const server = require('express').Router();
 const { Product, Categories, Img } = require('../db.js');
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
 server.get('/', (req, res, next) => {
-	Product.findAll({include: Img})
+	const { showOutStock } = req.query;
+	if(!showOutStock) {
+		Product.findAll({
+			where: {
+				stock: {
+					[Op.gt]: 0
+				}
+			},
+			include: Img
+		}).then(products => {
+			res.send(products);
+		}).catch(next);
+	} else {
+		Product.findAll({include: Img})
 		.then(products => {
 			res.send(products);
-		})
-		.catch(next);
+		}).catch(next);
+	}
 });
 server.get('/:productId', (req, res, next) => {
 	const id = parseInt(req.params.productId);
@@ -66,7 +79,7 @@ server.put('/:id', (req, res) =>{
 	} = req.body;
 	console.log(req.body)
 
-	if(!name || !description || !price || !stock || !img) {
+	if(name === undefined || description === undefined || price === undefined || stock === undefined || img === undefined) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
 
