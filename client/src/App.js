@@ -21,7 +21,7 @@ function App() {
       <Route exact path='/search/:query' component={BusquedaPage} />
       <Route exact path='/catalog' component={BusquedaPage} />
       <Route exact path='/product' component={ProductoPage} />
-      <Route exact path='/category/:category' component={CategoriaPage} />
+      <Route exact path='/category/:categoryId' component={CategoriaPage} />
       <Route exact path='/checkout' component={CheckoutPage} />
       <Route exact path='/product/:product' component={ProductoPage} />
       {/* Admin Routes */}
