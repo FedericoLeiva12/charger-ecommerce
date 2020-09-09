@@ -53,10 +53,30 @@
 }
 .wrapper .container .bottom .left .details {
   padding: 20px;
+  padding-left: 15px;
   float: left;
   width: calc(70% - 40px);
   margin-top: -10px;
+  text-transform: uppercase;
+  /* text-overflow: ellipsis; */
 }
+.wrapper .container .bottom .left .details h3{
+  width: 100%;
+  white-space: nowrap ;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+}
+.wrapper .container .bottom .left .details .titulo :hover{
+position: relative;
+ overflow: visible;
+ white-space: normal;
+ width: 120%;
+background-color: transparent;
+cursor: default
+}
+
 .wrapper .container .bottom .left .buy {
     cursor: pointer;
   float: right;
@@ -93,6 +113,16 @@
   float: right;
   width: calc(70% - 40px);
 }
+.wrapper .container .bottom .right .details h3 {
+  text-transform: uppercase;
+  width: 100%;
+  white-space: nowrap ;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wrapper .container .bottom .right .details .titulo2 :hover{
+  /* overflow: visible; */
+}
 .wrapper .container .bottom .right .done {
   width: calc(30% - 2px);
   float: left;
@@ -111,6 +141,8 @@
   clear: both;
   border-right: solid thin rgba(255, 255, 255, 0.3);
   height: 50%;
+  /* display: flex;
+  align-items: center; */
   background: #bc3b59;
   transition: transform 0.5s, background 0.5s;
 }
