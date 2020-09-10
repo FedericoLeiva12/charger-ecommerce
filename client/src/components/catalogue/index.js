@@ -68,7 +68,7 @@ function Catalogo({products, getProducts, getSelectors, selectors}){
               }
             </Grid>
             <div>
-                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock}))} />
+                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock, categories: prod.categories}))} />
             </div>
         </div>
       </ThemeProvider>
