@@ -11,6 +11,7 @@ import ProductoPage from './pages/productPage';
 import AdminPage from './pages/adminPage';
 import CategoriaPage from './pages/categoriaPage';
 import LoginPage from './pages/loginPage';
+import CreateUserPage from './pages/createUserPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       {/* User Routes */}
       <Route exact path='/' component={HomePage} />
       <Route exact path='/login' component={LoginPage} />
+      <Route exact path='/signUp' component={CreateUserPage} />
       <Route exact path='/search/:query' component={BusquedaPage} />
       <Route exact path='/catalog' component={BusquedaPage} />
       <Route exact path='/product' component={ProductoPage} />
