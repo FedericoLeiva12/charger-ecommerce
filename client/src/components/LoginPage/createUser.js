@@ -10,38 +10,56 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(3),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: 'black'
+      backgroundColor: 'rgba(255, 255, 255, 0.24)',
+      border: '2px solid #f6f6f6'
     },
     form: {
       width: '100%',
       marginTop: theme.spacing(1),
-      backgroundColor: 'rgba(66, 66, 66, 0.36)',
+      backgroundColor: 'rgba(255, 255, 255, 0.24)',
       padding: 30,
-      borderRadius:  20
+      borderRadius:  20,
+      border: '2px solid #f6f6f6',
+      color: '#f6f6f6'
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      backgroundColor: 'black',
-      color: 'white'
+      border: '2px solid #f6f6f6',
+      color: '#f4f4f4',
+      "&:hover":{
+        backgroundColor: '#f6f6f6',
+        color: '#1C1C1C',
+        transition: '0.7s'
+      }
     },
-    "&:hover":{
-        backgroundColor: 'red',
-        transition: '0.3s'
-    }
   }));
+
+  const CssTextField = withStyles({
+    root: {
+      color: 'red',
+      '& label.Mui-focused': {
+        color: '#f6f6f6',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: '#f6f6f6',
+      },
+      '& .MuiInput-underline:before': {
+        borderBottomColor: '#f6f6f6',
+      },
+    },
+  })(TextField);
 
   export default function CreateUser() {
     const classes = useStyles();
@@ -53,21 +71,20 @@ const useStyles = makeStyles((theme) => ({
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign Up
+          <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
+            SIGN UP
           </Typography>
           <form className={classes.form} noValidate>
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
+              autocomplete="section-blue shipping street-address"
             />
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -76,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
               id="name"
               autoComplete="false"
             />
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -85,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
               id="lastName"
               autoComplete="false"
             />
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -94,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
               id="address"
               autoComplete="false"
             />
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -111,15 +128,13 @@ const useStyles = makeStyles((theme) => ({
             <Button
               type="submit"
               fullWidth
-              variant="contained"
-            //   color='primary'
               className={classes.submit}
             >
               Sign Up
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/login' style={{textDecoration: 'none', color: 'black'}}>
+                <Link to='/login' style={{textDecoration: 'none', color: '#f6f6f6'}}>
                   I have an acount!
                 </Link>
               </Grid>
