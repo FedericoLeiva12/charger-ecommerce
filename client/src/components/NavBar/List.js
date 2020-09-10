@@ -20,8 +20,8 @@ function List({categories}){
 
     return(
         <div>
-            {categories.filter(cat => (cat.name === 'Tipo' || cat.name === 'Temporada')).map(cat => (
-                <Link to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
+            {categories.filter(cat => (cat.name === 'Tipo' || cat.name === 'Temporada')).map((cat, index) => (
+                <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
             ))}
             {/*<Link to='/category/:category' className={classes.categories}>
                 <h1>CATEGORIA 1</h1>

@@ -3,11 +3,24 @@ const { Product, Categories, Img } = require('../db.js');
 const { Op } = require("sequelize");
 
 server.get('/', (req, res, next) => {
-	Product.findAll({include: Img})
+	const { showOutStock } = req.query;
+	if(!showOutStock) {
+		Product.findAll({
+			where: {
+				stock: {
+					[Op.gt]: 0
+				}
+			},
+			include: [Img, Categories]
+		}).then(products => {
+			res.send(products);
+		}).catch(next);
+	} else {
+		Product.findAll({include: [Img, Categories]})
 		.then(products => {
 			res.send(products);
-		})
-		.catch(next);
+		}).catch(next);
+	}
 });
 server.get('/:productId', (req, res, next) => {
 	const id = parseInt(req.params.productId);
@@ -17,7 +30,7 @@ server.get('/:productId', (req, res, next) => {
 	} else {
 		Product.findAll({
 			where: {id},
-			include: Img
+			include: [Img, Categories]
 		  })
 			  .then(products => {
 				  res.send(products);
@@ -29,7 +42,7 @@ server.get('/:productId', (req, res, next) => {
 server.get('/search/:name', (req, res, next) => {
 	Product.findAll({
 	  where: {name :{ [Op.like] : '%'+req.params.name+'%' }},
-	  include: Img
+	  include: [Img, Categories]
 	})
 		.then(products => {
 			res.send(products);
@@ -66,7 +79,7 @@ server.put('/:id', (req, res) =>{
 	} = req.body;
 	console.log(req.body)
 
-	if(!name || !description || !price || !stock || !img) {
+	if(name === undefined || description === undefined || price === undefined || stock === undefined || img === undefined) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
 
@@ -224,6 +237,29 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
 	})
   	
 })*/
+
+server.get('/selectors', (req, res) => {
+	Categories.findAll({
+		order: [
+			['id', 'ASC']
+		]
+	}).then(cats => {
+		let response = {};
+		for(let i = 0; i < cats.length; i++) {
+			if(response[cats[i].name]) {
+				response[cats[i].name].push({id: cats[i].id, description: cats[i].description});
+			} else {
+				response[cats[i].name] = [{id: cats[i].id, description: cats[i].description}];
+			}
+		}
+
+		res.send({selectors: response});
+	})
+	.catch(err => {
+		res.status(500).send({ text: 'Internal error.' });
+		console.error(err);
+	})
+});
 
 /*CRUD de Categorías*/
 

@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from './Container'
-import Selector from './Selector'
+import Selector from '../Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import NavBarCOntainer from '../NavBar/Container'
+import { Snackbar } from '@material-ui/core';
+import { getProducts, getSelectors } from '../../store/actions';
+import { connect } from 'react-redux';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -19,8 +22,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-export default function Catalogo(props){
+function Catalogo({products, selectors}){
     const classes = useStyles();
+
+    const [alert, setAlert] = useState(false);
+
+    useEffect(() => {
+      getProducts();
+      getSelectors();
+    }, []);
 
     return(
       <>
@@ -34,20 +44,57 @@ export default function Catalogo(props){
           paddingBottom='40px'
           >
             	{
-                props.categories.map(cat=>{
+                /*selectors.map(cat=>{
                   return(
                     <Selector nom={cat.name} desc={cat.description} val={cat.id}/>
                   )
-                })
+                })*/
+
+                (() => {
+                  if(selectors) {
+                    let results = [];
+
+                    let i = 0;
+
+                    for(let [key, value] of Object.entries(selectors)) {
+                      results.push(<Selector key={i} nom={key} elements={value} />)
+                      i++;
+                    }
+
+                    return results
+                  } else {
+                    return ''
+                  }
+                })()
               }
             </Grid>
             <div>
-                <Container prendas={props.products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
+                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock}))} />
             </div>
         </div>
       </ThemeProvider>
+      <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={alert}
+        onClose={e => setAlert(false)}
+        message="Out of stock"
+      />
       </>
     )
 }
 
+function mapStateToProps(state) {
+  return {
+      products: state.products,
+      selectors: state.selectors
+  }
+}
 
+function mapDispatchToProps(dispatch) {
+  return {
+      getProducts: () => dispatch(getProducts()),
+      getSelectors: () => dispatch(getSelectors())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Catalogo);
