@@ -1,6 +1,6 @@
 const server = require('express').Router();
 const { Product, Categories, Img } = require('../db.js');
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 
 server.get('/', (req, res, next) => {
 	const { showOutStock } = req.query;
@@ -11,12 +11,12 @@ server.get('/', (req, res, next) => {
 					[Op.gt]: 0
 				}
 			},
-			include: Img
+			include: [Img, Categories]
 		}).then(products => {
 			res.send(products);
 		}).catch(next);
 	} else {
-		Product.findAll({include: Img})
+		Product.findAll({include: [Img, Categories]})
 		.then(products => {
 			res.send(products);
 		}).catch(next);
@@ -30,7 +30,7 @@ server.get('/:productId', (req, res, next) => {
 	} else {
 		Product.findAll({
 			where: {id},
-			include: Img
+			include: [Img, Categories]
 		  })
 			  .then(products => {
 				  res.send(products);
@@ -42,7 +42,7 @@ server.get('/:productId', (req, res, next) => {
 server.get('/search/:name', (req, res, next) => {
 	Product.findAll({
 	  where: {name :{ [Op.like] : '%'+req.params.name+'%' }},
-	  include: Img
+	  include: [Img, Categories]
 	})
 		.then(products => {
 			res.send(products);
