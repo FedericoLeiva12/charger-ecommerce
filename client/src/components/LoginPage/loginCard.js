@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,18 +23,21 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: '#1C1C1C'
+      backgroundColor: 'rgba(255, 255, 255, 0.24)',
+      border: '2px solid #f6f6f6'
     },
     form: {
       width: '100%',
       marginTop: theme.spacing(1),
-      backgroundColor: 'rgba(66, 66, 66, 0.36)',
+      backgroundColor: 'rgba(255, 255, 255, 0.24)',
       padding: 30,
-      borderRadius:  20
+      borderRadius:  20,
+      border: '2px solid #f6f6f6',
+      color: '#f6f6f6'
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      backgroundColor: '#1C1C1C',
+      border: '2px solid #f6f6f6',
       color: '#f4f4f4',
       "&:hover":{
         backgroundColor: '#f6f6f6',
@@ -43,6 +46,20 @@ const useStyles = makeStyles((theme) => ({
       }
     },
   }));
+
+  const CssTextField = withStyles({
+    root: {
+      '& label.Mui-focused': {
+        color: '#f6f6f6',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: '#f6f6f6',
+      },
+      '& .MuiInput-underline:before': {
+        borderBottomColor: '#f6f6f6',
+      },
+    },
+  })(TextField);
 
 
   export default function Login() {
@@ -55,11 +72,11 @@ const useStyles = makeStyles((theme) => ({
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
+          <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
+            LOGIN
           </Typography>
           <form className={classes.form} noValidate>
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -68,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
               name="email"
               autoComplete="false"
             />
-            <TextField
+            <CssTextField
               margin="normal"
               required
               fullWidth
@@ -92,12 +109,12 @@ const useStyles = makeStyles((theme) => ({
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to>
+                <Link style={{textDecoration: 'none', color: '#f6f6f6'}}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to='/signUp'>
+                <Link to='/signUp' style={{textDecoration: 'none', color: '#f6f6f6'}}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
