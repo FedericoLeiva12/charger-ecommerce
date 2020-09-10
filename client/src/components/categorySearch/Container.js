@@ -21,8 +21,8 @@ const useStyles = makeStyles({
 });
 export default function CenteredGrid(props) {
   const classes = useStyles();
-  const listItems = props.prendas.map((prenda) =>
-    <Grid item xs={4}>
+  const listItems = props.prendas.map((prenda, index) =>
+    <Grid key={index} item xs={4}>
       <ProductCard prenda={prenda} />
     </Grid>
   );
@@ -31,7 +31,9 @@ export default function CenteredGrid(props) {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {listItems}
+        <tbody>
+          {listItems}
+        </tbody>
      </Grid>
     </div>
   );

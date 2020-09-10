@@ -1,8 +1,9 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_SELECTORS } from '../constants';
 
 const initialState = {
     categories: [],
     products: [],
+    selectors: [],
     error: false,
     errorMessage: ''
 };
@@ -63,18 +64,23 @@ export default function Provider(state = initialState, action) {
                 products: action.products
             }
         case MODIFY_PRODUCT:
-            let prod = state.products.filter(prod => prod.id === action.id)[0];
+            let prod = state.products.filter(prod => prod.id === action.product.id)[0];
             if(prod === undefined) return {...state};
             let indexProd = state.products.indexOf(prod);
             let products = [...state.products];
-            products[indexProd].name = action.name;
-            products[indexProd].description = action.description;
-            products[indexProd].price = action.price;
-            products[indexProd].stock = action.stock;
-            products[indexProd].img = action.img;
+            products[indexProd].name = action.product.name;
+            products[indexProd].description = action.product.description;
+            products[indexProd].price = action.product.price;
+            products[indexProd].stock = action.product.stock;
+            products[indexProd].img = action.product.img;
             return {
                 ...state,
                 products
+            }
+        case GET_SELECTORS:
+            return {
+                ...state,
+                selectors: action.selectors
             }
         case ERROR_MESSAGE:
             return {...state,
