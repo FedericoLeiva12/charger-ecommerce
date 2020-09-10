@@ -87,7 +87,7 @@ export default function ProductCard(props) {
 
         {/* <th> {props.prenda.categories} </th> */}
       </table>
-     </div>x|
+     </div>
   </div>
 </div> 
   )
