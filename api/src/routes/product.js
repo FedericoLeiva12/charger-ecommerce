@@ -238,6 +238,29 @@ server.get('/searchByCategory/:categoryId', (req, res) => {
   	
 })*/
 
+server.get('/selectors', (req, res) => {
+	Categories.findAll({
+		order: [
+			['id', 'ASC']
+		]
+	}).then(cats => {
+		let response = {};
+		for(let i = 0; i < cats.length; i++) {
+			if(response[cats[i].name]) {
+				response[cats[i].name].push({id: cats[i].id, description: cats[i].description});
+			} else {
+				response[cats[i].name] = [{id: cats[i].id, description: cats[i].description}];
+			}
+		}
+
+		res.send({selectors: response});
+	})
+	.catch(err => {
+		res.status(500).send({ text: 'Internal error.' });
+		console.error(err);
+	})
+});
+
 /*CRUD de Categorías*/
 
 server.post('/category', (req, res) => {

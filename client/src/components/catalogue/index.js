@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import Container from './Container'
-import Selector from './Selector'
+import Selector from '../Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { getProducts, getCategories } from '../../store/actions';
+import { getProducts, getCategories, getSelectors } from '../../store/actions';
 import { connect } from 'react-redux';
 import NavBarCOntainer from '../NavBar/Container'
 const darkTheme = createMuiTheme({
@@ -19,12 +19,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function Catalogo({products, getProducts, getCategories, categories}){
+function Catalogo({products, getProducts, getSelectors, selectors}){
     const classes = useStyles();
 
     useEffect(() => {
       getProducts();
-      getCategories();
+      getSelectors();
     }, []);
     const handleChange = function (e){
       console.log(e);
@@ -42,11 +42,28 @@ function Catalogo({products, getProducts, getCategories, categories}){
           paddingBottom='40px'
           >
             	{
-                categories.map(cat=>{
+                /*selectors.map(cat=>{
                   return(
                     <Selector nom={cat.name} desc={cat.description} val={cat.id}/>
                   )
-                })
+                })*/
+
+                (() => {
+                  if(selectors) {
+                    let results = [];
+
+                    let i = 0;
+
+                    for(let [key, value] of Object.entries(selectors)) {
+                      results.push(<Selector key={i} nom={key} elements={value} />)
+                      i++;
+                    }
+
+                    return results
+                  } else {
+                    return ''
+                  }
+                })()
               }
             </Grid>
             <div>
@@ -61,14 +78,14 @@ function Catalogo({products, getProducts, getCategories, categories}){
 function mapStateToProps(state) {
     return {
         products: state.products,
-        categories: state.categories
+        selectors: state.selectors
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getProducts: () => dispatch(getProducts()),
-        getCategories: () => dispatch(getCategories())
+        getSelectors: () => dispatch(getSelectors())
     }
 }
 
