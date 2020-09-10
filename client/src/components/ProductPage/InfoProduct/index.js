@@ -2,7 +2,7 @@ import React from 'react'
 import SizeSelect from '../SizeSelect'
 import {Grid, Typography, Box} from '@material-ui/core'
 
-function InfoProduct({title, description, price, colors = [], talles = []}) {
+function InfoProduct({title, description, price, stock, colors = [], talles = []}) {
     return (
         <Grid
             container
@@ -30,7 +30,7 @@ function InfoProduct({title, description, price, colors = [], talles = []}) {
                 textAlign="center"
                 style={{width: 250}}
             >
-                <SizeSelect talles={talles} />
+                <SizeSelect stock={stock} talles={talles} />
             </Box>
         </Grid>
     )
