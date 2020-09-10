@@ -4,7 +4,7 @@ export const loadState = () => {
     if (serializedData === null){
       return undefined // si no existe 
     }
-    return fromJS(JSON.parse(serializedData)) 
+    return (JSON.parse(serializedData)) 
   } catch (error) {
     return 'error'; 
   }
