@@ -224,6 +224,17 @@ export function getCart (){
     const cart = loadState();
     if(cart !== 'error'){
       dispatch({
+	type: GET_CART,
+	action: cart
+      })
+    }
+  }
+}
+export function addToCart (product){
+  return (dispatch) =>{
+    const cart = saveState(product);
+    if(cart !== 'error'){
+      dispatch({
 	type: ADD_TO_CART,
 	action: cart
       })
