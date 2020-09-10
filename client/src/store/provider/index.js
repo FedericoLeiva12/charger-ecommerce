@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS, GET_SEARCH } from '../constants';
 
 const initialState = {
     categories: [],
@@ -57,11 +57,16 @@ export default function Provider(state = initialState, action) {
             return {
                 ...state
             }
-	    case GET_PRODUCTS_BY_CATEGORY:
+	case GET_PRODUCTS_BY_CATEGORY:
             return {
                 ...state,
                 products: action.products
             }
+    	case GET_SEARCH:
+	    return {
+		...state,
+		products: action.products
+	    }		
         case MODIFY_PRODUCT:
             let prod = state.products.filter(prod => prod.id === action.id)[0];
             if(prod === undefined) return {...state};
