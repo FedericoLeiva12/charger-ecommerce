@@ -30,13 +30,18 @@ sequelize.models = Object.fromEntries(capsEntries) ;
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Categories, Img } = sequelize.models;
+const { Product, Categories, Img, User, InfoUser, Roles } = sequelize.models;
 
 // Aca vendrian las relaciones
 Product.hasMany(Img);
 Img.belongsTo(Product);
 Product.belongsToMany( Categories, { through : 'ProductCategories'} );
 Categories.belongsToMany( Product, { through : 'ProductCategories'} );
+User.hasOne(InfoUser);
+InfoUser.belongsTo(User);
+User.hasOne(Roles);
+Roles.belongsTo(User);
+
 //se usa belongsToMany pues through solo esta soportado por este. hasMany : muchos <=> muchos, belongsToMany : muchos => tabla intermedia (through) <= muchos
 //https://sequelize.org/master/manual/assocs.html
 
