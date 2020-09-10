@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-  export default function Login() {
+  export default function CreateUser() {
     const classes = useStyles();
   
     return (
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Sign Up
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -67,6 +67,36 @@ const useStyles = makeStyles((theme) => ({
               name="email"
               autoComplete="email"
               autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="name"
+              label="Name"
+              id="name"
+              autoComplete="false"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="lastName"
+              label="Last Name"
+              id="lastName"
+              autoComplete="false"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="address"
+              label="Adress"
+              id="address"
+              autoComplete="false"
             />
             <TextField
               variant="outlined"
@@ -90,17 +120,12 @@ const useStyles = makeStyles((theme) => ({
             //   color='primary'
               className={classes.submit}
             >
-              Login
+              Sign Up
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to>
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to='/signUp'>
-                  {"Don't have an account? Sign Up"}
+                <Link to='/login'>
+                  I have an acount!
                 </Link>
               </Grid>
             </Grid>

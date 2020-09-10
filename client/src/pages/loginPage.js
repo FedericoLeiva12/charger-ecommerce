@@ -4,7 +4,7 @@ import Login from '../components/LoginPage/loginCard'
 function loginPage() {
   return (
     <div>
-      <Login/>
+      <Login />
     </div>
   )
 }
