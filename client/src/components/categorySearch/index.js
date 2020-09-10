@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Container from './Container'
-import Selector from './Selector'
+import Selector from '../Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-export default function Catalogo(props){
+export default function Catalogo({products, selectors}){
     const classes = useStyles();
 
     return(
@@ -34,15 +34,32 @@ export default function Catalogo(props){
           paddingBottom='40px'
           >
             	{
-                props.categories.map(cat=>{
+                /*selectors.map(cat=>{
                   return(
                     <Selector nom={cat.name} desc={cat.description} val={cat.id}/>
                   )
-                })
+                })*/
+
+                (() => {
+                  if(selectors) {
+                    let results = [];
+
+                    let i = 0;
+
+                    for(let [key, value] of Object.entries(selectors)) {
+                      results.push(<Selector key={i} nom={key} elements={value} />)
+                      i++;
+                    }
+
+                    return results
+                  } else {
+                    return ''
+                  }
+                })()
               }
             </Grid>
             <div>
-                <Container prendas={props.products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
+                <Container prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price}))} />
             </div>
         </div>
       </ThemeProvider>
