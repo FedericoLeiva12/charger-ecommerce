@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import NewTable from "./table.js";
+import { Switch } from "@material-ui/core";
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -60,16 +61,17 @@ export default function FormCategorias(props) {
     price: '',
     stock: '',
     img:''
-  })
-
-  const [deleteProduct, setDeleteProduct] = useState({
-	  id: 0
   });
 
   const [addCategoryProduct, setAddCategoryProduct] = useState({
     productId: '',
-    categoryId: ''
-  })
+    categoryId: '',
+    mode: true // 0: ADD 1: DELETE
+  });
+
+  const [deleteProduct, setDeleteProduct] = useState({
+	  id: 0
+  });
 
   const [productId, setProductId] = useState({
     productId: ''
@@ -418,7 +420,10 @@ export default function FormCategorias(props) {
             <Divider />
       <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
-        props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+        if(addCategoryProduct.mode)
+          props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+        else
+          props.removeCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
       }}>
         <TextField
                 label="ID de la categoria"
@@ -438,13 +443,20 @@ export default function FormCategorias(props) {
                 fullWidth
                 margin="normal"
               />
+              <div>
+                Delete
+                <Switch
+                  checked={addCategoryProduct.mode}
+                  onChange={e => setAddCategoryProduct({...addCategoryProduct, mode: !(addCategoryProduct.mode)})}
+                  name="asd"
+                  color="primary"
+                />
+                Add
+              </div>
                 <Divider />
                 <Button variant="contained" type="submit" color="primary">
-                Add Category
-              </Button>
-              <Button variant="contained" type="submit" color="primary">
-                Remove Category
-              </Button>
+                  Send
+                </Button>
             </form>
 		      </Grid>
         </Grid>

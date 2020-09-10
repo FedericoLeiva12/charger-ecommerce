@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import {SvgIcon} from '@material-ui/core';
+import {SvgIcon, Snackbar} from '@material-ui/core';
 import Style from '../productCard/style.module.css'
 import carrito from '../../assets/imgs/carrito_icon.png';
 import DoneIcon from '@material-ui/icons/Done';
@@ -12,15 +12,19 @@ import { Link } from 'react-router-dom';
 
 export default function ProductCard(props) {
   const [active, setActive] = useState('')
-  
 
   function handleClick(e){
-    const clicked = e.target.id || e.target.className
+    const clicked = e.target.id || e.target.className;
+  
+    if(props.prenda.stock > 0) {
       if(active === clicked) { 
           setActive('');
       } else {
           setActive(clicked)
       }
+    } else {
+      props.setAlert(true);
+    }
   }
 
   return (
@@ -80,13 +84,13 @@ export default function ProductCard(props) {
           <td>XXL</td>
           <td>Blanco</td>
         </tr> */}
-        <th> {props.prenda.categories} </th>
+
+        {/* <th> {props.prenda.categories} </th> */}
       </table>
      </div>x|
   </div>
 </div> 
   )
 }
-
 
 

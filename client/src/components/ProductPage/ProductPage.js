@@ -63,7 +63,7 @@ function ProductPage({products, getProducts}) {
                             <ProductImage src={prod.imgs[0].url} />
                         </Grid>
                         <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
-                            <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} />
+                            <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} stock={prod.stock}/>
                         </Grid>
                     </Grid>
                 ):'Loading'}

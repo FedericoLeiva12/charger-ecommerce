@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function SizeSelect({talles}) {
+export default function SizeSelect({talles, stock}) {
     const classes = useStyles()
 
     const [active, setActive] = React.useState(true)
@@ -59,6 +59,7 @@ export default function SizeSelect({talles}) {
                     id="grouped-select"
                     style={{color: 'white'}}
                     onChange={handleOnChange}
+                    disabled={stock<=0}
                 >
                     <MenuItem value="">
                         <em>None</em>
@@ -83,7 +84,7 @@ export default function SizeSelect({talles}) {
                 endIcon={<AddShoppingCartSharpIcon />}
                 onClick={handleClick}
             >
-                ADD TO CART
+                {stock>0?'ADD TO CART':'OUT OF STOCK'}
             </Button>
             <Snackbar
                 anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
