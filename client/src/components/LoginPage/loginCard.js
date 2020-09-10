@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles();
   
     return (
-      <Container component="main" maxWidth="xs" style={{backdropFilter: 'blur(30px)'}}>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>

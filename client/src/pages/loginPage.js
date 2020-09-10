@@ -1,9 +1,12 @@
 import React from 'react';
 import Login from '../components/LoginPage/loginCard'
+import Style from './loginPage.module.css'
+
+const imgBG = '/home/juancho/Desktop/ecommerce/ecommerce-ft04-g3/client/src/assets/imgs/photoblurredLogIn.png'
 
 const backgroundImageStyle = {
   height: '100vh',
-  backgroundImage: `url(https://images.unsplash.com/photo-1598539962077-e4185f37104f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80`,
+  background: `url(${imgBG})`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundPosition: '0% 50%',
@@ -11,11 +14,12 @@ const backgroundImageStyle = {
   margin: '0px',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center'
 }
 
 function loginPage() {
   return (
-    <div style={backgroundImageStyle}>
+    <div className={Style.imgBG}>
       <Login />
     </div>
   )
