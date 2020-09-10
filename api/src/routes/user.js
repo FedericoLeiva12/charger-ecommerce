@@ -5,58 +5,77 @@ const { User, InfoUser, Roles } = require('../db.js');
 server.get('/', (req, res, next) => {
   User.findAll({include: InfoUser})
     .then(users => {
-      res.status(200).render(users)
+      res.status(200).send(users)
     })
     .catch(next)
 });
+
+
 // Create Users
 server.post('/', (req,res,next)=>{
   const {email, password, name, lastName, address } = req.body
+  console.log(req.body)
+
+  if(!email || !password || !name || !lastName || !address) {
+		return res.status(400).send({ text: 'Invalid data' });
+	}
+
   User.create({
     email ,
-    password 
+    password
   })
-  .then((user)=>{
-    user.addInfoUser({
-      name  ,
+  .then((createdUser)=>{
+    return createdUser.createInfoUser({
+      name ,
       lastName ,
       address
     })
   })
-  .then((createdUser)=>{
-    res.send({
+  .then(createdUser => {
+    res.status(201).send({
       text : 'User created succesfully!',
-      createdUser : createdUser.dataValues
-    }).status(201)
-  }).catch(err => {
+      user : createdUser.dataValues
+    })
+  })
+  .catch(err => {
     res.status(500).send({ text: err })
   })
 });
+
+
 // Modify Users
 server.put('/:id', (req, res)=>{
-  const {email, password} = req.body
+  const {email, password, name, lastName, address} = req.body
   const {id} = req.params
-  if( !id  || !email || !password ) {
+  if( !id  || !email || !password || !name || !lastName || !address ) {
 		return res.status(400).send({ text: 'Invalid data' });
   }
+
+  let user = null;
+
   User.findOne({
     where : {
-      id: parseInt(id)
-    }
-  }).then(user => {
+      id: id
+    },
+    include: InfoUser
+  }).then(userFinded => {
+    console.log(user)
+    user = userFinded;
 		user.email = email;
 		user.password = password;
-
-  }).then(user=>{
-    user.setInfoUser({
-      name  ,
-      lastName ,
-      address
-    })
-  }).then((user) => {
-    user.save()
-		res.send({ text: 'User updated.' });
-	}).catch(err => {
+    user.infoUser.name = name;
+    user.infoUser.lastName = lastName;
+    user.infoUser.address = address;
+    
+    return user.save()
+  })
+  .then(user => {
+    return user.infoUser.save()
+  })
+  .then(userUpdated => {
+		res.send({ text: 'User updated', userUpdated: userUpdated.dataValues });
+  })
+  .catch(err => {
 		res.status(500).send({ text: 'Internal error' });
 		console.error(err);
   }) 

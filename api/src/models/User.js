@@ -9,8 +9,6 @@ module.exports = (sequelize) => {
           allowNull : false,
           validate : {
             isEmail : true,
-            notEmpty : true,
-            
           }
       },
 
@@ -19,8 +17,10 @@ module.exports = (sequelize) => {
         allowNull : false,
         validate : {
           is : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ //Min 8 caracteres, 1 number, 1 uppercase
-        }
-    }
+        },
+        timestamps: false
+    },
+
   });
 };
 
