@@ -30,7 +30,6 @@ function mapStateToProps(state) {
     return {
         products: state.products,
         categories: state.categories
-        cart:
     }
 }
 
