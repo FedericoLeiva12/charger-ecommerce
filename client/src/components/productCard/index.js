@@ -80,7 +80,7 @@ export default function ProductCard(props) {
           <td>XXL</td>
           <td>Blanco</td>
         </tr> */}
-        <th> {props.prenda.categories} </th>
+        {/* <th> {props.prenda.categories} </th> */}
       </table>
      </div>
   </div>
