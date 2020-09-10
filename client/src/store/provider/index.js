@@ -1,8 +1,12 @@
+
 import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS, GET_SEARCH } from '../constants';
 
 const initialState = {
     categories: [],
     products: [],
+    cart:[],
+    selectors: [],
+
     error: false,
     errorMessage: ''
 };
@@ -57,36 +61,58 @@ export default function Provider(state = initialState, action) {
             return {
                 ...state
             }
-	case GET_PRODUCTS_BY_CATEGORY:
+	      case GET_PRODUCTS_BY_CATEGORY:
+
             return {
                 ...state,
                 products: action.products
             }
-    	case GET_SEARCH:
-	    return {
-		...state,
-		products: action.products
-	    }		
+        case GET_SEARCH:
+            return {
+                ...state,
+                products: action.products
+            }		
         case MODIFY_PRODUCT:
-            let prod = state.products.filter(prod => prod.id === action.id)[0];
-            if(prod === undefined) return {...state};
+            let prod = state.products.filter(prod => prod.id === action.product.id)[0];
+            if(prod === undefined) 
+              return {...state};
             let indexProd = state.products.indexOf(prod);
             let products = [...state.products];
-            products[indexProd].name = action.name;
-            products[indexProd].description = action.description;
-            products[indexProd].price = action.price;
-            products[indexProd].stock = action.stock;
-            products[indexProd].img = action.img;
-            return {
+            products[indexProd].name = action.product.name;
+            products[indexProd].description = action.product.description;
+            products[indexProd].price = action.product.price;
+            products[indexProd].stock = action.product.stock;
+            products[indexProd].img = action.product.img;
+              return {
                 ...state,
                 products
             }
-        case ERROR_MESSAGE:
-            return {...state,
-                error: true,
-                errorMessage: action.message
-            }
-        default:
-            return { ...state };
+        case GET_CART:
+              return {
+                      ...state,
+                      cart: action.cart
+                  }
+        case ADD_TO_CART:
+              return {
+                      ...state,
+                      cart: [...state.cart, action.cart]
+                  }
+        case REMOVE_FROM_CART:
+              return {
+                      ...state,
+                      cart: state.cart.filter(prod => prod.id !== Number(action.id))
+                }
+            case GET_SELECTORS:
+              return {
+                      ...state,
+                      selectors: action.selectors
+                }
+            case ERROR_MESSAGE:
+              return {...state,
+                      error: true,
+                      errorMessage: action.message
+                }
+            default:
+              return { ...state };
     }
 }

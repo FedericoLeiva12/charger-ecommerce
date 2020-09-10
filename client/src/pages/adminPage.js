@@ -3,7 +3,7 @@ import { getCategories, addCategory, deleteCategory, modifyCategory, getProducts
 import { connect } from 'react-redux';
 import AdminForms from '../components/AdminForms/';
 
-function AdminPage({categories, products, getCategories, getProducts, addCategory, addProduct, deleteCategory, deleteProduct, modifyCategory, addCategoryProduct}) {
+function AdminPage({categories, products, getCategories, getProducts, addCategory, addProduct, deleteCategory, deleteProduct, modifyCategory, addCategoryProduct, modifyProduct}) {
     const [name, setName] = useState('');
     const [id, setId] = useState(0);
 
