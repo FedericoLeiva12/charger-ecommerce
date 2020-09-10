@@ -25,7 +25,7 @@ export default function Selector(props) {
 
   const handleChange = (event) => {
     setProp(event.target.value);
-    setRedirect('catalogo/');
+    setRedirect('/catalogo/');
   };
 
   const handleClose = () => {
@@ -37,7 +37,10 @@ export default function Selector(props) {
   };
 
   if (redirect) {
-    return <Redirect to={'category/'+prop} />
+    if(prop !== '0')
+      window.location.href = '/category/'+prop;
+    else
+      window.location.href = '/catalog'
   }
   return (
     <div>
@@ -52,12 +55,15 @@ export default function Selector(props) {
           value={prop}
           onChange={handleChange}
         >
-          <MenuItem value="">
+          <MenuItem value="0">
             <em>None</em>
           </MenuItem>
-         <MenuItem value={props.val}>
+         {/*<MenuItem value={props.val}>
             <em>{props.desc}</em>
-          </MenuItem>
+          </MenuItem>*/}
+          {props.elements.map((elem, key) => (
+            <MenuItem key={key} value={elem.id}>{elem.description}</MenuItem>
+          ))}
         {/*.map(des =>{return <MenuItem value={des}>{des}</MenuItem>})}
           
         {/* { props.desc.map(d=>{
