@@ -29,12 +29,8 @@ function CategoriaPage({selectors, products, getProducts, getSelectors}) {
 function mapStateToProps(state) {
     return {
         products: state.products,
-
-        categories: state.categories
-        
-
+        categories: state.categories,
         selectors: state.selectors
-
     }
 }
 
