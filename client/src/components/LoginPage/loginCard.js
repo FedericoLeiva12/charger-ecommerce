@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(0),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: 'black'
+      backgroundColor: '#1C1C1C'
     },
     form: {
       width: '100%',
@@ -34,20 +34,22 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      backgroundColor: 'black',
-      color: 'white'
+      backgroundColor: '#1C1C1C',
+      color: '#f4f4f4',
+      "&:hover":{
+        backgroundColor: '#f6f6f6',
+        color: '#1C1C1C',
+        transition: '0.7s'
+      }
     },
-    "&:hover":{
-        backgroundColor: 'red',
-        transition: '0.3s'
-    }
   }));
+
 
   export default function Login() {
     const classes = useStyles();
   
     return (
-      <Container component="main" maxWidth="xs" >
+      <Container component="main" maxWidth="xs" style={{backdropFilter: 'blur(30px)'}}>
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -58,18 +60,15 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
+              autoComplete="false"
             />
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -86,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
             <Button
               type="submit"
               fullWidth
-              variant="contained"
             //   color='primary'
               className={classes.submit}
             >

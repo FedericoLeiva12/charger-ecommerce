@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -69,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
               autoFocus
             />
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -79,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -89,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -99,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <TextField
-              variant="outlined"
               margin="normal"
               required
               fullWidth
@@ -124,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/login'>
+                <Link to='/login' style={{textDecoration: 'none', color: 'black'}}>
                   I have an acount!
                 </Link>
               </Grid>
