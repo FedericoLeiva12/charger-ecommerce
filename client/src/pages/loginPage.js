@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Login from '../components/LoginPage/loginCard'
 
 function loginPage() {
   return (
     <div>
-      <h1>LOGIN PAGE (WIP)</h1>
+      <Login />
     </div>
   )
 }

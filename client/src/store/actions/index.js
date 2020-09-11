@@ -88,7 +88,7 @@ export function deleteCategory(id) {
 
 export function getProducts() {
     return dispatch => {
-        axios.get(`http://${url}/products`)
+        axios.get(`http://${url}/products?showOutStock=true`)
             .then(res => {
                 if(res.status === 200) {
                     dispatch({
@@ -169,7 +169,7 @@ export function addCategoryProduct (productId, categoryId) {
 
 export function removeCategoryProduct (productId, categoryId) {
     return dispatch => {
-        axios.put(`http://${url}/products/${productId}/${categoryId}`)
+        axios.delete(`http://${url}/products/${productId}/${categoryId}`)
             .then(res => {
                 if(res.status === 200) {
                     dispatch({

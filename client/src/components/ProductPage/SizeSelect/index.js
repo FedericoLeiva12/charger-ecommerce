@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function SizeSelect({talles}) {
+export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemoveFromCart}) {
     const classes = useStyles()
 
     const [active, setActive] = React.useState(true)
@@ -48,6 +48,10 @@ export default function SizeSelect({talles}) {
         setOpen(true)
     }
 
+    useEffect(() => {
+
+    }, []);
+
     return (
         <Box style={{width: '100%'}}>
             <FormControl className={classes.formControl}>
@@ -59,9 +63,13 @@ export default function SizeSelect({talles}) {
                     id="grouped-select"
                     style={{color: 'white'}}
                     onChange={handleOnChange}
+                    disabled={stock<=0}
                 >
                     <MenuItem value="">
                         <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="L">
+                        <em>L</em>
                     </MenuItem>
                     {talles &&
                         talles.map((talle, i) => {
@@ -83,7 +91,7 @@ export default function SizeSelect({talles}) {
                 endIcon={<AddShoppingCartSharpIcon />}
                 onClick={handleClick}
             >
-                ADD TO CART
+                {stock>0?'ADD TO CART':'OUT OF STOCK'}
             </Button>
             <Snackbar
                 anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}

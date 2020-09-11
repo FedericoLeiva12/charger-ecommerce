@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import {SvgIcon} from '@material-ui/core';
+import {SvgIcon, Snackbar} from '@material-ui/core';
 import Style from '../productCard/style.module.css'
 import carrito from '../../assets/imgs/carrito_icon.png';
 import DoneIcon from '@material-ui/icons/Done';
@@ -12,15 +12,19 @@ import { Link } from 'react-router-dom';
 
 export default function ProductCard(props) {
   const [active, setActive] = useState('')
-  
 
   function handleClick(e){
-    const clicked = e.target.id || e.target.className
+    const clicked = e.target.id || e.target.className;
+  
+    if(props.prenda.stock > 0) {
       if(active === clicked) { 
           setActive('');
       } else {
-          setActive(clicked)
+          setActive(clicked);
       }
+    } else {
+      props.setAlert(true);
+    }
   }
 
   return (
@@ -33,7 +37,9 @@ export default function ProductCard(props) {
     <div className={`${Style.bottom} ${active === Style.first ? Style.clicked: ''}` } >
       <div className={Style.left}>
         <div className={Style.details}>
-          <h1>{props.prenda.titulo}</h1>
+          <div className={Style.titulo}>
+              <h3>{props.prenda.titulo}</h3>
+          </div>
           <p>${props.prenda.precio} </p>
           </div>
         <div className={Style.buy} onClick={handleClick} id='first'> <img className={Style.first} src={carrito} alt='carrito' onClick={handleClick}/> </div>
@@ -41,10 +47,12 @@ export default function ProductCard(props) {
       <div className={Style.right}>
         <div className={Style.done}><SvgIcon component={DoneIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }} /></div>
         <div className={Style.details}>
-          <h1>{props.prenda.titulo} </h1>
+          <div className={Style.titulo2}>
+          <h3>{props.prenda.titulo} </h3>
+          </div>
           <p>Added to your cart</p>
         </div>
-        <div className={`${Style.remove} ${active === Style.second ? Style.clicked : ''}`} onClick={handleClick} id='second'><SvgIcon component={ClearIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }}/></div>
+        <div className={`${Style.remove} ${active === Style.second ? Style.clicked : ''}`} onClick={handleClick} id='second'><SvgIcon component={ClearIcon} style={{fontSize:60, paddingLeft:15, paddingTop: 10 }}/></div>
       </div>
     </div>
   </div>
@@ -52,7 +60,7 @@ export default function ProductCard(props) {
     <div className={Style.icon} > <SvgIcon component={InfoOutlinedIcon} /> </div>
     <div className={Style.contents}> 
     <table>
-        <tr>
+        {/* <tr>
           <th>Talle</th>
           <th>Color</th>
         </tr>
@@ -75,7 +83,9 @@ export default function ProductCard(props) {
         <tr>
           <td>XXL</td>
           <td>Blanco</td>
-        </tr>
+        </tr> */}
+
+        {/* <th> {props.prenda.categories} </th> */}
       </table>
      </div>
   </div>

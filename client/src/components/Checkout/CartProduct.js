@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop: '5px',
+    marginBottom: '5px'
   },
   paper: {
     padding: theme.spacing(2),
@@ -15,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
   },
   image: {
-    width: 128,
-    height: 128,
+    width: 90,
+    height: 90,
   },
   img: {
     margin: "auto",
@@ -26,8 +32,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CartProduct() {
+export default function CartProduct({product, onClose}) {
   const classes = useStyles();
+
+  const [amount, setAmount] = useState(1);
 
   return (
     <div className={classes.root}>
@@ -37,8 +45,8 @@ export default function CartProduct() {
             <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
-                alt="complex"
-                src="/static/images/grid/complex.jpg"
+                /*alt="complex"*/
+                src={product.imgs[0].url}
               />
             </ButtonBase>
           </Grid>
@@ -46,23 +54,41 @@ export default function CartProduct() {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  Standard license
+                  {product.name}
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  Full resolution 1920x1080 • JPEG
+                  {product.description}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                {/*<Typography variant="body2" color="textSecondary">
                   ID: 1030114
-                </Typography>
+                </Typography>*/}
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Typography variant="body2" style={{ cursor: "pointer" }}>
                   Remove
                 </Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
-            <Grid item>
-              <Typography variant="subtitle1">$19.00</Typography>
+            <Grid item style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+              <Grid item style={{display: 'flex', justifyContent: 'flex-end'}}>
+                <Button onClick={onClose}>
+                  <DeleteForeverIcon fontSize="large"/>
+                </Button>
+              </Grid>
+              <Grid item style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Button onClick={e => setAmount(amount<product.stock?amount + 1:amount)}>
+                  <AddCircleIcon />
+                </Button>
+                <div style={{color: '#eee', padding: '5px', borderRadius: '5px'}}>
+                  x{amount}
+                  <span style={{borderLeft: '1px solid #eee', textAlign: 'center', marginLeft: '5px', paddingLeft: '5px'}}>
+                    ${product.price * amount}
+                  </span>
+                </div>
+                <Button onClick={e => setAmount(amount>1?amount - 1:amount)}>
+                  <RemoveCircleIcon />
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

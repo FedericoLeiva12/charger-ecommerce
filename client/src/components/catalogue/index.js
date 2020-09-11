@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from './Container'
 import Selector from '../Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { getProducts, getCategories, getSelectors } from '../../store/actions';
+import { getProducts, getSelectors } from '../../store/actions';
 import { connect } from 'react-redux';
 import NavBarCOntainer from '../NavBar/Container'
+import { Snackbar } from '@material-ui/core';
+
 const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -22,13 +24,12 @@ const useStyles = makeStyles(() => ({
 function Catalogo({products, getProducts, getSelectors, selectors}){
     const classes = useStyles();
 
+    const [alert, setAlert] = useState(false);
+
     useEffect(() => {
       getProducts();
       getSelectors();
     }, []);
-    const handleChange = function (e){
-      console.log(e);
-    }
 
     return(
       <>
@@ -67,10 +68,16 @@ function Catalogo({products, getProducts, getSelectors, selectors}){
               }
             </Grid>
             <div>
-                <Container prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id}))} />
+                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock, categories: prod.categories}))} />
             </div>
         </div>
       </ThemeProvider>
+      <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={alert}
+        onClose={e => setAlert(false)}
+        message="Out of stock"
+      />
       </>
     )
 }

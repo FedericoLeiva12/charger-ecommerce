@@ -33,13 +33,11 @@ function CategoriaPage({ selectors, products, getProducts, getSelectors }) {
 }
 
 function mapStateToProps(state) {
-  return {
-    products: state.products,
-
-    categories: state.categories,
-
-    selectors: state.selectors,
-  };
+    return {
+        products: state.products,
+        categories: state.categories,
+        selectors: state.selectors
+    }
 }
 
 function mapDispatchToProps(dispatch) {
