@@ -81,7 +81,8 @@ const useStyles = makeStyles((theme) => ({
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="New Password"
+              type="password"
               name="email"
               autoComplete="false"
             />
@@ -90,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Type Password Again"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -105,19 +106,15 @@ const useStyles = makeStyles((theme) => ({
             //   color='primary'
               className={classes.submit}
             >
-              Login
+              Recover
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/forgotPassword' style={{textDecoration: 'none', color: '#f6f6f6'}}>
-                  Forgot password?
+                <Link to='/login' style={{textDecoration: 'none', color: '#f6f6f6'}}>
+                  I already remembered my password!
                 </Link>
               </Grid>
-              <Grid item>
-                <Link to='/signUp' style={{textDecoration: 'none', color: '#f6f6f6'}}>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              
             </Grid>
           </form>
         </div>
