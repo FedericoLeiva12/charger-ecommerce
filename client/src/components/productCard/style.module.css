@@ -120,9 +120,7 @@ cursor: default;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.wrapper .container .bottom .right .details .titulo2 :hover{
-  /* overflow: visible; */
-}
+
 .wrapper .container .bottom .right .done {
   width: calc(30% - 2px);
   float: left;
