@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { createUser } from '../../store/actions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -19,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      border: '1px solid red'
     },
     avatar: {
       margin: theme.spacing(1),
@@ -35,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
       color: '#f6f6f6'
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
+      margin: theme.spacing(2, 0, 2),
       border: '2px solid #f6f6f6',
       color: '#f4f4f4',
       "&:hover":{
@@ -61,11 +65,19 @@ const useStyles = makeStyles((theme) => ({
     },
   })(TextField);
 
-  export default function CreateUser() {
+  function CreateUser({ createUser, history }) {
     const classes = useStyles();
   
+    const [user, setUser] = React.useState({
+      email: '',
+      password: '',
+      name: '',
+      lastName: '', //si, ashancha en string vacio
+      address: ''
+    })
+
     return (
-      <Container component="main" maxWidth="xs" >
+      <Container component="main" maxWidth="xs" style={{border:'1px solid yellow'}}>
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -74,8 +86,14 @@ const useStyles = makeStyles((theme) => ({
           <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
             SIGN UP
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={(e) => {
+            e.preventDefault();
+            createUser(user.email, user.password, user.name, user.lastName, user.address);
+            history.push('/')
+          }}>
             <CssTextField
+              onChange={(e) => setUser({...user, email: e.target.value})}
+              value={user.email}
               margin="normal"
               required
               fullWidth
@@ -85,6 +103,8 @@ const useStyles = makeStyles((theme) => ({
               autocomplete="section-blue shipping street-address"
             />
             <CssTextField
+            onChange={(e) => setUser({...user, name: e.target.value})}
+              value={user.name}
               margin="normal"
               required
               fullWidth
@@ -94,6 +114,8 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
+            onChange={(e) => setUser({...user, lastName: e.target.value})}
+              value={user.lastName}
               margin="normal"
               required
               fullWidth
@@ -103,6 +125,8 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
+            onChange={(e) => setUser({...user, address: e.target.value})}
+              value={user.address}
               margin="normal"
               required
               fullWidth
@@ -112,6 +136,8 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
+            onChange={(e) => setUser({...user, password: e.target.value})}
+              value={user.password}
               margin="normal"
               required
               fullWidth
@@ -141,9 +167,14 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </form>
         </div>
-        <Box mt={8}>
-         
-        </Box>
       </Container>
     );
   }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      createUser: (email, password, name, lastName, address) => dispatch(createUser(email, password, name, lastName, address))
+    }
+  }
+
+  export default withRouter(connect(null, mapDispatchToProps)(CreateUser));

@@ -266,12 +266,12 @@ export function getSelectors() {
 export function createUser(email, password, name, lastName, address) {
     return dispatch => {
         axios.post(`http://${url}/users`, {
-            email, password, name, lastName, address
+            email, password, name, lastName, address //aca se los pasamos por body
         }).then(res => {
             if(res.status === 200) {
                 dispatch({
-                    type: CREATE_USER,
-                    createdUser: res.data.createdUser
+                    type: CREATE_USER, // aca se dispatacha esta accion para que el reducer sepa que hacer
+                    createdUser: res.data.createdUser // aca se lo envio como createdUser
                 })
             } else {
                 dispatch({
@@ -282,3 +282,5 @@ export function createUser(email, password, name, lastName, address) {
         }).catch(console.error)
     }
 }
+                                            //  w
+// en este caso, vamos a llevarnos esta funcion |
