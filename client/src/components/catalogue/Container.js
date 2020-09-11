@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ProductCard from '../productCard';
+import NoProducts from './NoProducts';
 
 const useStyles = makeStyles({
   root: {
@@ -21,6 +22,13 @@ const useStyles = makeStyles({
 });
 export default function CenteredGrid(props) {
   const classes = useStyles();
+
+  // if(!props.predas) {
+  //   return (
+  //     <NoProducts />
+  //   )
+  // }
+
   const listItems = props.prendas.map((prenda, index) =>
     <Grid key={index} item xs={4}>
       <ProductCard prenda={prenda} setAlert={props.setAlert} />

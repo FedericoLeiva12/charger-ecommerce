@@ -32,9 +32,9 @@ server.post('/', (req,res,next)=>{
     })
   })
   .then(createdUser => {
-    res.status(201).send({
+    res.status(200).send({
       text : 'User created succesfully!',
-      user : createdUser.dataValues
+      createdUser : createdUser.dataValues
     })
   })
   .catch(err => {
