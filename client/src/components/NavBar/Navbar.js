@@ -31,6 +31,13 @@ const useStyles = makeStyles(theme => ({
             width: '100%',
         },
     },
+    appBarNoTransparent: {
+        background: 'rgb(66, 66, 66)',
+        color: 'white',
+        [theme.breakpoints.up('sm')]: {
+            width: '100%',
+        },
+    },
     loginButton: {
         textDecoration: 'none',
     },
@@ -49,7 +56,7 @@ const NavBar = props => {
     const classes = useStyles()
     return (
         <div >
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={props.noTransparent?classes.appBarNoTransparent:classes.appBar}>
                 <Toolbar>
                     <IconButton
                         edge="start"

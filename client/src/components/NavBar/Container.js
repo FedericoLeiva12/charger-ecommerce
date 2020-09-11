@@ -12,7 +12,7 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const Contenedor = ()=>{
+const Contenedor = ({noTransparent})=>{
     
     const classes = styles()
     const[abrir, setAbrir] = React.useState(false)
@@ -24,7 +24,7 @@ const Contenedor = ()=>{
     return(
         
         <div className={classes.root}>
-            <NavBar accionAbrir={accionAbrir}/>
+            <NavBar accionAbrir={accionAbrir} noTransparent={noTransparent}/>
             <Hidden xsDown>
                 <Box 
                     variant='temporary'
