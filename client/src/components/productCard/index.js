@@ -9,12 +9,11 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { Link } from 'react-router-dom';
 
 
-
 export default function ProductCard(props) {
   const [active, setActive] = useState('')
 
   function handleClick(e){
-    const clicked = e.target.id || e.target.className;
+    const clicked = e.target.className;
   
     if(props.prenda.stock > 0) {
       if(active === clicked) { 
@@ -42,7 +41,7 @@ export default function ProductCard(props) {
           </div>
           <p>${props.prenda.precio} </p>
           </div>
-        <div className={Style.buy} onClick={handleClick} id='first'> <img className={Style.first} src={carrito} alt='carrito' onClick={handleClick}/> </div>
+        <div className={Style.buy} > <img className={Style.first} src={carrito} alt='carrito' onClick={handleClick}/> </div>
       </div>
       <div className={Style.right}>
         <div className={Style.done}><SvgIcon component={DoneIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }} /></div>
