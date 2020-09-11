@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { loadState, saveState } from '../../localStorage';
-import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS } from '../constants';
+import { GET_CATEGORIES, ADD_CATEGORY, ERROR_MESSAGE, MODIFY_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS, DELETE_PRODUCTS, ADD_PRODUCT, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS, CREATE_USER } from '../constants';
 
 
 
@@ -263,3 +263,22 @@ export function getSelectors() {
     }
 }
 
+export function createUser(email, password, name, lastName, address) {
+    return dispatch => {
+        axios.post(`http://${url}/users`, {
+            email, password, name, lastName, address
+        }).then(res => {
+            if(res.status === 200) {
+                dispatch({
+                    type: CREATE_USER,
+                    createdUser: res.data.createdUser
+                })
+            } else {
+                dispatch({
+                    type: ERROR_MESSAGE,
+                    message: res.data.text
+                })
+            }
+        }).catch(console.error)
+    }
+}
