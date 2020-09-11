@@ -17,8 +17,10 @@ export default function ProductCard(props) {
     if (props.prenda.stock > 0) {
       if (active === clicked) {
         setActive("");
+        props.removeFromCard(props.prenda);
       } else {
         setActive(clicked);
+        props.addToCart(props.prenda);
       }
     } else {
       props.setAlert(true);
