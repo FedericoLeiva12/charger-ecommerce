@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      border: '1px solid red'
     },
     avatar: {
       margin: theme.spacing(1),
@@ -72,12 +71,23 @@ const useStyles = makeStyles((theme) => ({
       email: '',
       password: '',
       name: '',
-      lastName: '', //si, ashancha en string vacio
+      lastName: '', 
       address: ''
     })
 
+    const [error, setError] = React.useState('')
+
+    function validateInfo({email, name, lastName, address, password}){
+      if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)){
+        setError('Invalid data')
+      }else{
+        setError('')
+      }
+      setUser({email, name, lastName, address, password})
+    }
+
     return (
-      <Container component="main" maxWidth="xs" style={{border:'1px solid yellow'}}>
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -92,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
             history.push('/')
           }}>
             <CssTextField
-              onChange={(e) => setUser({...user, email: e.target.value})}
+              onChange={(e) => validateInfo({...user, email: e.target.value})}
               value={user.email}
               margin="normal"
               required
@@ -103,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
               autocomplete="section-blue shipping street-address"
             />
             <CssTextField
-            onChange={(e) => setUser({...user, name: e.target.value})}
+              onChange={(e) => validateInfo({...user, name: e.target.value})}
               value={user.name}
               margin="normal"
               required
@@ -114,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
-            onChange={(e) => setUser({...user, lastName: e.target.value})}
+              onChange={(e) => validateInfo({...user, lastName: e.target.value})}
               value={user.lastName}
               margin="normal"
               required
@@ -125,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
-            onChange={(e) => setUser({...user, address: e.target.value})}
+              onChange={(e) => validateInfo({...user, address: e.target.value})}
               value={user.address}
               margin="normal"
               required
@@ -136,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
               autoComplete="false"
             />
             <CssTextField
-            onChange={(e) => setUser({...user, password: e.target.value})}
+            onChange={(e) => validateInfo({...user, password: e.target.value})}
               value={user.password}
               margin="normal"
               required
@@ -151,10 +161,12 @@ const useStyles = makeStyles((theme) => ({
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
+            
             <Button
               type="submit"
               fullWidth
               className={classes.submit}
+              disabled={!error ? false : true}
             >
               Sign Up
             </Button>
