@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 import NavBarCOntainer from '../NavBar/Container'
 import { Snackbar } from '@material-ui/core';
-import { getProducts, getSelectors } from '../../store/actions';
+import { getProducts, getSelectors, addToCart } from '../../store/actions';
 import { connect } from 'react-redux';
 
 const darkTheme = createMuiTheme({
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function Catalogo({products, selectors}){
+function Catalogo({products, selectors, addToCart, cart}){
     const classes = useStyles();
 
     const [alert, setAlert] = useState(false);
@@ -34,7 +34,7 @@ function Catalogo({products, selectors}){
 
     return(
       <>
-      <NavBarCOntainer/> 
+      <NavBarCOntainer cart={cart}/> 
       <div style={{paddingTop:64, backgroundColor: '#3D3D3D'}}></div>
       <ThemeProvider theme={darkTheme}>
         <div className={classes.cont}>
@@ -69,7 +69,7 @@ function Catalogo({products, selectors}){
               }
             </Grid>
             <div>
-                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock}))} />
+                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock}))} addToCart={addToCart}/>
             </div>
         </div>
       </ThemeProvider>
@@ -86,14 +86,16 @@ function Catalogo({products, selectors}){
 function mapStateToProps(state) {
   return {
       products: state.products,
-      selectors: state.selectors
+      selectors: state.selectors,
+      cart: state.cart
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
       getProducts: () => dispatch(getProducts()),
-      getSelectors: () => dispatch(getSelectors())
+      getSelectors: () => dispatch(getSelectors()),
+      addToCart: (product) => dispatch(addToCart(product))
   }
 }
 

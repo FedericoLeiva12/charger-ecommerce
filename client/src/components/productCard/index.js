@@ -15,6 +15,7 @@ export default function ProductCard(props) {
 
   function handleClick(e){
     const clicked = e.target.id || e.target.className;
+    props.addToCart(props.prenda);
   
     if(props.prenda.stock > 0) {
       if(active === clicked) { 

@@ -3,7 +3,7 @@ import Container from './Container'
 import Selector from '../Selector'
 import { createMuiTheme, ThemeProvider, makeStyles  } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { getProducts, getSelectors } from '../../store/actions';
+import { getProducts, getSelectors, addToCart } from '../../store/actions';
 import { connect } from 'react-redux';
 import NavBarCOntainer from '../NavBar/Container'
 import { Snackbar } from '@material-ui/core';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function Catalogo({products, getProducts, getSelectors, selectors}){
+function Catalogo({products, getProducts, getSelectors, selectors, cart, addToCart}){
     const classes = useStyles();
 
     const [alert, setAlert] = useState(false);
@@ -33,7 +33,7 @@ function Catalogo({products, getProducts, getSelectors, selectors}){
 
     return(
       <>
-      <NavBarCOntainer/> 
+      <NavBarCOntainer cart={cart}/> 
       <div style={{paddingTop:64, backgroundColor: '#3D3D3D'}}></div>
       <ThemeProvider theme={darkTheme}>
         <div className={classes.cont}>
@@ -68,7 +68,7 @@ function Catalogo({products, getProducts, getSelectors, selectors}){
               }
             </Grid>
             <div>
-                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock, categories: prod.categories}))} />
+                <Container setAlert={setAlert} prendas={products.map(prod => ({imagen: prod.imgs[0].url, titulo: prod.name, precio: prod.price, id: prod.id, stock: prod.stock, categories: prod.categories}))} addToCart={addToCart} />
             </div>
         </div>
       </ThemeProvider>
@@ -85,14 +85,16 @@ function Catalogo({products, getProducts, getSelectors, selectors}){
 function mapStateToProps(state) {
     return {
         products: state.products,
-        selectors: state.selectors
+        selectors: state.selectors,
+        cart: state.cart
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getProducts: () => dispatch(getProducts()),
-        getSelectors: () => dispatch(getSelectors())
+        getSelectors: () => dispatch(getSelectors()),
+        addToCart: (product) => dispatch(addToCart(product))
     }
 }
 
