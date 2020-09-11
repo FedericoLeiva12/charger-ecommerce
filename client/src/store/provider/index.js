@@ -5,7 +5,7 @@ import { loadState, saveState } from '../../localStorage';
 const initialState = {
     categories: [],
     products: [],
-    cart:loadState()?loadState():[],
+    cart: loadState()? loadState():[],
     selectors: [],
 
     error: false,
