@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemoveFromCart}) {
+export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemoveFromCart, addToCart, product}) {
     const classes = useStyles()
 
     const [active, setActive] = React.useState(true)
@@ -46,6 +46,7 @@ export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemo
 
     const handleClick = () => {
         setOpen(true)
+        addToCart(product);
     }
 
     useEffect(() => {

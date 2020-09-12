@@ -4,7 +4,7 @@ import ProductImage from './ProductImage'
 import InfoProduct from './InfoProduct'
 import Container from '../NavBar/Container'
 import { connect } from 'react-redux'
-import { getProducts, getCart } from '../../store/actions'
+import { getProducts, getCart, addToCart } from '../../store/actions'
 import { useParams } from 'react-router-dom'
 
 // const productPrueba = {
@@ -24,7 +24,7 @@ const imagenPrueba = [
 
 
 
-function ProductPage({products, getProducts, cart, getCart}) {
+function ProductPage({products, getProducts, cart, getCart, addToCart}) {
 
 
     
@@ -63,7 +63,7 @@ function ProductPage({products, getProducts, cart, getCart}) {
                             <ProductImage src={prod.imgs[0].url} />
                         </Grid>
                         <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
-                            <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} stock={prod.stock} />
+                            <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} stock={prod.stock} addToCart={addToCart} product={prod}/>
                         </Grid>
                     </Grid>
                 ):'Loading'}
@@ -79,7 +79,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getProducts: () => dispatch(getProducts())
+        getProducts: () => dispatch(getProducts()),
+        addToCart: (product) => dispatch(addToCart(product))
     }
 }
 

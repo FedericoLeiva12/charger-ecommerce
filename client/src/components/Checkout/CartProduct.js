@@ -46,7 +46,7 @@ export default function CartProduct({ product, onClose }) {
               <img
                 className={classes.img}
                 /*alt="complex"*/
-                src={product.imagen[0].url}
+                src={product.img[0]}
               />
             </ButtonBase>
           </Grid>
