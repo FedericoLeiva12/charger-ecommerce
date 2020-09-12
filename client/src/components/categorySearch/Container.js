@@ -29,7 +29,7 @@ export default function CenteredGrid(props) {
         removeFromCart={props.removeFromCart}
  />
     </Grid>
-  ));
+  );
 
   return (
     <div className={classes.root}>

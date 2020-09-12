@@ -27,7 +27,7 @@ export default function CenteredGrid(props) {
       <ProductCard product={prod} setAlert={props.setAlert} addToCart={props.addToCart}
         removeFromCart={props.removeFromCart} />
     </Grid>
-  ));
+  );
 
   return (
     <div className={classes.root}>

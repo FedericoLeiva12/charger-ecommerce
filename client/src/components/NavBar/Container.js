@@ -24,7 +24,7 @@ const Contenedor = (props)=>{
     return(
         
         <div className={classes.root}>
-            <NavBar onOpen={onOpen}/>
+            <NavBar onOpen={onOpen} cart={props.cart}/>
             <Hidden xsDown>
                 <Box 
                     variant='temporary'

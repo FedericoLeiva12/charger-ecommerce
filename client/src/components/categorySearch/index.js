@@ -59,19 +59,21 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
                   )
                 })*/
 
-              (() => {
-                if (selectors) {
-                  let results = [];
+               (() => {
+                  if(selectors) {
+                    let results = [];
 
-                  let i = 0;
+                    let i = 0;
 
-                  for (let [key, value] of Object.entries(selectors)) {
-                    results.push(
-                      <Selector key={i} nom={key} elements={value} />
-                    );
-                    i++;
+                    for(let [key, value] of Object.entries(selectors)) {
+                      results.push(<Selector key={i} nom={key} elements={value} />)
+                      i++;
+                    }
+
+                    return results
+                  } else {
+                    return ''
                   }
-
                 })()
               }
             </Grid>

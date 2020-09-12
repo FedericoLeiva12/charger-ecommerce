@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart } from "../../store/actions";
+import { getProducts, getCart, removeFromCart } from "../../store/actions";
 import CartProduct from "./CartProduct";
 import {
   createMuiTheme,
@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Checkout({ cart, getCart }) {
+function Checkout({ cart, getCart, removeFromCart }) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function Checkout({ cart, getCart }) {
             <>{cart.map((prod, index) => (
               <CartProduct
                 key={index}
-                onClose={() => {}}
+                onClose={() => {removeFromCart(prod)}}
                 product={prod}
               />
           ))}</>
@@ -67,6 +67,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
+    removeFromCart: (id) => dispatch(removeFromCart(id))
   };
 }
 
