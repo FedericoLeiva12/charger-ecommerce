@@ -180,7 +180,7 @@ const useStyles = makeStyles((theme) => ({
               type="submit"
               fullWidth
               className={classes.submit}
-              // disabled={!invalid ? false : true}
+              disabled={!invalid ? false : true}
               onClick={handleClick}
             >
               Sign Up
