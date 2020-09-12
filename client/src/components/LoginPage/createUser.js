@@ -75,8 +75,7 @@ const useStyles = makeStyles((theme) => ({
       address: ''
     })
 
-    const [invalid, setInvalid] = React.useState(false);
-
+    const [invalid, setInvalid] = React.useState(true);
     function validateInfo({email, name, lastName, address, password}){
       if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
         setInvalid(true)
@@ -100,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
           <form className={classes.form} noValidate onSubmit={(e) => {
             e.preventDefault();
             createUser(user.email, user.password, user.name, user.lastName, user.address);
-            history.push('/')
+            history.push('/login')
           }}>
             <CssTextField
               onChange={(e) => validateInfo({...user, email: e.target.value})}
@@ -154,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
             onChange={(e) => validateInfo({...user, password: e.target.value})}
               value={user.password}
               error={!invalid ? false : true}
-              helperText='Password must be 8 caracter legth, one uppercase and one number'
+              helperText='Password must contain at least 8 character length, one uppercase and one number'
               margin="normal"
               required
               fullWidth
@@ -164,11 +163,7 @@ const useStyles = makeStyles((theme) => ({
               id="password"
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-            
+
             <Button
               type="submit"
               fullWidth
