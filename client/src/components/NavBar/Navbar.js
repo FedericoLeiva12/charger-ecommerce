@@ -57,7 +57,7 @@ const NavBar = props => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="menu"
-                        onClick={() => {props.getCategories(); props.accionAbrir()}}
+                        onClick={() => {props.getCategories(); props.onOpen()}}
                     >
                         <MenuIcon />
                     </IconButton>

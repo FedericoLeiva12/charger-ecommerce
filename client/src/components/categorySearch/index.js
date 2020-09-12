@@ -72,27 +72,19 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
                     i++;
                   }
 
-                  return results;
-                } else {
-                  return "";
-                }
-              })()
-            }
-          </Grid>
-          <div>
-            <Container
-              setAlert={setAlert}
-              prendas={products.map((prod) => ({
-                imagen: prod.imgs[0].url,
-                titulo: prod.name,
-                precio: prod.price,
-                id: prod.id,
-                stock: prod.stock,
-              }))}
-              addToCart={addToCart}
-              removeFromCart={removeFromCart}
-            />
-          </div>
+                })()
+              }
+            </Grid>
+            <div>
+                <Container
+		setAlert={setAlert} 
+		products={products.map(prod => ({
+		  image: prod.imgs[0].url,
+		  title: prod.name, price: prod.price,
+		  id: prod.id, stock: prod.stock}))}
+		  addToCart={addToCart}
+		  removeFromCart={removeFromCart} />
+            </div>
         </div>
       </ThemeProvider>
       <Snackbar
