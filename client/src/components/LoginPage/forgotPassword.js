@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(0),
+      marginTop: theme.spacing(1),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
       margin: theme.spacing(1),
       backgroundColor: 'rgba(255, 255, 255, 0.24)',
-      border: '2px solid #f6f6f6'
+      border: '2px solid #fafafa'
     },
     form: {
       width: '100%',
@@ -32,15 +32,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(255, 255, 255, 0.24)',
       padding: 30,
       borderRadius:  20,
-      border: '2px solid #f6f6f6',
-      color: '#f6f6f6'
+      border: '2px solid #fafafa',
+      color: '#fafafa'
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      border: '2px solid #f6f6f6',
-      color: '#f4f4f4',
+      border: '2px solid #fafafa',
+      color: '#fafafa',
       "&:hover":{
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#fafafa',
         color: '#1C1C1C',
         transition: '0.7s'
       }
@@ -50,13 +50,13 @@ const useStyles = makeStyles((theme) => ({
   const CssTextField = withStyles({
     root: {
       '& label.Mui-focused': {
-        color: '#f6f6f6',
+        color: '#fafafa',
       },
       '& .MuiInput-underline:after': {
-        borderBottomColor: '#f6f6f6',
+        borderBottomColor: '#fafafa',
       },
       '& .MuiInput-underline:before': {
-        borderBottomColor: '#f6f6f6',
+        borderBottomColor: '#fafafa',
       },
     },
   })(TextField);
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
-            LOGIN
+            RESET PASSWORD
           </Typography>
           <form className={classes.form} noValidate>
             <CssTextField
@@ -106,11 +106,11 @@ const useStyles = makeStyles((theme) => ({
             //   color='primary'
               className={classes.submit}
             >
-              Recover
+              Reset
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/login' style={{textDecoration: 'none', color: '#f6f6f6'}}>
+                <Link to='/login' style={{textDecoration: 'none', color: '#fafafa'}}>
                   I already remembered my password!
                 </Link>
               </Grid>

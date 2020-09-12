@@ -6,9 +6,7 @@ import Style from './createUserPage.module.css'
 function CreateUserPage() {
   return (
     <div className={Style.imgBG}>
-      <div>
       <CreateUser/>
-      </div>
     </div>
   )
 }

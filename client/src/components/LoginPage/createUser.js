@@ -3,11 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -18,7 +15,7 @@ import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(0),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
       margin: theme.spacing(1),
       backgroundColor: 'rgba(255, 255, 255, 0.24)',
-      border: '2px solid #f6f6f6'
+      border: '2px solid #fafafa'
     },
     form: {
       width: '100%',
@@ -34,15 +31,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(255, 255, 255, 0.24)',
       padding: 30,
       borderRadius:  20,
-      border: '2px solid #f6f6f6',
-      color: '#f6f6f6'
+      border: '2px solid #fafafa',
+      color: '#fafafa'
     },
     submit: {
       margin: theme.spacing(2, 0, 2),
-      border: '2px solid #f6f6f6',
-      color: '#f4f4f4',
+      border: '2px solid #fafafa',
+      color: '#fafafa',
       "&:hover":{
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#fafafa',
         color: '#1C1C1C',
         transition: '0.7s'
       }
@@ -50,19 +47,22 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const CssTextField = withStyles({
-    root: {
-      color: 'red',
-      '& label.Mui-focused': {
-        color: '#f6f6f6',
+      root: {
+        color: 'red',
+        '& label': {
+          color: 'rgba(255, 255, 255, 0.40)'
+        },
+        '& label.Mui-focused': {
+          color: '#fafafa',
+        },
+        '& .MuiInput-underline:after': {
+          borderBottomColor: '#fafafa',
+        },
+        '& .MuiInput-underline:before': {
+          borderBottomColor: '#fafafa',
+        },
       },
-      '& .MuiInput-underline:after': {
-        borderBottomColor: '#f6f6f6',
-      },
-      '& .MuiInput-underline:before': {
-        borderBottomColor: '#f6f6f6',
-      },
-    },
-  })(TextField);
+    })(TextField);
 
   function CreateUser({ createUser, history }) {
     const classes = useStyles();
@@ -75,16 +75,17 @@ const useStyles = makeStyles((theme) => ({
       address: ''
     })
 
-    const [error, setError] = React.useState('')
+    const [invalid, setInvalid] = React.useState(false);
 
     function validateInfo({email, name, lastName, address, password}){
-      if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)){
-        setError('Invalid data')
-      }else{
-        setError('')
+      if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+        setInvalid(true)
+      } else {
+        setInvalid(false)
       }
       setUser({email, name, lastName, address, password})
     }
+
 
     return (
       <Container component="main" maxWidth="xs" >
@@ -104,50 +105,56 @@ const useStyles = makeStyles((theme) => ({
             <CssTextField
               onChange={(e) => validateInfo({...user, email: e.target.value})}
               value={user.email}
+              error={!invalid ? false : true}
               margin="normal"
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              autocomplete="section-blue shipping street-address"
+              autoComplete="off"
             />
             <CssTextField
               onChange={(e) => validateInfo({...user, name: e.target.value})}
               value={user.name}
+              error={!invalid ? false : true}
               margin="normal"
               required
               fullWidth
               name="name"
               label="Name"
               id="name"
-              autoComplete="false"
+              autoComplete="off"
             />
             <CssTextField
               onChange={(e) => validateInfo({...user, lastName: e.target.value})}
               value={user.lastName}
+              error={!invalid ? false : true}
               margin="normal"
               required
               fullWidth
               name="lastName"
               label="Last Name"
               id="lastName"
-              autoComplete="false"
+              autoComplete="off"
             />
             <CssTextField
               onChange={(e) => validateInfo({...user, address: e.target.value})}
               value={user.address}
+              error={!invalid ? false : true}
               margin="normal"
               required
               fullWidth
               name="address"
               label="Adress"
               id="address"
-              autoComplete="false"
+              autoComplete="off"
             />
             <CssTextField
             onChange={(e) => validateInfo({...user, password: e.target.value})}
               value={user.password}
+              error={!invalid ? false : true}
+              helperText='Password must be 8 caracter legth, one uppercase and one number'
               margin="normal"
               required
               fullWidth
@@ -166,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
               type="submit"
               fullWidth
               className={classes.submit}
-              disabled={!error ? false : true}
+              disabled={!invalid ? false : true}
             >
               Sign Up
             </Button>
