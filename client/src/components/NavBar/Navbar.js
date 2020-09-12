@@ -1,17 +1,18 @@
-import React from 'react'
-import SearchBar from '../SearchBar/index'
+import React from 'react';
+import SearchBar from '../SearchBar/index';
 
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import {makeStyles} from '@material-ui/core'
-import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined'
-import {Link} from 'react-router-dom'
-import { connect } from 'react-redux'
-import { getCategories } from '../../store/actions'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import {makeStyles} from '@material-ui/core';
+import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
+import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getCategories } from '../../store/actions';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,7 +74,9 @@ const NavBar = props => {
                             </Button>
                         <Button className={classes.title}>
                         <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
+       <Badge badgeContent={props.cart?props.cart.length:0} color="primary">
                             <LocalMallOutlinedIcon />
+      </Badge>
                         </Link>
                         </Button>
                     </Typography>

@@ -11,7 +11,6 @@ const styles = makeStyles(theme => ({
     },
 }))
 
-
 const Contenedor = ({noTransparent})=>{
     
     const classes = styles()

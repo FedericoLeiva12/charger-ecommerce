@@ -1,10 +1,11 @@
 import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS } from '../constants';
 
+import { loadState, saveState } from '../../localStorage';
 
 const initialState = {
     categories: [],
     products: [],
-    cart:[],
+    cart: loadState()? loadState():[],
     selectors: [],
 
     error: false,
