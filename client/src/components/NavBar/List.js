@@ -22,7 +22,7 @@ function List({categories}){
         <div>
             {categories
                 .filter(cat => 
-                    (cat.name === 'Tipo' || cat.name === 'Temporada')
+                    (cat.name === 'Type' || cat.name === 'Season')
                 ).map((cat, index) => (
                     <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
                 ))
