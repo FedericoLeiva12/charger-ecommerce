@@ -13,6 +13,7 @@ import CategoriaPage from './pages/categoriaPage';
 import LoginPage from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
 import userPanelPage from './pages/userPanelPage';
+import orderPage from './pages/orderPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route exact path='/checkout' component={CheckoutPage} />
       <Route exact path='/product/:product' component={ProductoPage} />
       <Route exact path='/user' component={userPanelPage} />
+      <Route exact path='/order/:id' component={orderPage} />
       {/* Admin Routes */}
       <Route exact path='/admin' component={AdminPage} />
     </Switch>

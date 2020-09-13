@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, AppBar, Tabs, Tab, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
 import TabPanel from '../components/TabPanel';
 import UserCard from '../components/UserCard';
 import NavBarContainer from '../components/NavBar/Container'
 import OrderCard from '../components/orderCard';
+import { getOrders } from '../store/actions';
 
 const useStyle = makeStyles({
     content: {
@@ -15,10 +16,14 @@ const useStyle = makeStyles({
     }
 })
 
-function UserPanelPage () {
+function UserPanelPage ({orders, getOrders}) {
     const [tab, setTab] = useState(0);
 
     const classes = useStyle();
+
+    useEffect(() => {
+        getOrders();
+    }, []);
 
     function a11yProps(index) {
         return {
@@ -53,26 +58,32 @@ function UserPanelPage () {
 
             {/* ORDERS */}
             <TabPanel value={tab} index={1}>
-                <OrderCard
-                    id="332"
-                    status="active"
-                    products={[{
-                        titulo: 'West Jean',
-                        precio: 854,
-                        cantidad: 2
-                    },{
-                        titulo: 'West Jean',
-                        precio: 854,
-                        cantidad: 2
-                    },{
-                        titulo: 'West Jean',
-                        precio: 854,
-                        cantidad: 2
-                    },{
-                        titulo: 'West Jean',
-                        precio: 854,
-                        cantidad: 2
-                    }]}/>
+                {orders.map(order => (
+                    <OrderCard
+                        id={order.id}
+                        status={order.status}
+                        products={order.products} />
+                ))}
+                {/* <OrderCard
+                     id="332"
+                     status="active"
+                     products={[{
+                         titulo: 'West Jean',
+                         precio: 854,
+                         cantidad: 2
+                     },{
+                         titulo: 'West Jean',
+                         precio: 854,
+                         cantidad: 2
+                     },{
+                         titulo: 'West Jean',
+                         precio: 854,
+                         cantidad: 2
+                     },{
+                         titulo: 'West Jean',
+                         precio: 854,
+                         cantidad: 2
+                     }]}/> */}
             </TabPanel>
 
             {/* ACCOUNT SETTINGS */}
@@ -85,11 +96,15 @@ function UserPanelPage () {
 }
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        orders: state.orders
+    }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+        getOrders: () => dispatch(getOrders())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPanelPage);

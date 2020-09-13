@@ -90,7 +90,7 @@ export default function Provider(state = initialState, action) {
         case ADD_TO_CART:
               return {
                       ...state,
-                      cart: [...state.cart, action.cart]
+                      cart: state.cart.find(product => product.id === action.cart.id)===undefined? [...state.cart, action.cart]: state.cart
                   }
         case REMOVE_FROM_CART:
               return {

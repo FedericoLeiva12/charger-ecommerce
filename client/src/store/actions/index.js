@@ -18,6 +18,7 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   GET_SELECTORS,
+  GET_ORDERS,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -327,4 +328,23 @@ export function getSelectors() {
       })
       .catch(console.error);
   };
+}
+
+export function getOrders() {
+  return dispatch => {
+    axios.get(`http://${url}/products/orders`)
+      .then(res => {
+        if(res.status >= 200 && res.status <= 299) {
+          dispatch({
+            type: GET_ORDERS,
+            orders: res.data.orders
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text
+          })
+        }
+      }).catch(console.error);
+  }
 }

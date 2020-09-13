@@ -11,7 +11,7 @@ const styles = makeStyles(theme => ({
     },
 }))
 
-const Contenedor = ({noTransparent})=>{
+const Contenedor = ({noTransparent, cart})=>{
     
     const classes = styles()
     const[open, setOpen] = React.useState(false)
@@ -23,7 +23,7 @@ const Contenedor = ({noTransparent})=>{
     return(
         
         <div className={classes.root}>
-            <NavBar onOpen={onOpen} noTransparent={noTransparent}/>
+            <NavBar onOpen={onOpen} noTransparent={noTransparent} cart={cart}/>
             <Hidden xsDown>
                 <Box 
                     variant='temporary'

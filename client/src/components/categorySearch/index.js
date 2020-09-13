@@ -53,20 +53,28 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
             paddingBottom="40px"
           >
             {
-              (() => {
-                if (selectors) {
-                  let results = [];
+              /*selectors.map(cat=>{
+                  return(
+                    <Selector nom={cat.name} desc={cat.description} val={cat.id}/>
+                  )
+                })*/
 
-                  let i = 0;
+               (() => {
+                  if(selectors) {
+                    let results = [];
 
-                  for (let [key, value] of Object.entries(selectors)) {
-                    results.push(
-                      <Selector key={i} nom={key} elements={value} />
-                    );
-                    i++;
+                    let i = 0;
+
+                    for(let [key, value] of Object.entries(selectors)) {
+                      results.push(<Selector key={i} nom={key} elements={value} />)
+                      i++;
+                    }
+
+                    return results
+                  } else {
+                    return ''
                   }
-
-                }})()
+                })()
               }
             </Grid>
             <div>

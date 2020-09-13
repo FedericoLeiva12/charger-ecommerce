@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CartProduct({ product, onClose }) {
   const classes = useStyles();
-
+  product.image = product.image === undefined?product.imgs[0].url:product.image;
   const [amount, setAmount] = useState(1);
 
   return (
@@ -46,7 +46,7 @@ export default function CartProduct({ product, onClose }) {
               <img
                 className={classes.img}
                 /*alt="complex"*/
-                src={product.img[0]}
+                src={product.image}
               />
             </ButtonBase>
           </Grid>
