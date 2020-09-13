@@ -187,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to='/login' style={{textDecoration: 'none', color: '#f6f6f6'}}>
+                <Link to='/login' style={{textDecoration: 'none', color: '#fafafa'}}>
                   I have an acount!
                 </Link>
               </Grid>
@@ -195,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
           </form>
         </div>
         <Snackbar
-                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                 open={open}
                 onClose={handleClose}
                 autoHideDuration={3000}
