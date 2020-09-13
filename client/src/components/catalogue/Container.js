@@ -36,7 +36,7 @@ export default function CenteredGrid(props) {
     <div className={classes.root}>
       <Grid container spacing={3}>
           {listItems}
-     </Grid>
+      </Grid>
     </div>
   );
 }
