@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import {Button, Snackbar} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import {Link} from 'react-router-dom';
@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import { createUser } from '../../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {Alert} from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -74,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
       lastName: '', 
       address: ''
     })
+    const [open, setOpen] = React.useState(false)
 
     const [invalid, setInvalid] = React.useState(true);
     function validateInfo({email, name, lastName, address, password}){
@@ -85,6 +87,16 @@ const useStyles = makeStyles((theme) => ({
       setUser({email, name, lastName, address, password})
     }
 
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+          return
+      }
+      setOpen(false)
+  }
+
+  const handleClick = () => {
+      setOpen(true)
+  }
 
     return (
       <Container component="main" maxWidth="xs" >
@@ -99,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
           <form className={classes.form} noValidate onSubmit={(e) => {
             e.preventDefault();
             createUser(user.email, user.password, user.name, user.lastName, user.address);
-            history.push('/login')
+            // history.push('/login')
           }}>
             <CssTextField
               onChange={(e) => validateInfo({...user, email: e.target.value})}
@@ -169,6 +181,7 @@ const useStyles = makeStyles((theme) => ({
               fullWidth
               className={classes.submit}
               disabled={!invalid ? false : true}
+              onClick={handleClick}
             >
               Sign Up
             </Button>
@@ -181,6 +194,16 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </form>
         </div>
+        <Snackbar
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                open={open}
+                onClose={handleClose}
+                autoHideDuration={3000}
+            >
+                <Alert onClose={handleClose} severity="success" variant='filled'>
+                    ¡Account successfully created!
+                </Alert>
+        </Snackbar>
       </Container>
     );
   }
