@@ -1,5 +1,5 @@
 .imgBG {
-    height: 100vh;
+    height: 115vh;
     background-image: url(../assets/imgs/photoblurredLogIn.png);
     background-repeat: no-repeat;
     background-size: cover;
@@ -10,7 +10,7 @@
   }
 
 .iconDiv {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   margin-bottom: 30px;

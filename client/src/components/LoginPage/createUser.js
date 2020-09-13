@@ -30,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       marginTop: theme.spacing(1),
       backgroundColor: 'rgba(255, 255, 255, 0.24)',
-      padding: 30,
+      padding: 40,
+      paddingTop: 5,
       borderRadius:  20,
       border: '2px solid #fafafa',
-      color: '#fafafa'
+      color: '#fafafa',
     },
     submit: {
       margin: theme.spacing(2, 0, 2),
@@ -73,18 +74,19 @@ const useStyles = makeStyles((theme) => ({
       password: '',
       name: '',
       lastName: '', 
-      address: ''
-    })
-    const [open, setOpen] = React.useState(false)
-
+      address: '',
+      otherPass: ''
+    });
+    const [open, setOpen] = React.useState(false);
     const [invalid, setInvalid] = React.useState(true);
-    function validateInfo({email, name, lastName, address, password}){
-      if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+    
+    function validateInfo({email, name, lastName, address, password, otherPass}){
+      if(!/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(email)|| !name || !lastName || !address || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password) || otherPass !== password) {
         setInvalid(true)
       } else {
         setInvalid(false)
       }
-      setUser({email, name, lastName, address, password})
+      setUser({email, name, lastName, address, password, otherPass})
     }
 
     const handleClose = (event, reason) => {
@@ -157,7 +159,7 @@ const useStyles = makeStyles((theme) => ({
               required
               fullWidth
               name="address"
-              label="Adress"
+              label="Address"
               id="address"
               autoComplete="off"
             />
@@ -165,7 +167,7 @@ const useStyles = makeStyles((theme) => ({
             onChange={(e) => validateInfo({...user, password: e.target.value})}
               value={user.password}
               error={!invalid ? false : true}
-              helperText='Password must contain at least 8 character length, one uppercase and one number'
+              helperText='Password must contain at least 8 character length, one uppercase and one number.'
               margin="normal"
               required
               fullWidth
@@ -173,6 +175,20 @@ const useStyles = makeStyles((theme) => ({
               label="Password"
               type="password"
               id="password"
+              autoComplete="current-password"
+            />
+             <CssTextField
+            onChange={(e) => validateInfo({...user, otherPass : e.target.value})}
+              value={user.otherPass}
+              error={!invalid ? false : true}
+              helperText='Repeat password.'
+              margin="normal"
+              required
+              fullWidth
+              name="otherPass"
+              label="Repeat password"
+              type="password"
+              id="otherPass"
               autoComplete="current-password"
             />
 
