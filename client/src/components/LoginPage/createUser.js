@@ -195,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
           </form>
         </div>
         <Snackbar
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                 open={open}
                 onClose={handleClose}
                 autoHideDuration={3000}
