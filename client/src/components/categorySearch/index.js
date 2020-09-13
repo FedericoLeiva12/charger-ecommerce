@@ -53,12 +53,6 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
             paddingBottom="40px"
           >
             {
-              /*selectors.map(cat=>{
-                  return(
-                    <Selector nom={cat.name} desc={cat.description} val={cat.id}/>
-                  )
-                })*/
-
               (() => {
                 if (selectors) {
                   let results = [];
@@ -72,7 +66,7 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
                     i++;
                   }
 
-                })()
+                }})()
               }
             </Grid>
             <div>

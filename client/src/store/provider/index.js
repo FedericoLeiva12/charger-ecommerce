@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS } from '../constants';
+import { GET_CATEGORIES, GET_PRODUCTS, ERROR_MESSAGE, ADD_CATEGORY, MODIFY_CATEGORY, DELETE_CATEGORY, ADD_PRODUCT, DELETE_PRODUCTS, ADD_CATEGORY_PRODUCT, REMOVE_CATEGORY_PRODUCT, GET_PRODUCTS_BY_CATEGORY, MODIFY_PRODUCT, GET_CART ,ADD_TO_CART, REMOVE_FROM_CART, GET_SELECTORS, GET_ORDERS } from '../constants';
 
 import { loadState, saveState } from '../../localStorage';
 
@@ -7,7 +7,7 @@ const initialState = {
     products: [],
     cart: loadState()? loadState():[],
     selectors: [],
-
+    orders: [],
     error: false,
     errorMessage: ''
 };
@@ -97,17 +97,22 @@ export default function Provider(state = initialState, action) {
                       ...state,
                       cart: state.cart.filter(prod => prod.id !== Number(action.id))
                 }
-            case GET_SELECTORS:
-              return {
-                      ...state,
-                      selectors: action.selectors
-                }
-            case ERROR_MESSAGE:
-              return {...state,
-                      error: true,
-                      errorMessage: action.message
-                }
-            default:
-              return { ...state };
+        case GET_SELECTORS:
+          return {
+                  ...state,
+                  selectors: action.selectors
+            }
+        case GET_ORDERS:
+            return {
+                ...state,
+                orders: action.orders
+            }
+        case ERROR_MESSAGE:
+          return {...state,
+                  error: true,
+                  errorMessage: action.message
+            }
+        default:
+          return { ...state };
     }
 }

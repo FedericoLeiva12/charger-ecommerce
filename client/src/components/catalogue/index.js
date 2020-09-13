@@ -78,7 +78,7 @@ function Catalogo({
                     );
                     i++;
                   }
-                })()
+              }})()
               }
             </Grid>
             <div>

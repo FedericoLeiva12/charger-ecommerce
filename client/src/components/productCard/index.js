@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { SvgIcon, Snackbar } from "@material-ui/core";
 import Style from "../productCard/style.module.css";
-import carrito from "../../assets/imgs/carrito_icon.png";
+import cart from "../../assets/imgs/carrito_icon.png";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -29,37 +29,36 @@ export default function ProductCard(props) {
 
   return (
     <div className={Style.wrapper}>
-
-  <div className={Style.container}>
-  <Link to={`/product/${props.product.id}`}>
-    <img src={props.product.image} alt='product' className={Style.top}/>
-  </Link>
-    <div className={`${Style.bottom} ${active === Style.first ? Style.clicked: ''}` } >
-      <div className={Style.left}>
-        <div className={Style.details}>
-          <div className={Style.title}>
-              <h3>{props.product.title}</h3>
-          </div>
-          <p>${props.product.price} </p>
-          </div>
-        <div className={Style.buy} > <img className={Style.first} src={cart} alt='cart' onClick={handleClick}/> </div>
-      </div>
-      <div className={Style.right}>
-        <div className={Style.done}><SvgIcon component={DoneIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }} /></div>
-        <div className={Style.details}>
-          <div className={Style.title2}>
-          <h3>{props.product.title} </h3>
+      <div className={Style.container}>
+        <Link to={`/product/${props.product.id}`}>
+          <img src={props.product.image} alt='product' className={Style.top}/>
+        </Link>
+        <div className={`${Style.bottom} ${active === Style.first ? Style.clicked: ''}` } >
+          <div className={Style.left}>
+            <div className={Style.details}>
+              <div className={Style.title}>
+                <h3>{props.product.title}</h3>
+              </div>
+              <p>${props.product.price} </p>
+            </div>
+          <div className={Style.buy} > <img className={Style.first} src={cart} alt='cart' onClick={handleClick}/> </div>
+        </div>
+        <div className={Style.right}>
+          <div className={Style.done}><SvgIcon component={DoneIcon} style={{fontSize:60, paddingLeft:15, paddingTop:10 }} /></div>
+          <div className={Style.details}>
+            <div className={Style.title2}>
+              <h3>{props.product.title} </h3>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={Style.inside}>
-        <div className={Style.icon}>
-          {" "}
-          <SvgIcon component={InfoOutlinedIcon} />{" "}
-        </div>
-        <div className={Style.contents}>
+        <div className={Style.inside}>
+          <div className={Style.icon}>
+            {" "}
+            <SvgIcon component={InfoOutlinedIcon} />{" "}
+          </div>
+          <div className={Style.contents}>
           <table>
-            {/* <tr>
+            {/*<tr>
           <th>Talle</th>
           <th>Color</th>
         </tr>
@@ -82,12 +81,14 @@ export default function ProductCard(props) {
         <tr>
           <td>XXL</td>
           <td>Blanco</td>
-        </tr> */}
+        </tr>*/}
 
             {/* <th> {props.prenda.categories} </th> */}
           </table>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
