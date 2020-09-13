@@ -20,21 +20,13 @@ function List({categories}){
 
     return(
         <div>
-            {categories.filter(cat => (cat.name === 'Tipo' || cat.name === 'Temporada')).map((cat, index) => (
-                <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
-            ))}
-            {/*<Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 1</h1>
-            </Link>
-            <Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 2</h1>
-            </Link>
-            <Link to='/category/:categoria' className={classes.categories}>
-                <h1>CATEGORIA 3</h1>
-            </Link>
-            <Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 4</h1>
-            </Link>*/}
+            {categories
+                .filter(cat => 
+                    (cat.name === 'Type' || cat.name === 'Season')
+                ).map((cat, index) => (
+                    <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
+                ))
+            }
             <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>

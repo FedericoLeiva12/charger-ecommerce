@@ -23,15 +23,9 @@ const useStyles = makeStyles({
 export default function CenteredGrid(props) {
   const classes = useStyles();
 
-  // if(!props.predas) {
-  //   return (
-  //     <NoProducts />
-  //   )
-  // }
-
-  const listItems = props.prendas.map((prenda, index) =>
+  const listItems = props.products.map((prod, index) =>
     <Grid key={index} item xs={4}>
-      <ProductCard prenda={prenda} setAlert={props.setAlert} />
+      <ProductCard product={prod} setAlert={props.setAlert} />
     </Grid>
   );
 
