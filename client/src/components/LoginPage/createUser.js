@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
+          <Typography component="h1" variant="h5" style={{color: '#fafafa'}}>
             SIGN UP
           </Typography>
           <form className={classes.form} noValidate onSubmit={(e) => {
