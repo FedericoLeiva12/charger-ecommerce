@@ -1,14 +1,14 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("checkout", {
+  sequelize.define("shoppingCart", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     content: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSON,
     },
     state: {
       type: DataTypes.ENUM("open", "closed"),

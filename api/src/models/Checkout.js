@@ -8,15 +8,24 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     state: {
-      type: DataTypes.ENUM("pending", "complete"),
+      type: DataTypes.ENUM("pending", "shipping", "complete"),
     },
-    completeOrder: {
+    shipOrder: {
       type: DataTypes.VIRTUAL,
       set() {
-        if (this.state === "complete") {
-          throw new Error("This order is already completed");
+        if (this.state === "shipping") {
+          throw new Error("This order is already on shipping");
         }
-        return this.setDataValues("state", "complete");
+        return this.setDataValues("state", "shipping");
+      },
+      completeOrder: {
+        type: DataTypes.VIRTUAL,
+        set() {
+          if (this.state === "complete") {
+            throw new Error("This order is already completed");
+          }
+          return this.setDataValues("state", "complete");
+        },
       },
     },
   });
