@@ -36,7 +36,6 @@ function Catalogo({
   selectors,
   cart,
   addToCart,
-  removeFromCart,
 }) {
   const classes = useStyles();
 
@@ -66,29 +65,40 @@ function Catalogo({
                   )
                 })*/
 
-               (() => {
-                  if(selectors) {
-                    let results = [];
+              (() => {
+                if (selectors) {
+                  let results = [];
 
-                    let i = 0;
+                  let i = 0;
 
-                    for(let [key, value] of Object.entries(selectors)) {
-                      results.push(<Selector key={i} nom={key} elements={value} />)
-                      i++;
-                    }
-
-                    return results
-                  } else {
-                    return ''
+                  for (let [key, value] of Object.entries(selectors)) {
+                    results.push(
+                      <Selector key={i} nom={key} elements={value} />
+                    );
+                    i++;
                   }
-                })()
-              }
-            </Grid>
-            <div>
-                <Container setAlert={setAlert} products={products.map(prod => ({image: prod.imgs[0].url, title: prod.name, price: prod.price, id: prod.id, stock: prod.stock, categories: prod.categories}))}  addToCart={addToCart}
-              removeFromCart={removeFromCart}
- />
-            </div>
+
+                  return results;
+                } else {
+                  return "";
+                }
+              })()
+            }
+          </Grid>
+          <div>
+            <Container
+              setAlert={setAlert}
+              products={products.map((prod) => ({
+                image: prod.imgs[0].url,
+                title: prod.name,
+                price: prod.price,
+                id: prod.id,
+                stock: prod.stock,
+                categories: prod.categories,
+              }))}
+              addToCart={addToCart}
+            />
+          </div>
         </div>
       </ThemeProvider>
       <Snackbar
@@ -114,7 +124,6 @@ function mapDispatchToProps(dispatch) {
     getProducts: () => dispatch(getProducts()),
     getSelectors: () => dispatch(getSelectors()),
     addToCart: (product) => dispatch(addToCart(product)),
-    removeFromCart: (product) => dispatch(removeFromCart(product.id)),
   };
 }
 
