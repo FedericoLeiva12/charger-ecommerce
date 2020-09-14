@@ -48,7 +48,6 @@ const {
   Checkout,
   ShoppingCart,
 } = sequelize.models;
-console.log(capsEntries);
 
 // Aca vendrian las relaciones
 Product.hasMany(Img);
