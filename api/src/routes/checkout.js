@@ -1,5 +1,5 @@
 const server = require("express").Router();
-const { Checkout, ShoppingCart } = require("../db.js");
+const { Checkout, ShoppingCart, User } = require("../db.js");
 
 //getCarts
 server.get("/", (req, res) => {
@@ -11,13 +11,21 @@ server.get("/", (req, res) => {
 //postCarts
 server.post("/", (req, res) => {
   const { content } = req.body;
-
+  const { sessionToken } = req.body;
+  const useremail = new Buffer(sessionToken, "hex").toString().split(":")[0];
   ShoppingCart.create({
     content,
   })
     .then((shpcart) => {
       Checkout.create()
         .then((order) => {
+          User.findOne({
+            where: {
+              email: useremail,
+            },
+          }).then((user) => {
+            order.setUser(user);
+          });
           return order.setShoppingCart(shpcart);
         })
         .then((newOrder) => {
