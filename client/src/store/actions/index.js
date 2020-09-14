@@ -19,7 +19,13 @@ import {
   REMOVE_FROM_CART,
   GET_SELECTORS,
   GET_ORDERS,
+  CREATE_USER,
+  LOGIN,
+  LOGOUT,
+  CHECK_LOGIN
 } from "../constants";
+
+import encrypt from '../../utils';
 
 const url = "localhost:3001";
 
@@ -330,6 +336,7 @@ export function getSelectors() {
   };
 }
 
+
 export function getOrders() {
   return dispatch => {
     axios.get(`http://${url}/products/orders`)
@@ -348,3 +355,92 @@ export function getOrders() {
       }).catch(console.error);
   }
 }
+
+export function createUser(email, password, name, lastName, address) {
+    return dispatch => {
+        axios.post(`http://${url}/users`, {
+            email, password, name, lastName, address //aca se los pasamos por body
+        }).then(res => {
+            if(res.status === 200) {
+                dispatch({
+                    type: CREATE_USER, // aca se dispatacha esta accion para que el reducer sepa que hacer
+                    createdUser: res.data.createdUser // aca se lo envio como createdUser
+                })
+            } else {
+                dispatch({
+                    type: ERROR_MESSAGE,
+                    message: res.data.text
+                })
+            }
+        }).catch(console.error)
+    }
+}
+
+export function loginUser(email, password) {
+    return dispatch => {
+        axios.get(`http://${url}/users/secure`)
+            .then(res => {
+                const key = res.data.key;
+
+                const encrypted = encrypt(key, `${email}:${password}`);
+
+                return axios.post(`http://${url}/users/login`, { data: encrypted, key});
+            }).then(res => {
+                if(res.data.logged === true) {
+                    const sessionToken = res.data.sessionToken;
+
+                    localStorage.setItem('sessionToken', sessionToken);
+
+                    dispatch({
+                        type: LOGIN,
+                        user: res.data.user,
+                        logged: res.data.logged
+                    });
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
+                }
+            })
+    }
+}
+
+export function logout() {
+    return dispatch => {
+        axios.post(`http://${url}/users/signout`, {
+            sessionToken: localStorage.getItem('sessionToken')
+        });
+
+        localStorage.removeItem('sessionToken');
+
+        dispatch({
+            type: LOGOUT,
+            logged: false,
+            user: null
+        })
+    }
+}
+
+export function checkLogin() {
+    return dispatch => {
+        axios.post(`http://${url}/users/checklog`, {
+            sessionToken: localStorage.getItem('sessionToken')
+        }).then(res => {
+            if(res.data.logged) {
+                dispatch({
+                    type: CHECK_LOGIN,
+                    logged: res.data.logged,
+                    user: res.data.user
+                })
+            } else {
+                dispatch({
+                    type: ERROR_MESSAGE,
+                    message: res.data.text
+                })
+            }
+        })
+    }
+}
+                                            //  w
+// en este caso, vamos a llevarnos esta funcion |

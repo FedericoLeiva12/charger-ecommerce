@@ -8,7 +8,7 @@ const useStyle = makeStyles({
     info: {}
 })
 
-export default function UserCard({name, email, birth, address}) {
+export default function UserCard({name, email, address}) {
     const classes = useStyle();
 
     return (
@@ -16,7 +16,6 @@ export default function UserCard({name, email, birth, address}) {
             <CardContent>
                 <Typography className={classes.title}>{name}</Typography>
                 <Typography className={classes.info}>{email}</Typography>
-                <Typography className={classes.info}>{birth}</Typography>
                 <Typography className={classes.info}>{address}</Typography>
             </CardContent>
         </Card>

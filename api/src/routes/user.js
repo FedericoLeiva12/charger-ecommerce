@@ -1,5 +1,6 @@
 const server = require('express').Router();
-const { User, InfoUser } = require('../db.js');
+const { User, InfoUser, Secure } = require('../db.js');
+const { decrypt, generatePair } = require('../utils/index.js');
 
 // All users
 server.get('/', (req, res, next) => {
@@ -9,6 +10,103 @@ server.get('/', (req, res, next) => {
     })
     .catch(next)
 });
+
+server.get('/secure', (req, res) => {
+  generatePair()
+    .then(pair => {
+      return Secure.create({
+        publicKey: pair.publicKey,
+        privateKey: pair.privateKey
+      })
+    }).then(secure => {
+      res.send({ key: secure.publicKey });
+    })
+});
+
+// Login
+server.post('/login', (req, res) => {
+  const {data, key} = req.body;
+  
+  let logData = {};
+
+  Secure.findOne({
+    where: {
+      publicKey: key
+    }
+  }).then(secure => {
+    const [email, password] = decrypt(secure.privateKey, data).message.split(':');
+    logData = {email, password};
+
+    return User.findOne({ where: { email: email }, include: InfoUser})
+  }).then(user => {
+    if(user) {
+      if(user.password === logData.password) {
+        res.send({ logged: true, sessionToken: new Buffer(data + '@' + key).toString('hex'), user: {
+          name: user.infoUser.name,
+          email: user.email,
+          lastName: user.infoUser.lastName,
+          address: user.infoUser.address
+        }});
+      } else {
+        console.log(user.password, logData.password)
+        res.send({ logged: false, text: 'Invalid password'});
+      }
+    } else {
+      res.status(400).send({ text: 'User with that email don\'t exists' });
+    }
+  }).catch(console.error)
+});
+
+// Logout
+server.post('/logout', (req, res) => {
+  const { sessionToken } = req.body;
+
+  const [_data, key] = new Buffer(sessionToken, 'hex').toString().split('@');
+
+  Secure.destroy({
+    where: {
+      publicKey: key
+    }
+  }).then(() => res.send({logged: false, text: 'Signed out'}))
+  .catch(err => {
+    res.status(500).send({text: 'Internal error.'});
+    console.error(err);
+  });
+})
+
+// Check if have a valid token
+server.post('/checklog', (req, res) => {
+  const { sessionToken } = req.body;
+
+  const [data, key] = new Buffer(sessionToken, 'hex').toString().split('@');
+
+  Secure.findOne({
+    where: {
+      publicKey: key
+    }
+  }).then(secure => {
+    const [email, password] = decrypt(secure.privateKey, data).message.split(':');
+    logData = {email, password};
+
+    return User.findOne({ where: { email: email }, include: InfoUser})
+  }).then(user => {
+    if(user) {
+      if(user.password === logData.password) {
+        res.send({ logged: true, user: {
+          name: user.infoUser.name,
+          email: user.email,
+          lastName: user.infoUser.lastName,
+          address: user.infoUser.address
+        }});
+      } else {
+        console.log(user.password, logData.password)
+        res.status(400).send({ logged: false, text: 'Invalid password'});
+      }
+    } else {
+      res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
+    }
+  }).catch(console.error)
+})
 
 
 // Create Users
@@ -32,9 +130,9 @@ server.post('/', (req,res,next)=>{
     })
   })
   .then(createdUser => {
-    res.status(201).send({
+    res.status(200).send({
       text : 'User created succesfully!',
-      user : createdUser.dataValues
+      createdUser : createdUser.dataValues
     })
   })
   .catch(err => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {makeStyles} from '@material-ui/core'
-import { getCategories } from '../../store/actions';
+import {makeStyles, Typography} from '@material-ui/core'
+import { getCategories, logout } from '../../store/actions';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles(()=>({
@@ -15,7 +15,7 @@ const useStyles = makeStyles(()=>({
     }
 }))
 
-function List({categories}){
+function List({categories, logged, onSignout}){
     const classes = useStyles()
 
     return(
@@ -30,19 +30,22 @@ function List({categories}){
             <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>
+            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGNOUT</h1></Link>)}
         </div>
     )
 }
 
 function mapStateToProps(state) {
     return {
-        categories: state.categories
+        categories: state.categories,
+        logged: state.logged
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: () => dispatch(getCategories)
+        getCategories: () => dispatch(getCategories),
+        onSignout: () => dispatch(logout())
     }
 }
 

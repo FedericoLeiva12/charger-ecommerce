@@ -16,7 +16,7 @@ const useStyle = makeStyles({
     }
 })
 
-function UserPanelPage ({orders, getOrders}) {
+function UserPanelPage ({orders, getOrders, user}) {
     const [tab, setTab] = useState(0);
 
     const classes = useStyle();
@@ -49,11 +49,10 @@ function UserPanelPage ({orders, getOrders}) {
 
             {/* USER INFORMATION */}
             <TabPanel value={tab} index={0}>
-                <UserCard
-                    name="Federico Julian Leiva"
-                    email="federicoleivap@gmail.com"
-                    birth="12/28/2001"
-                    address="A. Sastre 1487, Lomas de Zamora, Llavallol (1836)"/>
+                {user && (<UserCard
+                    name={`${user.name} ${user.lastName}`}
+                    email={user.email}
+                    address={user.address}/>)}
             </TabPanel>
 
             {/* ORDERS */}
@@ -97,7 +96,8 @@ function UserPanelPage ({orders, getOrders}) {
 
 function mapStateToProps(state) {
     return {
-        orders: state.orders
+        orders: state.orders,
+        user: state.user
     }
 }
 

@@ -1,7 +1,8 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import ProductCard from "../productCard";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import ProductCard from '../productCard';
+import NoProducts from './NoProducts';
 
 const useStyles = makeStyles({
   root: {
@@ -32,7 +33,7 @@ export default function CenteredGrid(props) {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {listItems}
+          {listItems}
       </Grid>
     </div>
   );
