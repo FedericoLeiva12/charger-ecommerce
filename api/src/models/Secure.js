@@ -5,12 +5,12 @@ module.exports = (sequelize) => {
 
     sequelize.define('secure', {
         publicKey : {
-            type : DataTypes.STRING,
+            type : DataTypes.TEXT,
             allowNull: false,
             unique: true
         },
         privateKey: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
             unique: true
         }

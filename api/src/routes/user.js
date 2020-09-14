@@ -85,26 +85,30 @@ server.post('/checklog', (req, res) => {
       publicKey: key
     }
   }).then(secure => {
+    if(!secure) {
+      return res.status(400).send({ tet: 'Not logged.'});
+    }
+
     const [email, password] = decrypt(secure.privateKey, data).message.split(':');
     logData = {email, password};
 
-    return User.findOne({ where: { email: email }, include: InfoUser})
-  }).then(user => {
-    if(user) {
-      if(user.password === logData.password) {
-        res.send({ logged: true, user: {
-          name: user.infoUser.name,
-          email: user.email,
-          lastName: user.infoUser.lastName,
-          address: user.infoUser.address
-        }});
+    User.findOne({ where: { email: email }, include: InfoUser}).then(user => {
+      if(user) {
+        if(user.password === logData.password) {
+          res.send({ logged: true, user: {
+            name: user.infoUser.name,
+            email: user.email,
+            lastName: user.infoUser.lastName,
+            address: user.infoUser.address
+          }});
+        } else {
+          console.log(user.password, logData.password)
+          res.status(400).send({ logged: false, text: 'Invalid password'});
+        }
       } else {
-        console.log(user.password, logData.password)
-        res.status(400).send({ logged: false, text: 'Invalid password'});
+        res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
       }
-    } else {
-      res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
-    }
+    }).catch(console.error)
   }).catch(console.error)
 })
 
