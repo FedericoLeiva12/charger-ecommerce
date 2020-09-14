@@ -82,7 +82,8 @@ function Catalogo({ products, selectors, addToCart, cart, removeFromCart }) {
 		setAlert={setAlert} 
 		products={products.map(prod => ({
 		  image: prod.imgs[0].url,
-		  title: prod.name, price: prod.price,
+      title: prod.name, price: prod.price,
+      name: prod.name, description: prod.description,
 		  id: prod.id, stock: prod.stock}))}
 		  addToCart={addToCart}
 		  removeFromCart={removeFromCart} />
