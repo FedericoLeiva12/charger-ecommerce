@@ -16,11 +16,24 @@ server.post("/", (req, res) => {
     content,
   })
     .then((shpcart) => {
-      res.send(shpcart);
+      Checkout.create()
+        .then((order) => {
+          return order.setShoppingCart(shpcart);
+        })
+        .then((newOrder) => {
+          res.send(newOrder);
+        });
     })
     .catch((err) => {
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
 });
+//CreateCheckout
+server.get("/check", (req, res) => {
+  Checkout.findAll().then((orders) => {
+    res.send(orders);
+  });
+});
+
 module.exports = server;
