@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart, removeFromCart } from "../../store/actions";
+import { getProducts, getCart, removeFromCart, checkout } from "../../store/actions";
 import CartProduct from "./CartProduct";
 
 import {
@@ -10,6 +10,7 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
+import { Button } from "@material-ui/core";
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
@@ -22,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Checkout({ cart, getCart, removeFromCart }) {
+function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -47,6 +48,9 @@ function Checkout({ cart, getCart, removeFromCart }) {
                   product={prod}
                 />
               ))}
+              <Button onClick={onCheckout} style={{
+                backgroundColor: '#F84'
+              }}>Checkout</Button>
             </>
           ) : (
             /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
@@ -73,6 +77,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
+    onCheckout: () => dispatch(checkout())
   };
 }
 

@@ -23,6 +23,7 @@ import {
   LOGIN,
   CHECK_LOGIN,
   LOGOUT,
+  CHECKOUT,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -380,8 +381,32 @@ export function loginUser(email, password) {
           message: res.data.text,
         });
       }
-    });
+    }).catch(console.error);
   };
+}
+
+export function checkout() {
+  const content = localStorage.getItem('cart');
+  const sessionToken = localStorage.getItem('sessionToken');
+
+  return dispatch => {
+    axios.post(`http://${url}/checkout`, {
+      content, sessionToken
+    }).then(res => {
+      const order = res.data.order;
+      if(order) {
+        dispatch({
+          type: CHECKOUT,
+          order: order
+        })
+      } else {
+        dispatch({
+          type: ERROR_MESSAGE,
+          message: res.data.text
+        })
+      }
+    }).catch(console.error)
+  }
 }
 
 export function logout() {
@@ -414,7 +439,7 @@ export function checkLogin() {
             message: res.data.text,
           });
         }
-      });
+      }).catch(console.error);
   };
 }
 //  w

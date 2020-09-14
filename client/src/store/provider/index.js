@@ -19,6 +19,7 @@ import {
   LOGIN,
   CHECK_LOGIN,
   LOGOUT,
+  CHECKOUT,
 } from "../constants";
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   users: [],
   logged: false,
   user: null,
+  orders: [],
 
   error: false,
   errorMessage: "",
@@ -36,6 +38,10 @@ const initialState = {
 
 export default function Provider(state = initialState, action) {
   switch (action.type) {
+    case '@@INIT':
+      return {
+        ...state
+      }
     case GET_CATEGORIES:
       return { ...state, categories: action.categories };
     case ADD_CATEGORY:
@@ -152,6 +158,11 @@ export default function Provider(state = initialState, action) {
         logged: action.logged,
         user: action.user || null,
       };
+    case CHECKOUT:
+      return {
+        ...state,
+        orders: [...state.orders, action.order]
+      }
     case ERROR_MESSAGE:
       return { ...state, error: true, errorMessage: action.message };
     default:
