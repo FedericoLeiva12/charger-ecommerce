@@ -332,22 +332,24 @@ export function logout() {
 
 export function checkLogin() {
     return dispatch => {
-        axios.post(`http://${url}/users/checklog`, {
-            sessionToken: localStorage.getItem('sessionToken')
-        }).then(res => {
-            if(res.data.logged) {
-                dispatch({
-                    type: CHECK_LOGIN,
-                    logged: res.data.logged,
-                    user: res.data.user
-                })
-            } else {
-                dispatch({
-                    type: ERROR_MESSAGE,
-                    message: res.data.text
-                })
-            }
-        })
+        if(localStorage.getItem('sessionToken')) {
+            axios.post(`http://${url}/users/checklog`, {
+                sessionToken: localStorage.getItem('sessionToken')
+            }).then(res => {
+                if(res.data.logged) {
+                    dispatch({
+                        type: CHECK_LOGIN,
+                        logged: res.data.logged,
+                        user: res.data.user
+                    })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
+                }
+            }).catch(err => console.error(err))
+        }
     }
 }
                                             //  w

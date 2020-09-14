@@ -2,7 +2,7 @@ const { RSA, Crypt} = require('hybrid-crypto-js');
 
 const entropy = 'Este es el mejor ecommerce de todos carajo';
 const crypt = new Crypt({ entropy: entropy });
-const rsa = new RSA({ entropy: entropy, keySize: 512 });
+const rsa = new RSA({ entropy: entropy, keySize: 1024 });
 
 function encrypt(key, message) {
     return crypt.encrypt(key, message);
