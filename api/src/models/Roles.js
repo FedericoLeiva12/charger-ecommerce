@@ -5,7 +5,8 @@ module.exports = (sequelize) => {
 
     sequelize.define('roles', {
         rol : {
-            type : DataTypes.ENUM('admin', 'client', 'guest') 
+            type : DataTypes.ENUM('admin', 'client', 'guest'),
+            defaultValue: 'client'
         }
     });
 }  

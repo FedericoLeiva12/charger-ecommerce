@@ -15,15 +15,20 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   GET_SELECTORS,
+  CREATE_USER,
+  LOGIN,
+  CHECK_LOGIN,
+  LOGOUT,
 } from "../constants";
-
-import { loadState, saveState } from "../../localStorage";
 
 const initialState = {
   categories: [],
   products: [],
-  cart: loadState() ? loadState() : [],
+  cart: [],
   selectors: [],
+  users: [],
+  logged: false,
+  user: null,
 
   error: false,
   errorMessage: "",
@@ -112,11 +117,7 @@ export default function Provider(state = initialState, action) {
     case ADD_TO_CART:
       return {
         ...state,
-        cart:
-          state.cart.find((product) => product.id === action.cart.id) ===
-          undefined
-            ? [...state.cart, action.cart]
-            : state.cart,
+        cart: [...state.cart, action.cart],
       };
     case REMOVE_FROM_CART:
       return {
@@ -127,6 +128,29 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         selectors: action.selectors,
+      };
+    case CREATE_USER:
+      return {
+        ...state,
+        users: [...state.users, action.createdUser], //entonces aca lo guardo como tal dentro de un array de users
+      };
+    case LOGIN:
+      return {
+        ...state,
+        logged: action.logged,
+        user: action.user || null,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        logged: action.logged,
+        user: action.user || null,
+      };
+    case CHECK_LOGIN:
+      return {
+        ...state,
+        logged: action.logged,
+        user: action.user || null,
       };
     case ERROR_MESSAGE:
       return { ...state, error: true, errorMessage: action.message };

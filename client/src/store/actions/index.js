@@ -1,4 +1,5 @@
 import axios from "axios";
+import encrypt from "../../utils";
 
 import { loadState, saveState } from "../../localStorage";
 import {
@@ -18,6 +19,10 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   GET_SELECTORS,
+  CREATE_USER,
+  LOGIN,
+  CHECK_LOGIN,
+  LOGOUT,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -328,3 +333,89 @@ export function getSelectors() {
       .catch(console.error);
   };
 }
+
+export function createUser(email, password, name, lastName, address) {
+  return (dispatch) => {
+    axios
+      .post(`http://${url}/users`, {
+        email,
+        password,
+        name,
+        lastName,
+        address, //aca se los pasamos por body
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch({
+            type: CREATE_USER, // aca se dispatacha esta accion para que el reducer sepa que hacer
+            createdUser: res.data.createdUser, // aca se lo envio como createdUser
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch(console.error);
+  };
+}
+
+export function loginUser(email, password) {
+  return (dispatch) => {
+    axios.post(`http://${url}/users/login`, { email, password }).then((res) => {
+      if (res.data.logged === true) {
+        const sessionToken = res.data.sessionToken;
+
+        localStorage.setItem("sessionToken", sessionToken);
+
+        dispatch({
+          type: LOGIN,
+          user: res.data.user,
+          logged: res.data.logged,
+        });
+      } else {
+        dispatch({
+          type: ERROR_MESSAGE,
+          message: res.data.text,
+        });
+      }
+    });
+  };
+}
+
+export function logout() {
+  return (dispatch) => {
+    localStorage.removeItem("sessionToken");
+    dispatch({
+      type: LOGOUT,
+      logged: false,
+      user: null,
+    });
+  };
+}
+
+export function checkLogin() {
+  return (dispatch) => {
+    axios
+      .post(`http://${url}/users/checklog`, {
+        sessionToken: localStorage.getItem("sessionToken"),
+      })
+      .then((res) => {
+        if (res.data.logged) {
+          dispatch({
+            type: CHECK_LOGIN,
+            logged: res.data.logged,
+            user: res.data.user,
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      });
+  };
+}
+//  w
+// en este caso, vamos a llevarnos esta funcion |
