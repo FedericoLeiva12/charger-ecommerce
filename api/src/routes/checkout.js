@@ -17,7 +17,6 @@ server.post("/", (req, res) => {
   })
     .then((shpcart) => {
       res.send(shpcart);
-      console.log(content);
     })
     .catch((err) => {
       res.status(500).send({ text: "Internal error" });
