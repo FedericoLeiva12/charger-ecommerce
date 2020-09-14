@@ -11,37 +11,14 @@ server.get('/', (req, res, next) => {
     .catch(next)
 });
 
-server.get('/secure', (req, res) => {
-  generatePair()
-    .then(pair => {
-      return Secure.create({
-        publicKey: pair.publicKey,
-        privateKey: pair.privateKey
-      })
-    }).then(secure => {
-      res.send({ key: secure.publicKey });
-    })
-});
-
 // Login
 server.post('/login', (req, res) => {
-  const {data, key} = req.body;
-  
-  let logData = {};
-
-  Secure.findOne({
-    where: {
-      publicKey: key
-    }
-  }).then(secure => {
-    const [email, password] = decrypt(secure.privateKey, data).message.split(':');
-    logData = {email, password};
-
-    return User.findOne({ where: { email: email }, include: InfoUser})
-  }).then(user => {
+  const {email, password} = req.body;
+  User.findOne({ where: { email: email }, include: InfoUser})
+  .then(user => {
     if(user) {
-      if(user.password === logData.password) {
-        res.send({ logged: true, sessionToken: new Buffer(data + '@' + key).toString('hex'), user: {
+      if(user.password === password) {
+        res.send({ logged: true, sessionToken: new Buffer(email + ':' + password).toString('hex'), user: {
           name: user.infoUser.name,
           email: user.email,
           lastName: user.infoUser.lastName,
@@ -57,58 +34,30 @@ server.post('/login', (req, res) => {
   }).catch(console.error)
 });
 
-// Logout
-server.post('/logout', (req, res) => {
-  const { sessionToken } = req.body;
-
-  const [_data, key] = new Buffer(sessionToken, 'hex').toString().split('@');
-
-  Secure.destroy({
-    where: {
-      publicKey: key
-    }
-  }).then(() => res.send({logged: false, text: 'Signed out'}))
-  .catch(err => {
-    res.status(500).send({text: 'Internal error.'});
-    console.error(err);
-  });
-})
-
 // Check if have a valid token
 server.post('/checklog', (req, res) => {
   const { sessionToken } = req.body;
 
-  const [data, key] = new Buffer(sessionToken, 'hex').toString().split('@');
+  const data = new Buffer(sessionToken, 'hex').toString();
 
-  Secure.findOne({
-    where: {
-      publicKey: key
-    }
-  }).then(secure => {
-    if(!secure) {
-      return res.status(400).send({ tet: 'Not logged.'});
-    }
+  const [email, password] = data.split(':');
 
-    const [email, password] = decrypt(secure.privateKey, data).message.split(':');
-    logData = {email, password};
-
-    User.findOne({ where: { email: email }, include: InfoUser}).then(user => {
-      if(user) {
-        if(user.password === logData.password) {
-          res.send({ logged: true, user: {
-            name: user.infoUser.name,
-            email: user.email,
-            lastName: user.infoUser.lastName,
-            address: user.infoUser.address
-          }});
-        } else {
-          console.log(user.password, logData.password)
-          res.status(400).send({ logged: false, text: 'Invalid password'});
-        }
+  User.findOne({ where: { email: email }, include: InfoUser})
+  .then(user => {
+    if(user) {
+      if(user.password === password) {
+        res.send({ logged: true, user: {
+          name: user.infoUser.name,
+          email: user.email,
+          lastName: user.infoUser.lastName,
+          address: user.infoUser.address
+        }});
       } else {
-        res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
+        res.status(400).send({ logged: false, text: 'Invalid password'});
       }
-    }).catch(console.error)
+    } else {
+      res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
+    }
   }).catch(console.error)
 })
 
