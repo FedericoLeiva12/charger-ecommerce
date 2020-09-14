@@ -22,10 +22,12 @@ import {
   CHECKOUT,
 } from "../constants";
 
+import { loadState, saveState } from "../../localStorage";
+
 const initialState = {
   categories: [],
   products: [],
-  cart: [],
+  cart: loadState()===undefined?[]: loadState(),
   selectors: [],
   users: [],
   logged: false,
