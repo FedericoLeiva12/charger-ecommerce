@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
               value={user.password}
               error={!invalid ? false : true}
               helperText='Password must contain at least 8 character length, one uppercase and one number.'
-              margin="normal"
+              margin="none"
               required
               fullWidth
               name="password"
@@ -182,7 +182,7 @@ const useStyles = makeStyles((theme) => ({
               value={user.otherPass}
               error={!invalid ? false : true}
               helperText='Repeat password.'
-              margin="normal"
+              margin="none"
               required
               fullWidth
               name="otherPass"
