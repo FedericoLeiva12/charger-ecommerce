@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
@@ -14,6 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
+import { connect } from 'react-redux';
+import { loginUser } from '../../store/actions'
 
 
 const useStyles = makeStyles(theme => ({
@@ -63,10 +65,11 @@ const CssTextField = withStyles({
     },
 })(TextField)
 
-export default function Login() {
+function Login({onLogin, logged}) {
     const classes = useStyles()
 
     const [values, setValues] = React.useState({
+      email: '',
       password: '',
       showPassword: false,
     });
@@ -83,6 +86,15 @@ export default function Login() {
       event.preventDefault();
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        onLogin(values.email, values.password);
+    }
+
+    if(logged) {
+        return <Redirect path='/' />
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -97,7 +109,7 @@ export default function Login() {
                 >
                     LOGIN
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <CssTextField
                         margin="normal"
                         required
@@ -106,6 +118,8 @@ export default function Login() {
                         placeholder="Email Address"
                         name="email"
                         autoComplete="off"
+                        value={values.email}
+                        onChange={handleChange('email')}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -181,3 +195,17 @@ export default function Login() {
         </Container>
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        logged: state.logged
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        onLogin: (email, password) => dispatch(loginUser(email, password))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

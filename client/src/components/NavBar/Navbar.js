@@ -62,7 +62,8 @@ const NavBar = props => {
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                             <Button className={classes.title}>
-                        <Link to="/login" style={{textDecoration:'none', color:'white'}}> LOGIN </Link>
+                        {!(props.logged) && <Link to="/login" style={{textDecoration:'none', color:'white'}}> LOGIN </Link>}
+                        {props.logged && <Link to="/user" style={{textDecoration:'none', color:'white'}}>{props.user.name}</Link>}
                             </Button>
                         <Button className={classes.title}>
                         <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
@@ -78,8 +79,11 @@ const NavBar = props => {
     )
 }
 
-function mapStateToProps() {
-    return {}
+function mapStateToProps(state) {
+    return {
+        logged: state.logged,
+        user: state.user
+    }
 }
 
 function mapDispatchToProps(dispatch) {

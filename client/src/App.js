@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { Route, Switch } from 'react-router-dom';
@@ -13,8 +13,13 @@ import CategoriaPage from './pages/categoriaPage';
 import LoginPage from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
+import { connect } from 'react-redux';
+import { checkLogin } from './store/actions';
 
-function App() {
+function App({checkLogin}) {
+  useEffect(() => {
+    checkLogin()
+  },[])
   return (
     <Switch>
       {/* User Routes */}
@@ -34,4 +39,16 @@ function App() {
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    checkLogin: () => dispatch(checkLogin())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

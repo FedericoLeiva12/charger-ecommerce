@@ -16,6 +16,9 @@ import {
     REMOVE_FROM_CART,
     GET_SELECTORS,
     CREATE_USER,
+    LOGIN,
+    CHECK_LOGIN,
+    LOGOUT,
 } from '../constants'
 
 const initialState = {
@@ -24,6 +27,8 @@ const initialState = {
     cart: [],
     selectors: [],
     users: [],
+    logged: false,
+    user: null,
 
     error: false,
     errorMessage: '',
@@ -128,6 +133,24 @@ export default function Provider(state = initialState, action) {
             return {
                 ...state,
                 users: [...state.users, action.createdUser], //entonces aca lo guardo como tal dentro de un array de users
+            }
+        case LOGIN:
+            return {
+                ...state,
+                logged: action.logged,
+                user: action.user || null
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                logged: action.logged,
+                user: action.user || null
+            }
+        case CHECK_LOGIN:
+            return {
+                ...state,
+                logged: action.logged,
+                user: action.user || null
             }
         case ERROR_MESSAGE:
             return {...state, error: true, errorMessage: action.message}
