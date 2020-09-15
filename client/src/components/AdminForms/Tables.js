@@ -18,21 +18,21 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-function Tables(props) {
+function Tables({categories, viewCategories, products, viewProducts}) {
   const classes = useStyles()
   
-  const {categories, getCategories, products, getProducts} = props
+  // const {categories, viewCategories, products, viewProducts} = props
   return (
 
-    <Box className={classes.cont} my={0} p={3} height={'77.1vh'}>
+    <Box className={classes.cont} my={0} p={3} height={'100vh'}>
 
       <Grid container justify='center' p={0}>
 
         <Grid container item xs={6}>
-          <ProductsTable products={props.products} viewProducts={props.viewProducts}/>
+          <ProductsTable products={products} viewProducts={viewProducts}/>
         </Grid>
         <Grid container item xs={6}>
-          <CategoriesTable categories={props.categories} viewCategories={props.viewCategories}/>
+          <CategoriesTable categories={categories} viewCategories={viewCategories}/>
         </Grid>
       </Grid>
     </Box>

@@ -107,7 +107,7 @@ function AdminPage({
                         <Tab label="Delete Categories" />
                     </Tabs>
                 </AppBar>
-                {/* {selectedTab === 0 && <Tables categories={categories} products={products} viewCategories={getCategories} viewProducts={getProducts} />} */}
+                {selectedTab === 0 && <Tables categories={categories} products={products} viewCategories={getCategories} viewProducts={getProducts} />}
                 {selectedTab === 1 && <CreateProducts addProduct={addProduct}/>}
                 {selectedTab === 2 && <EditProduct modifyProduct={modifyProduct}/>}
                 {selectedTab === 3 && <DeleteProduct deleteProduct={deleteProduct}/>}
