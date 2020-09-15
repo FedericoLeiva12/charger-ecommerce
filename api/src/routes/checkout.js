@@ -39,7 +39,7 @@ server.post("/", (req, res) => {
 });
 //CreateCheckout
 server.get("/check", (req, res) => {
-  Checkout.findAll().then((orders) => {
+  Checkout.findAll({ include: ShoppingCart }).then((orders) => {
     res.send(orders);
   });
 });
