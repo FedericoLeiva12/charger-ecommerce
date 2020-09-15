@@ -19,11 +19,12 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   GET_SELECTORS,
+  GET_ORDERS,
   CREATE_USER,
   LOGIN,
-  CHECK_LOGIN,
   LOGOUT,
-  CHECKOUT,
+  CHECK_LOGIN,
+  CHECKOUT
 } from "../constants";
 
 const url = "localhost:3001";
@@ -335,6 +336,27 @@ export function getSelectors() {
   };
 }
 
+export function getOrders(userId) {
+  return dispatch => {
+    axios.get(`http://${url}/order/${userId}`)
+      .then(res => {
+        if(res.status >= 200 && res.status <= 299) {
+          console.log(res.data.orders);
+          res.data.orders = res.data.orders.map(order => ({...order, shoppingCart: {...order.shoppingCart, content: JSON.parse(order.shoppingCart.content)}}));
+          dispatch({
+            type: GET_ORDERS,
+            orders: res.data.orders
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text
+          })
+        }
+      }).catch(console.error);
+  }
+}
+
 export function createUser(email, password, name, lastName, address) {
   return (dispatch) => {
     axios
@@ -442,5 +464,3 @@ export function checkLogin() {
       }).catch(console.error);
   };
 }
-//  w
-// en este caso, vamos a llevarnos esta funcion |

@@ -23,13 +23,13 @@ export default function CenteredGrid(props) {
   const classes = useStyles();
 
   const listItems = props.products.map((prod, index) =>
-    <Grid key={index} item xs={4}>
+    (<Grid key={index} item xs={4}>
       <ProductCard product={prod} setAlert={props.setAlert} 
     	addToCart={props.addToCart}
         removeFromCart={props.removeFromCart}
  />
     </Grid>
-  );
+  ));
 
   return (
     <div className={classes.root}>

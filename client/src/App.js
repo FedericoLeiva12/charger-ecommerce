@@ -12,9 +12,11 @@ import AdminPage from './pages/adminPage';
 import CategoriaPage from './pages/categoriaPage';
 import LoginPage from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
+import userPanelPage from './pages/userPanelPage';
+import orderPage from './pages/orderPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
-import { checkLogin } from './store/actions';
+import {checkLogin} from './store/actions';
 
 function App({checkLogin}) {
   useEffect(() => {
@@ -33,13 +35,15 @@ function App({checkLogin}) {
       <Route exact path='/category/:categoryId' component={CategoriaPage} />
       <Route exact path='/checkout' component={CheckoutPage} />
       <Route exact path='/product/:product' component={ProductoPage} />
+      <Route exact path='/user' component={userPanelPage} />
+      <Route exact path='/order/:id' component={orderPage} />
       {/* Admin Routes */}
       <Route exact path='/admin' component={AdminPage} />
     </Switch>
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
 
   }

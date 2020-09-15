@@ -15,6 +15,7 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   GET_SELECTORS,
+  GET_ORDERS,
   CREATE_USER,
   LOGIN,
   CHECK_LOGIN,
@@ -122,6 +123,11 @@ export default function Provider(state = initialState, action) {
         ...state,
         cart: action.cart,
       };
+    case GET_ORDERS:
+      return {
+          ...state,
+          orders: action.orders
+      }
     case ADD_TO_CART:
       const c = state.cart.find(cart => cart.id === action.cart.id);
       if(c === undefined){

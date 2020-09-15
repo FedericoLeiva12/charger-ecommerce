@@ -22,6 +22,7 @@ server.post("/login", (req, res) => {
             logged: true,
             sessionToken: new Buffer(email + ":" + password).toString("hex"),
             user: {
+              id: user.id,
               name: user.infoUser.name,
               email: user.email,
               lastName: user.infoUser.lastName,
@@ -29,11 +30,8 @@ server.post("/login", (req, res) => {
             },
           });
         } else {
-          console.log(user.password, logData.password);
-          res.send({ logged: false, text: "Invalid password" });
+          res.status(400).send({ text: "User with that email don't exists" });
         }
-      } else {
-        res.status(400).send({ text: "User with that email don't exists" });
       }
     })
     .catch(console.error);
@@ -54,6 +52,7 @@ server.post("/checklog", (req, res) => {
           res.send({
             logged: true,
             user: {
+              id: user.id,
               name: user.infoUser.name,
               email: user.email,
               lastName: user.infoUser.lastName,
@@ -61,12 +60,10 @@ server.post("/checklog", (req, res) => {
             },
           });
         } else {
-          res.status(400).send({ logged: false, text: "Invalid password" });
+          res
+            .status(400)
+            .send({ logged: false, text: "User with that email don't exists" });
         }
-      } else {
-        res
-          .status(400)
-          .send({ logged: false, text: "User with that email don't exists" });
       }
     })
     .catch(console.error);
