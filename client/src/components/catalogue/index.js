@@ -91,6 +91,8 @@ function Catalogo({
               products={products.map((prod) => ({
                 image: prod.imgs[0].url,
                 title: prod.name,
+                name: prod.name,
+                description: prod.description,
                 price: prod.price,
                 id: prod.id,
                 stock: prod.stock,

@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
     },
     state: {
       type: DataTypes.ENUM("pending", "shipping", "complete"),
+      defaultValue: "pending",
     },
     shipOrder: {
       type: DataTypes.VIRTUAL,

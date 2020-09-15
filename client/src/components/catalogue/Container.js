@@ -1,8 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import ProductCard from '../productCard';
-import NoProducts from './NoProducts';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import ProductCard from "../productCard";
+import NoProducts from "./NoProducts";
 
 const useStyles = makeStyles({
   root: {
@@ -23,17 +23,21 @@ const useStyles = makeStyles({
 export default function CenteredGrid(props) {
   const classes = useStyles();
 
-  const listItems = props.products.map((prod, index) =>
-    (<Grid key={index} item xs={4}>
-      <ProductCard product={prod} setAlert={props.setAlert} addToCart={props.addToCart}
-        removeFromCart={props.removeFromCart} />
+  const listItems = props.products.map((prod, index) => (
+    <Grid key={index} item xs={4}>
+      <ProductCard
+        product={prod}
+        setAlert={props.setAlert}
+        addToCart={props.addToCart}
+        removeFromCart={props.removeFromCart}
+      />
     </Grid>
   ));
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-          {listItems}
+        {listItems}
       </Grid>
     </div>
   );
