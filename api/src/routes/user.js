@@ -1,6 +1,5 @@
 const server = require('express').Router();
-const { User, InfoUser, Secure } = require('../db.js');
-const { decrypt, generatePair } = require('../utils/index.js');
+const { User, InfoUser } = require('../db.js');
 
 // All users
 server.get('/', (req, res, next) => {
