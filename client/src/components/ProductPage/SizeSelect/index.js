@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function SizeSelect({talles, stock}) {
+export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemoveFromCart, addToCart, product}) {
     const classes = useStyles()
 
     const [active, setActive] = React.useState(true)
@@ -46,7 +46,12 @@ export default function SizeSelect({talles, stock}) {
 
     const handleClick = () => {
         setOpen(true)
+        addToCart(product);
     }
+
+    useEffect(() => {
+
+    }, []);
 
     return (
         <Box style={{width: '100%'}}>
@@ -63,6 +68,9 @@ export default function SizeSelect({talles, stock}) {
                 >
                     <MenuItem value="">
                         <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="L">
+                        <em>L</em>
                     </MenuItem>
                     {talles &&
                         talles.map((talle, i) => {
