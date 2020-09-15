@@ -1,8 +1,5 @@
-import React from 'react'
-import NewTable from "./table.js";
-import {
-  makeStyles,
-} from "@material-ui/core/styles";
+import React from 'react';
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from '@material-ui/core/Box'
 import ProductsTable from './ProductsTable';

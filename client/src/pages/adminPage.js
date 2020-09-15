@@ -18,7 +18,6 @@ import {
     ThemeProvider,
     makeStyles,
 } from '@material-ui/core/styles';
-import AdminForms from '../components/AdminForms/';
 import {Tab, Tabs, AppBar, CssBaseline} from '@material-ui/core';
 import CreateProducts from '../components/AdminForms/CreateProducts';
 import EditProduct from '../components/AdminForms/EditProduct';
@@ -27,21 +26,12 @@ import AddCategory from '../components/AdminForms/AddCategory';
 import EditCategory from '../components/AdminForms/EditCategory';
 import DeleteCategory from '../components/AdminForms/DeleteCategory';
 import Tables from '../components/AdminForms/Tables';
-import AddDeleteCategoryToProduct from '../components/AdminForms/AddDeleteCategoryToProduct';
 
 const darkTheme = createMuiTheme({
     palette: {
         type: 'dark',
     },
-})
-const useStyles = makeStyles(theme => ({
-    cont: {
-        background: '#3D3D3D',
-    },
-    root: {
-        color: '#A4A4A4',
-    },
-}))
+});
 
 function AdminPage({
     categories,
@@ -57,36 +47,11 @@ function AdminPage({
     removeCategoryProduct,
     modifyProduct,
 }) {
-    const [name, setName] = useState('')
-    const [id, setId] = useState(0)
     const [selectedTab, setSelectedTab] = React.useState(0)
 
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
     }
-
-    // return (
-    // <div>
-    //   <AdminForms
-    //   viewCategories={getCategories}
-    //   viewProducts={getProducts}
-    //   categories={categories}
-    //   products={products}
-    //   name={name}
-    //   setName={setName}
-    //   id={id}
-    //   setId={setId}
-    //   addCategory={addCategory}
-    //   addProduct={addProduct}
-    //   deleteCategory={deleteCategory}
-    //   deleteProduct={deleteProduct}
-    //   modifyCategory={modifyCategory}
-    //   addCategoryProduct={addCategoryProduct}
-    //   removeCategoryProduct={removeCategoryProduct}
-    //   modifyProduct={modifyProduct}
-    //   />
-    // </div>
-    // )
 
     return (
         <>

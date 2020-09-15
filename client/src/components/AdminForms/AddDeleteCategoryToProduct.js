@@ -1,12 +1,11 @@
-import React from 'react'
-import NewTable from './table.js'
-import {makeStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Box from '@material-ui/core/Box'
-import Switch from '@material-ui/core/Switch'
-import Divider from '@material-ui/core/Divider'
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
     cont: {
