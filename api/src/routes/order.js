@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { User, Checkout } = require('../db');
+const { User, Checkout, ShoppingCart } = require('../db');
 
 const router = Router();
 
@@ -9,10 +9,16 @@ router.get('/:user', (req, res) => {
         where: {
             id: user
         },
-        include: Checkout
+        include: [{
+            model: Checkout,
+            include: ShoppingCart
+        }]
     }).then(user => {
-        console.log(user);
-    }).catch(console.error)
+        res.send({ orders: user.checkouts })
+    }).catch(err => {
+        res.status(500).send({ message: 'Internal error'});
+        console.error(err);
+    })
 })
 
 module.exports = router;

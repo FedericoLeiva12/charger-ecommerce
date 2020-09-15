@@ -6,6 +6,7 @@ import UserCard from '../components/UserCard';
 import NavBarContainer from '../components/NavBar/Container'
 import OrderCard from '../components/orderCard';
 import { getOrders } from '../store/actions';
+import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles({
     content: {
@@ -16,14 +17,15 @@ const useStyle = makeStyles({
     }
 })
 
-function UserPanelPage ({orders, getOrders, user}) {
+function UserPanelPage ({user, orders, getOrders}) {
     const [tab, setTab] = useState(0);
 
     const classes = useStyle();
 
     useEffect(() => {
-        getOrders();
-    }, []);
+        if(user)
+            getOrders(user.id);
+    }, [user]);
 
     function a11yProps(index) {
         return {
@@ -58,10 +60,12 @@ function UserPanelPage ({orders, getOrders, user}) {
             {/* ORDERS */}
             <TabPanel value={tab} index={1}>
                 {orders.map(order => (
-                    <OrderCard
-                        id={order.id}
-                        status={order.status}
-                        products={order.products} />
+                    <Link to={`/order/${order.id}`} style={{textDecoration: 'none'}}>
+                        <OrderCard
+                            id={order.id}
+                            status={order.state}
+                            products={order.shoppingCart.content} />
+                    </Link>
                 ))}
                 {/* <OrderCard
                      id="332"
@@ -103,7 +107,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getOrders: () => dispatch(getOrders())
+        getOrders: (userId) => dispatch(getOrders(userId))
     }
 }
 

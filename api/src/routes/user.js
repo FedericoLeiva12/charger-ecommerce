@@ -19,6 +19,7 @@ server.post('/login', (req, res) => {
     if(user) {
       if(user.password === password) {
         res.send({ logged: true, sessionToken: new Buffer(email + ':' + password).toString('hex'), user: {
+          id: user.id,
           name: user.infoUser.name,
           email: user.email,
           lastName: user.infoUser.lastName,
@@ -47,6 +48,7 @@ server.post('/checklog', (req, res) => {
     if(user) {
       if(user.password === password) {
         res.send({ logged: true, user: {
+          id: user.id,
           name: user.infoUser.name,
           email: user.email,
           lastName: user.infoUser.lastName,

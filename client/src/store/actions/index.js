@@ -336,11 +336,13 @@ export function getSelectors() {
   };
 }
 
-export function getOrders() {
+export function getOrders(userId) {
   return dispatch => {
-    axios.get(`http://${url}/products/orders`)
+    axios.get(`http://${url}/order/${userId}`)
       .then(res => {
         if(res.status >= 200 && res.status <= 299) {
+          console.log(res.data.orders);
+          res.data.orders = res.data.orders.map(order => ({...order, shoppingCart: {...order.shoppingCart, content: JSON.parse(order.shoppingCart.content)}}));
           dispatch({
             type: GET_ORDERS,
             orders: res.data.orders
