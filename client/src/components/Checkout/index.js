@@ -3,6 +3,7 @@ import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
 import { getProducts, getCart, addToCart, removeFromCart, checkout } from "../../store/actions";
 import CartProduct from "./CartProduct";
+import CartCheckout from "./CartCheckout";
 
 import {
   createMuiTheme,
@@ -10,22 +11,16 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Button } from "@material-ui/core";
+import { Button, Grid, Box} from "@material-ui/core";
+
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
   },
 });
 
-const useStyles = makeStyles(() => ({
-  cont: {
-    background: "#3D3D3D",
-  },
-}));
 
 function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
-  const classes = useStyles();
-
   useEffect(() => {
     getProducts();
   }, []);
@@ -33,9 +28,15 @@ function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
   return (
     <>
       <NavBarCOntainer />
-      <div style={{ paddingTop: 64, backgroundColor: "#3D3D3D" }}></div>
+      <div style={{ paddingTop: 64 }}></div>
       <ThemeProvider theme={darkTheme}>
-        <div>
+	<Box mt={4}>
+
+        <Grid
+	  container
+	  direction="row"
+	  justify="space-around"
+	  alignItems="center">
           {cart.length > 0 ? (
             /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
             <>
@@ -50,7 +51,12 @@ function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
 		  removeFromCart={removeFromCart}
                 />
               ))}
-              <Button onClick={onCheckout}   variant="contained"  color="secondary">Checkout</Button>
+	    <CartCheckout 
+	      onCheckout={onCheckout} 
+	      cart={cart} 
+	      getCart={getCart}
+	    >
+	    </CartCheckout> 
             </>
           ) : (
             /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
@@ -61,7 +67,8 @@ function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
               <RemoveShoppingCartIcon style={{ fontSize: "15em" }} />
             </div>
           )}
-        </div>
+        </Grid>
+        </Box>
       </ThemeProvider>
     </>
   );
