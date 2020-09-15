@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart, removeFromCart, checkout } from "../../store/actions";
+import { getProducts, getCart, addToCart, removeFromCart, checkout } from "../../store/actions";
 import CartProduct from "./CartProduct";
+import CartCheckout from "./CartCheckout";
 
 import {
   createMuiTheme,
@@ -10,22 +11,16 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Button } from "@material-ui/core";
+import { Button, Grid, Box} from "@material-ui/core";
+
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
   },
 });
 
-const useStyles = makeStyles(() => ({
-  cont: {
-    background: "#3D3D3D",
-  },
-}));
 
-function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
-  const classes = useStyles();
-
+function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
   useEffect(() => {
     getProducts();
   }, []);
@@ -33,11 +28,17 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
   return (
     <>
       <NavBarCOntainer />
-      <div style={{ paddingTop: 64, backgroundColor: "#3D3D3D" }}></div>
+      <div style={{ paddingTop: 64 }}></div>
       <ThemeProvider theme={darkTheme}>
-        <div>
+	<Box mt={4}>
+
+        <Grid
+	  container
+	  direction="row"
+	  justify="space-around"
+	  alignItems="center">
           {cart.length > 0 ? (
-            /* WHEN THE CLIENT hAVE PRODUCTS IN THE CART: */
+            /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
             <>
               {cart.map((prod, index) => (
                 <CartProduct
@@ -46,11 +47,16 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
                     removeFromCart(prod);
                   }}
                   product={prod}
+		  addToCart={addToCart}
+		  removeFromCart={removeFromCart}
                 />
               ))}
-              <Button onClick={onCheckout} style={{
-                backgroundColor: '#F84'
-              }}>Checkout</Button>
+	    <CartCheckout 
+	      onCheckout={onCheckout} 
+	      cart={cart} 
+	      getCart={getCart}
+	    >
+	    </CartCheckout> 
             </>
           ) : (
             /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
@@ -61,7 +67,8 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
               <RemoveShoppingCartIcon style={{ fontSize: "15em" }} />
             </div>
           )}
-        </div>
+        </Grid>
+        </Box>
       </ThemeProvider>
     </>
   );
@@ -76,6 +83,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
+    addToCart: (product) => dispatch(addToCart(product)),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
     onCheckout: () => dispatch(checkout())
   };

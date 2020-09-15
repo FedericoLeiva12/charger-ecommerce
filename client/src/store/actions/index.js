@@ -302,7 +302,7 @@ export function addToCart(product) {
   return (dispatch) => {
     dispatch({
       type: ADD_TO_CART,
-      cart: product,
+      cart: product
     });
   };
 }
