@@ -123,15 +123,30 @@ export default function Provider(state = initialState, action) {
         cart: action.cart,
       };
     case ADD_TO_CART:
-      return {
-        ...state,
-        cart: [...state.cart, action.cart],
-      };
+      const c = state.cart.find(cart => cart.id === action.cart.id);
+      if(c === undefined){
+	action.cart.amount = 1;
+        return {
+          ...state,
+          cart: [...state.cart, action.cart],
+        };
+      }else{
+	c.amount++;
+	return {
+	  ...state,
+	}
+      }
     case REMOVE_FROM_CART:
-      return {
-        ...state,
-        cart: state.cart.filter((prod) => prod.id !== Number(action.id)),
-      };
+      const m = state.cart.find(prod => prod.id === Number(action.id));
+      if(m.amount === 1 ){
+	return{
+	  ...state,
+	  cart: state.cart.filter((prod) => prod.id !== Number(action.id)), 
+	}
+      }else{
+	m.amount--;
+      }
+      
     case GET_SELECTORS:
       return {
         ...state,

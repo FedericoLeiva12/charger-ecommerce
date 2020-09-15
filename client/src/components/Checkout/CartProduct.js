@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CartProduct({ product, onClose }) {
+export default function CartProduct({ product, onClose, addToCart,removeFromCart }) {
   const classes = useStyles();
   product.image = product.image === undefined?product.imgs[0].url:product.image;
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(product.amount);
 
   return (
     <div className={classes.root}>
@@ -94,11 +94,13 @@ export default function CartProduct({ product, onClose }) {
                 }}
               >
                 <Button
-                  onClick={(e) =>
-                    setAmount(amount < product.stock ? amount + 1 : amount)
-                  }
+                  onClick={(e) =>{
+                    removeFromCart(product);
+                    setAmount(product.amount);
+                    }
+		  }
                 >
-                  <AddCircleIcon />
+		  <RemoveCircleIcon />
                 </Button>
                 <div
                   style={{ color: "#eee", padding: "5px", borderRadius: "5px" }}
@@ -116,9 +118,14 @@ export default function CartProduct({ product, onClose }) {
                   </span>
                 </div>
                 <Button
-                  onClick={(e) => setAmount(amount > 1 ? amount - 1 : amount)}
+                  onClick={(e) =>{
+		    addToCart(product);
+                    setAmount(product.amount);
+		    }
+		  }
                 >
-                  <RemoveCircleIcon />
+                  
+                  <AddCircleIcon />
                 </Button>
               </Grid>
             </Grid>

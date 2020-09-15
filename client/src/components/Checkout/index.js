@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart, removeFromCart, checkout } from "../../store/actions";
+import { getProducts, getCart, addToCart, removeFromCart, checkout } from "../../store/actions";
 import CartProduct from "./CartProduct";
 
 import {
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
+function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
   const classes = useStyles();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
       <ThemeProvider theme={darkTheme}>
         <div>
           {cart.length > 0 ? (
-            /* WHEN THE CLIENT hAVE PRODUCTS IN THE CART: */
+            /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
             <>
               {cart.map((prod, index) => (
                 <CartProduct
@@ -46,11 +46,11 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
                     removeFromCart(prod);
                   }}
                   product={prod}
+		  addToCart={addToCart}
+		  removeFromCart={removeFromCart}
                 />
               ))}
-              <Button onClick={onCheckout} style={{
-                backgroundColor: '#F84'
-              }}>Checkout</Button>
+              <Button onClick={onCheckout}   variant="contained"  color="secondary">Checkout</Button>
             </>
           ) : (
             /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
@@ -76,6 +76,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
+    addToCart: (product) => dispatch(addToCart(product)),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
     onCheckout: () => dispatch(checkout())
   };
