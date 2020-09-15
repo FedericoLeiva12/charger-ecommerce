@@ -29,7 +29,7 @@ function ProductsTable(props) {
                 </Grid>
                 <Grid item>
                     <NewTable
-                        columns={['Id', 'Name', 'Price', 'Stock']}
+                        columns={['ID', 'Name', 'Price', 'Stock']}
                         data={props.products.map(data => [
                             data.id,
                             data.name,

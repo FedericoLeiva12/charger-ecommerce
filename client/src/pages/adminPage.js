@@ -27,6 +27,7 @@ import AddCategory from '../components/AdminForms/AddCategory';
 import EditCategory from '../components/AdminForms/EditCategory';
 import DeleteCategory from '../components/AdminForms/DeleteCategory';
 import Tables from '../components/AdminForms/Tables';
+import AddDeleteCategoryToProduct from '../components/AdminForms/AddDeleteCategoryToProduct';
 
 const darkTheme = createMuiTheme({
     palette: {
@@ -107,7 +108,7 @@ function AdminPage({
                         <Tab label="Delete Categories" />
                     </Tabs>
                 </AppBar>
-                {selectedTab === 0 && <Tables categories={categories} products={products} viewCategories={getCategories} viewProducts={getProducts} />}
+                {selectedTab === 0 && <Tables categories={categories} products={products} viewCategories={getCategories} viewProducts={getProducts} addCategoryProduct={addCategoryProduct} removeCategoryProduct={removeCategoryProduct}/>}
                 {selectedTab === 1 && <CreateProducts addProduct={addProduct}/>}
                 {selectedTab === 2 && <EditProduct modifyProduct={modifyProduct}/>}
                 {selectedTab === 3 && <DeleteProduct deleteProduct={deleteProduct}/>}
