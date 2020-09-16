@@ -14,11 +14,11 @@ import LoginPage from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
-import { checkLogin } from './store/actions';
+import { getUser } from './store/actions';
 
-function App({checkLogin}) {
+function App({getUser}) {
   useEffect(() => {
-    checkLogin()
+    getUser()
   },[])
   return (
     <Switch>
@@ -47,7 +47,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    checkLogin: () => dispatch(checkLogin())
+    getUser: () => dispatch(getUser())
   }
 }
 

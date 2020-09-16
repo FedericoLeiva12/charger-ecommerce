@@ -1,6 +1,7 @@
+const passport = require('passport');
 const server = require('express').Router();
-const { User, InfoUser, Secure } = require('../db.js');
-const { decrypt, generatePair } = require('../utils/index.js');
+const { User, InfoUser } = require('../db.js');
+const { isAuthenticated, isNotAuthenticated } = require('../passport');
 
 // All users
 server.get('/', (req, res, next) => {
@@ -11,54 +12,20 @@ server.get('/', (req, res, next) => {
     .catch(next)
 });
 
+// Logout
+server.get('/logout', isAuthenticated, (req, res) => {
+  req.logOut();
+  res.send({ message: 'logout' });
+})
+
 // Login
-server.post('/login', (req, res) => {
-  const {email, password} = req.body;
-  User.findOne({ where: { email: email }, include: InfoUser})
-  .then(user => {
-    if(user) {
-      if(user.password === password) {
-        res.send({ logged: true, sessionToken: new Buffer(email + ':' + password).toString('hex'), user: {
-          name: user.infoUser.name,
-          email: user.email,
-          lastName: user.infoUser.lastName,
-          address: user.infoUser.address
-        }});
-      } else {
-        console.log(user.password, logData.password)
-        res.send({ logged: false, text: 'Invalid password'});
-      }
-    } else {
-      res.status(400).send({ text: 'User with that email don\'t exists' });
-    }
-  }).catch(console.error)
+server.post('/login', isNotAuthenticated, passport.authenticate('local'), (req, res) => {
+  res.send({user: req.user, logged: true});
 });
 
-// Check if have a valid token
-server.post('/checklog', (req, res) => {
-  const { sessionToken } = req.body;
-
-  const data = new Buffer(sessionToken, 'hex').toString();
-
-  const [email, password] = data.split(':');
-
-  User.findOne({ where: { email: email }, include: InfoUser})
-  .then(user => {
-    if(user) {
-      if(user.password === password) {
-        res.send({ logged: true, user: {
-          name: user.infoUser.name,
-          email: user.email,
-          lastName: user.infoUser.lastName,
-          address: user.infoUser.address
-        }});
-      } else {
-        res.status(400).send({ logged: false, text: 'Invalid password'});
-      }
-    } else {
-      res.status(400).send({ logged: false, text: 'User with that email don\'t exists' });
-    }
-  }).catch(console.error)
+// Check if is logged
+server.get('/getuser', isAuthenticated, (req, res) => {
+  res.send({user: req.user, logged: true});
 })
 
 
