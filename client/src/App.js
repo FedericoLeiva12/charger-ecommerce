@@ -15,12 +15,15 @@ import CreateUserPage from './pages/createUserPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
 import { checkLogin } from './store/actions';
+import SuccessSnackbar from './components/Snackbars/SuccessSnackbar';
 
 function App({checkLogin}) {
   useEffect(() => {
     checkLogin()
   },[])
   return (
+    <>
+    <SuccessSnackbar />
     <Switch>
       {/* User Routes */}
       <Route exact path='/' component={HomePage} />
@@ -36,6 +39,7 @@ function App({checkLogin}) {
       {/* Admin Routes */}
       <Route exact path='/admin' component={AdminPage} />
     </Switch>
+    </>
   );
 }
 

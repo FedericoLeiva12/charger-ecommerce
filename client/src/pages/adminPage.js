@@ -95,21 +95,21 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getCategories: () => dispatch(getCategories()),
-        addCategory: (name, description) =>
-            dispatch(addCategory(name, description)),
-        deleteCategory: id => dispatch(deleteCategory(id)),
-        modifyCategory: (id, name, description) =>
-            dispatch(modifyCategory(id, name, description)),
+        addCategory: (name, description, message) =>
+            dispatch(addCategory(name, description, message)),
+        deleteCategory: (id, message) => dispatch(deleteCategory(id, message)),
+        modifyCategory: (id, name, description, message) =>
+            dispatch(modifyCategory(id, name, description, message)),
         getProducts: () => dispatch(getProducts()),
-        addProduct: (name, description, price, stock, img) =>
-            dispatch(addProduct(name, description, price, stock, img)),
-        deleteProduct: id => dispatch(deleteProduct(id)),
-        addCategoryProduct: (productId, categoryId) =>
-            dispatch(addCategoryProduct(productId, categoryId)),
-        removeCategoryProduct: (productId, categoryId) =>
-            dispatch(removeCategoryProduct(productId, categoryId)),
-        modifyProduct: (id, name, description, price, stock, img) =>
-            dispatch(modifyProduct(id, name, description, price, stock, img)),
+        addProduct: (name, description, price, stock, img, message) =>
+            dispatch(addProduct(name, description, price, stock, img, message)),
+        deleteProduct: (id, message) => dispatch(deleteProduct(id, message)),
+        addCategoryProduct: (productId, categoryId, message) =>
+            dispatch(addCategoryProduct(productId, categoryId, message)),
+        removeCategoryProduct: (productId, categoryId, message) =>
+            dispatch(removeCategoryProduct(productId, categoryId, message)),
+        modifyProduct: (id, name, description, price, stock, img, message) =>
+            dispatch(modifyProduct(id, name, description, price, stock, img, message)),
     }
 }
 

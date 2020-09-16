@@ -22,7 +22,8 @@ function EditCategory(props) {
   const [modifyCategory, setModifyCategory] = React.useState({
 	  id: 0,
 	  name: '',
-	  description: ''
+    description: '',
+    message: 'Category was successfully edited!'
   });
 
 
@@ -36,7 +37,7 @@ function EditCategory(props) {
               autoComplete="off"
               onSubmit={(e) => {
                 e.preventDefault();
-                props.modifyCategory(modifyCategory.id, modifyCategory.name, modifyCategory.description);
+                props.modifyCategory(modifyCategory.id, modifyCategory.name, modifyCategory.description, modifyCategory.message);
               }}
             >
               <TextField

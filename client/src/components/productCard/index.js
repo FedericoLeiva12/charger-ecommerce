@@ -13,12 +13,12 @@ export default function ProductCard(props) {
 
   function handleClick(e) {
     const clicked = e.target.className;
-
+    const message = 'Product successfully added to your cart!'
     if (props.product.stock > 0) {
       if (active === clicked) {
         setActive("");
       } else {
-        props.addToCart(props.product);
+        props.addToCart(props.product, message);
         setActive(clicked);
       }
     } else {

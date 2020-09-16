@@ -21,7 +21,8 @@ function AddCategory(props) {
 
   const [addCategory, setAddCategory] = React.useState({
     name: '',
-    description: ''
+    description: '',
+    message: 'Category created successfully!'
   });
 
 
@@ -35,7 +36,7 @@ function AddCategory(props) {
               autoComplete="off"
               onSubmit={(e) => {
                 e.preventDefault();
-                props.addCategory(addCategory.name, addCategory.description);
+                props.addCategory(addCategory.name, addCategory.description, addCategory.message);
               }}
             >
               <TextField
