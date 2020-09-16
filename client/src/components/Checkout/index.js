@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart, addToCart, removeFromCart, checkout } from "../../store/actions";
+import { getProducts, getCart, addToCart, removeFromCart, deleteFromCart, checkout } from "../../store/actions";
 import CartProduct from "./CartProduct";
 import CartCheckout from "./CartCheckout";
 
@@ -20,7 +20,7 @@ const darkTheme = createMuiTheme({
 });
 
 
-function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
+function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout, deleteFromCart }) {
   useEffect(() => {
     getProducts();
   }, []);
@@ -40,23 +40,14 @@ function Checkout({ cart, getCart, addToCart, removeFromCart, onCheckout }) {
           {cart.length > 0 ? (
             /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
             <>
-              {cart.map((prod, index) => (
-                <CartProduct
-                  key={index}
-                  onClose={() => {
-                    removeFromCart(prod);
-                  }}
-                  product={prod}
-		  addToCart={addToCart}
-		  removeFromCart={removeFromCart}
-                />
-              ))}
-	    <CartCheckout 
+            <CartCheckout 
 	      onCheckout={onCheckout} 
 	      cart={cart} 
 	      getCart={getCart}
-	    >
-	    </CartCheckout> 
+	      addToCart={addToCart}
+	      removeFromCart={removeFromCart}
+	      deleteFromCart={deleteFromCart}
+	    />
             </>
           ) : (
             /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
@@ -85,6 +76,7 @@ function mapDispatchToProps(dispatch) {
     getCart: () => dispatch(getCart()),
     addToCart: (product) => dispatch(addToCart(product)),
     removeFromCart: (id) => dispatch(removeFromCart(id)),
+    deleteFromCart: (id) => dispatch(deleteFromCart(id)),
     onCheckout: () => dispatch(checkout())
   };
 }

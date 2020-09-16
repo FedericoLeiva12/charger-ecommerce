@@ -18,6 +18,7 @@ import {
   GET_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  DELETE_FROM_CART,
   GET_SELECTORS,
   GET_ORDERS,
   CREATE_USER,
@@ -311,6 +312,14 @@ export function removeFromCart(product) {
   return (dispatch) => {
     dispatch({
       type: REMOVE_FROM_CART,
+      id: product.id,
+    });
+  };
+}
+export function deleteFromCart(product) {
+  return (dispatch) => {
+    dispatch({
+      type: DELETE_FROM_CART,
       id: product.id,
     });
   };

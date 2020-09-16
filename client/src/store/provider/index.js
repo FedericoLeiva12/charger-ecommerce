@@ -14,6 +14,7 @@ import {
   GET_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  DELETE_FROM_CART,
   GET_SELECTORS,
   GET_ORDERS,
   CREATE_USER,
@@ -147,11 +148,18 @@ export default function Provider(state = initialState, action) {
       if(m.amount === 1 ){
 	return{
 	  ...state,
-	  cart: state.cart.filter((prod) => prod.id !== Number(action.id)), 
 	}
       }else{
 	m.amount--;
+	return{
+	  ...state,
+	}
       }
+    case DELETE_FROM_CART:
+      return{
+	  ...state,
+	  cart: state.cart.filter((prod) => prod.id !== Number(action.id)), 
+	}
       
     case GET_SELECTORS:
       return {

@@ -11,33 +11,42 @@ import {
   TableFooter,
   Paper,
 } from "@material-ui/core";
+import CartProduct from "./CartProduct";
 
-export default function CartCheckout({ cart, onCheckout, getCart }) {
+export default function CartCheckout({ cart, onCheckout, getCart, addToCart, removeFromCart, deleteFromCart}) {
   useEffect(() => {
-    cart = getCart();
+    getCart();
+    
   }, []);
-
   var total = 0;
   cart.map((prod) => {
     total += prod.amount * prod.price;
   });
+ 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={12}>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="right">Product</TableCell>
+              <TableCell align="right">Description</TableCell>
               <TableCell align="right">Sub-Total</TableCell>
+              <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {cart.map((prod) => (
               <TableRow key={prod.id}>
-                <TableCell component="th" scope="row">
-                  {prod.name}
-                </TableCell>
-                <TableCell align="right">{prod.amount * prod.price}</TableCell>
+                <CartProduct
+                  key={prod.id}
+                  onClose={() => {
+                    deleteFromCart(prod);
+                  }}
+                  product={prod}
+		  addToCart={addToCart}
+		  removeFromCart={removeFromCart}
+                />
               </TableRow>
             ))}
           </TableBody>
