@@ -38,9 +38,11 @@ export default function Selector(props) {
 
   if (redirect) {
     if(prop !== '0')
-      window.location.href = '/category/'+prop;
+      //window.location.href = '/category/'+prop;
+      return (<Redirect to={`/category/${prop}`} />)
     else
-      window.location.href = '/catalog'
+      return (<Redirect to={`/catalog`} />)
+      //window.location.href = '/catalog'
   }
   return (
     <div>
