@@ -27,16 +27,24 @@ const SearchField = withStyles({
 })(TextField);
 
 
-export default function SearchBar() {
-    const state = useState({
+export default function SearchBar({onSearch}) {
+    const [state, setState] = useState({
+        query: '',
         results: []
     });
 
     return (
-        <form className={Style.form}>
-            <SearchField label="Search"/>
+        <form className={Style.form} onSubmit={e => {
+            e.preventDefault();
+            console.log('a')
+            onSearch(state.query)
+        }}>
+            <SearchField
+                label="Search"
+                onChange={e => setState({...state, query: e.target.value})}
+                value={state.query} />
             <List>
-                {state[0].results.map(result => (
+                {state.results.map(result => (
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar>

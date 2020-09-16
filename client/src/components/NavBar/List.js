@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {makeStyles} from '@material-ui/core'
-import { getCategories } from '../../store/actions';
+import {makeStyles, Typography} from '@material-ui/core'
+import { getCategories, logout } from '../../store/actions';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles(()=>({
@@ -15,42 +15,37 @@ const useStyles = makeStyles(()=>({
     }
 }))
 
-function List({categories}){
+function List({categories, logged, onSignout}){
     const classes = useStyles()
 
     return(
         <div>
-            {categories.filter(cat => (cat.name === 'Tipo' || cat.name === 'Temporada')).map((cat, index) => (
-                <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
-            ))}
-            {/*<Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 1</h1>
-            </Link>
-            <Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 2</h1>
-            </Link>
-            <Link to='/category/:categoria' className={classes.categories}>
-                <h1>CATEGORIA 3</h1>
-            </Link>
-            <Link to='/category/:category' className={classes.categories}>
-                <h1>CATEGORIA 4</h1>
-            </Link>*/}
+            {categories
+                .filter(cat => 
+                    (cat.name === 'Type' || cat.name === 'Season')
+                ).map((cat, index) => (
+                    <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
+                ))
+            }
             <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>
+            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGNOUT</h1></Link>)}
         </div>
     )
 }
 
 function mapStateToProps(state) {
     return {
-        categories: state.categories
+        categories: state.categories,
+        logged: state.logged
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: () => dispatch(getCategories)
+        getCategories: () => dispatch(getCategories),
+        onSignout: () => dispatch(logout())
     }
 }
 

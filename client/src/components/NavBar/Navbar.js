@@ -1,17 +1,18 @@
-import React from 'react'
-import SearchBar from '../SearchBar/index'
+import React from 'react';
+import SearchBar from '../SearchBar/index';
 
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import {makeStyles} from '@material-ui/core'
-import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined'
-import {Link} from 'react-router-dom'
-import { connect } from 'react-redux'
-import { getCategories } from '../../store/actions'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import {makeStyles} from '@material-ui/core';
+import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
+import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getCategories, getSearch } from '../../store/actions';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,35 +57,42 @@ const NavBar = props => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="menu"
-                        onClick={() => {props.getCategories(); props.accionAbrir()}}
+                        onClick={() => {props.getCategories(); props.onOpen()}}
                     >
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                             <Button className={classes.title}>
-                        <Link to="/login" style={{textDecoration:'none', color:'white'}}> LOGIN </Link>
+                        {!(props.logged) && <Link to="/login" style={{textDecoration:'none', color:'white'}}> LOGIN </Link>}
+                        {props.logged && <Link to="/user" style={{textDecoration:'none', color:'white'}}>{props.user.name}</Link>}
                             </Button>
                         <Button className={classes.title}>
                         <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
+       <Badge badgeContent={props.cart?props.cart.length:0} color="primary">
                             <LocalMallOutlinedIcon />
+      </Badge>
                         </Link>
                         </Button>
                     </Typography>
                     <Link to='/' style={{textDecoration: 'none', color: 'white', marginRight: '31%'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
-                    <SearchBar />
+                    <SearchBar onSearch={props.getSearch} />
                 </Toolbar>
             </AppBar>
         </div>
     )
 }
 
-function mapStateToProps() {
-    return {}
+function mapStateToProps(state) {
+    return {
+        logged: state.logged,
+        user: state.user
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: () => dispatch(getCategories())
+        getCategories: () => dispatch(getCategories()),
+        getSearch: search => dispatch(getSearch(search))
     }
 }
 

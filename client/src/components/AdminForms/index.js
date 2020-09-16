@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import NewTable from "./table.js";
+import { Switch } from "@material-ui/core";
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -60,19 +61,16 @@ export default function FormCategorias(props) {
     price: '',
     stock: '',
     img:''
-  })
-
-  const [deleteProduct, setDeleteProduct] = useState({
-	  id: 0
   });
 
   const [addCategoryProduct, setAddCategoryProduct] = useState({
     productId: '',
-    categoryId: ''
-  })
+    categoryId: '',
+    mode: true
+  });
 
-  const [productId, setProductId] = useState({
-    productId: ''
+  const [deleteProduct, setDeleteProduct] = useState({
+	  id: 0
   });
 
   return (
@@ -135,7 +133,7 @@ export default function FormCategorias(props) {
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Save
+                Create
               </Button>
             </form>
           </Grid>
@@ -158,7 +156,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyCategory({...modifyCategory, name: e.target.value })}
                 value={modifyCategory.name}
                 placeholder="Name"
-                helperText="Category Name"
+                helperText="New category name"
                 fullWidth
                 margin="normal"
               />
@@ -167,7 +165,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyCategory({...modifyCategory, description: e.target.value })}
                 value={modifyCategory.description}
                 placeholder="description"
-                helperText="Category Name"
+                helperText="New category description"
                 fullWidth
                 margin="normal"
               />
@@ -176,12 +174,12 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyCategory({...modifyCategory, id: e.target.value })}
                 value={modifyCategory.id}
                 placeholder="name"
-                helperText="Debe contener el Id"
+                helperText="ID of the category to edit"
                 fullWidth
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Save
+                Edit
               </Button>
             </form>
           </Grid>
@@ -200,16 +198,16 @@ export default function FormCategorias(props) {
               }}
             >
               <TextField
-                label="Name"
+                label="ID"
                 onChange={(e) => setRemoveCategory({...removeCategory, id: e.target.value})}
                 value={removeCategory.id}
-                placeholder="Name"
-                helperText="Only letters"
+                placeholder="0"
+                helperText="ID of the category to delete"
                 fullWidth
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Save
+                Delete
               </Button>
             </form>
           </Grid>
@@ -260,8 +258,8 @@ export default function FormCategorias(props) {
                 label="Name"
                 onChange={(e) => setCreateProduct({...createProduct, name:e.target.value })}
                 value={createProduct.name}
-                placeholder="Name"
-                helperText="Only letters"
+                placeholder="West Jeans"
+                helperText="Name for the new product"
                 fullWidth
                 margin="normal"
               />
@@ -270,7 +268,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, description:e.target.value })}
                 value={createProduct.description}
                 placeholder="description"
-                helperText="Only letters"
+                helperText="Description for the new product"
                 fullWidth
                 margin="normal"
               />
@@ -279,7 +277,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, price:e.target.value })}
                 value={createProduct.price}
                 placeholder="100.00"
-                helperText="Only numbers"
+                helperText="Price of the new product"
                 fullWidth
                 margin="normal"
               />
@@ -288,7 +286,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, stock:e.target.value })}
                 value={createProduct.stock}
                 placeholder="10"
-                helperText="Only numbers"
+                helperText="Stock available for the new product"
                 fullWidth
                 margin="normal"
               />
@@ -297,12 +295,12 @@ export default function FormCategorias(props) {
                 onChange={(e) => setCreateProduct({...createProduct, img:e.target.value })}
                 value={createProduct.img}
                 placeholder="imageOne.png,imageTwo.png,imegeThree.png"
-                helperText="Only links to images, separed with ',' without spaces."
+                helperText="Only links to images, separed with ',' without spaces"
                 fullWidth
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Save
+                Create
               </Button>
             </form>
           </Grid>
@@ -334,8 +332,8 @@ export default function FormCategorias(props) {
                 label="Id"
                 onChange={(e) => setModifyProduct({...modifyProduct, id:e.target.value })}
                 value={modifyProduct.id}
-                placeholder="Select Id of product"
-                helperText="Only numbers"
+                placeholder="0"
+                helperText="ID of the product to edit"
                 fullWidth
                 margin="normal"
               />
@@ -344,7 +342,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyProduct({...modifyProduct, name:e.target.value })}
                 value={modifyProduct.name}
                 placeholder="Name"
-                helperText="Only letters"
+                helperText="New name for the product"
                 fullWidth
                 margin="normal"
               />
@@ -353,7 +351,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyProduct({...modifyProduct, description:e.target.value })}
                 value={modifyProduct.description}
                 placeholder="description"
-                helperText="Only letters"
+                helperText="New description for the product"
                 fullWidth
                 margin="normal"
               />
@@ -362,7 +360,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyProduct({...modifyProduct, price:e.target.value })}
                 value={modifyProduct.price}
                 placeholder="100.00"
-                helperText="Only numbers"
+                helperText="New price for the product"
                 fullWidth
                 margin="normal"
               />
@@ -371,7 +369,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setModifyProduct({...modifyProduct, stock:e.target.value })}
                 value={modifyProduct.stock}
                 placeholder="10"
-                helperText="Only numbers"
+                helperText="New stock for the product "
                 fullWidth
                 margin="normal"
               />
@@ -385,7 +383,7 @@ export default function FormCategorias(props) {
                 margin="normal"
               />
               <Button variant="contained" type="submit" color="primary">
-                Save
+                Edit
               </Button>
             </form>
           </Grid>
@@ -407,7 +405,7 @@ export default function FormCategorias(props) {
                 onChange={(e) => setDeleteProduct({...deleteProduct, id: e.target.value })}
                 value={deleteProduct.id}
                 placeholder="0"
-                helperText="Only numbers"
+                helperText="ID of the product to delete"
                 fullWidth
                 margin="normal"
               />
@@ -418,33 +416,43 @@ export default function FormCategorias(props) {
             <Divider />
       <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
-        props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+        if(addCategoryProduct.mode)
+          props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+        else
+          props.removeCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
       }}>
         <TextField
-                label="ID de la categoria"
+                label="Category ID"
                 onChange={(e) => setAddCategoryProduct({...addCategoryProduct, categoryId: e.target.value })}
                 value={addCategoryProduct.categoryId}
                 placeholder="0"
-                helperText="Only numbers"
+                helperText="ID of the category"
                 fullWidth
                 margin="normal"
               />
               <TextField
-                label="ID del producto"
+                label="Product ID"
                 onChange={(e) => setAddCategoryProduct({...addCategoryProduct, productId: e.target.value })}
                 value={addCategoryProduct.productId}
                 placeholder="0"
-                helperText="Only numbers"
+                helperText="ID of the product"
                 fullWidth
                 margin="normal"
               />
+              <div>
+                Delete
+                <Switch
+                  checked={addCategoryProduct.mode}
+                  onChange={e => setAddCategoryProduct({...addCategoryProduct, mode: !(addCategoryProduct.mode)})}
+                  name="asd"
+                  color="primary"
+                />
+                Add
+              </div>
                 <Divider />
                 <Button variant="contained" type="submit" color="primary">
-                Add Category
-              </Button>
-              <Button variant="contained" type="submit" color="primary">
-                Remove Category
-              </Button>
+                  Send
+                </Button>
             </form>
 		      </Grid>
         </Grid>

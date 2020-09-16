@@ -1,4 +1,5 @@
 //*este es el Container del Navbar 
+import { connect } from "react-redux";
 
 import React from 'react';
 import {makeStyles, Hidden} from '@material-ui/core';
@@ -12,32 +13,32 @@ const styles = makeStyles(theme => ({
 }))
 
 
-const Contenedor = ()=>{
+const Contenedor = (props)=>{
     
     const classes = styles()
-    const[abrir, setAbrir] = React.useState(false)
+    const[open, setOpen] = React.useState(false)
 
-    const accionAbrir = () =>{
-        setAbrir(!abrir)
+    const onOpen = () =>{
+        setOpen(!open)
     }
 
     return(
         
         <div className={classes.root}>
-            <NavBar accionAbrir={accionAbrir}/>
+            <NavBar onOpen={onOpen} cart={props.cart}/>
             <Hidden xsDown>
                 <Box 
                     variant='temporary'
-                    open={abrir}
-                    onClose={accionAbrir}
+                    open={open}
+                    onClose={onOpen}
                     
                 />
             </Hidden>
             <Hidden smUp>
                 <Box 
                     variant='temporary'
-                    open={abrir}
-                    onClose={accionAbrir}
+                    open={open}
+                    onClose={onOpen}
                     
                 />
             </Hidden>
@@ -47,4 +48,9 @@ const Contenedor = ()=>{
     )
 }
 
-export default Contenedor
+function mapStateToProps(state) {
+  return {
+    cart: state.cart,
+  };
+}
+export default connect(mapStateToProps)(Contenedor);

@@ -39,13 +39,27 @@ server.get('/:productId', (req, res, next) => {
 	}
 });
 
-server.get('/search/:name', (req, res, next) => {
+server.post('/search/', (req, res, next) => {
+	console.log(req.body)
 	Product.findAll({
-	  where: {name :{ [Op.like] : '%'+req.params.name+'%' }},
+	  where: {[Op.or]: [
+		  {
+			  name :
+				  {
+					  [Op.iLike] : '%'+req.body.search+'%' 
+				  }
+		  },{
+			  description:
+			  	{
+					  [Op.iLike]: `%${req.body.search}%`
+				}
+			}
+	  ]},
 	  include: [Img, Categories]
 	})
 		.then(products => {
-			res.send(products);
+			console.log(products)
+			res.send({products});
 		})
 		.catch(next);
 });
