@@ -23,9 +23,9 @@ import {
   LOGIN,
   LOGOUT,
   CHECKOUT,
-  SNACKBAR_CLEAR
+  SNACKBAR_CLEAR,
   GET_USER,
-  GET_SEARCH
+  GET_SEARCH,
 } from "../constants";
 
 const url = "localhost:3001";
