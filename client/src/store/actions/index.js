@@ -28,6 +28,7 @@ import {
 } from "../constants";
 
 const url = "localhost:3001";
+const errorNotification = 'Oh no! Something has gone wrong. Try again!'
 
 export function getCategories() {
   return (dispatch) => {
@@ -46,7 +47,13 @@ export function getCategories() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -68,10 +75,17 @@ export function addCategory(name, description, message) {
           dispatch({
             type: ERROR_MESSAGE,
             message: res.data.text,
+            errorNotification
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -98,7 +112,13 @@ export function modifyCategory(id, name, description, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -120,7 +140,13 @@ export function deleteCategory(id, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -141,7 +167,13 @@ export function getProducts() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -163,7 +195,13 @@ export function deleteProduct(id, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -191,7 +229,13 @@ export function addProduct(name, description, price, stock, img, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -217,7 +261,13 @@ export function addCategoryProduct(productId, categoryId, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -236,6 +286,13 @@ export function removeCategoryProduct(productId, categoryId, message) {
             message
           });
         }
+      })
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
       });
   };
 }
@@ -257,7 +314,13 @@ export function getProductsByCategory(categoryId) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -293,7 +356,13 @@ export function modifyProduct(
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 export function getCart() {
@@ -342,7 +411,13 @@ export function getSelectors() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -370,7 +445,13 @@ export function createUser(email, password, name, lastName, address, message) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 

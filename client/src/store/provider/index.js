@@ -195,7 +195,13 @@ export default function Provider(state = initialState, action) {
         orders: [...state.orders, action.order]
       }
     case ERROR_MESSAGE:
-      return { ...state, error: true, errorMessage: action.message };
+      return {
+        ...state,
+        error: true,
+        errorMessage: action.message,
+        errorSnackbarOpen: true,
+        errorSnackbarMessage: action.errorNotification
+      };
     case SNACKBAR_CLEAR:
       return {
         ...state,

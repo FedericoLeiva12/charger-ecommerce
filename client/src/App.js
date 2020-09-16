@@ -16,6 +16,8 @@ import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
 import { checkLogin } from './store/actions';
 import SuccessSnackbar from './components/Snackbars/SuccessSnackbar';
+import ErrorSnackbar from './components/Snackbars/ErrorSnackbar';
+
 
 function App({checkLogin}) {
   useEffect(() => {
@@ -24,6 +26,7 @@ function App({checkLogin}) {
   return (
     <>
     <SuccessSnackbar />
+    <ErrorSnackbar />
     <Switch>
       {/* User Routes */}
       <Route exact path='/' component={HomePage} />
