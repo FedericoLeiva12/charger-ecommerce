@@ -15,6 +15,8 @@ import CreateUserPage from './pages/createUserPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
 import { getUser } from './store/actions';
+import PrivateRoute from './components/Routes/PrivateRoute';
+import UserPage from './pages/UserPage';
 
 function App({getUser}) {
   useEffect(() => {
@@ -33,8 +35,9 @@ function App({getUser}) {
       <Route exact path='/category/:categoryId' component={CategoriaPage} />
       <Route exact path='/checkout' component={CheckoutPage} />
       <Route exact path='/product/:product' component={ProductoPage} />
+      <PrivateRoute exact path='/user' component={UserPage}/>
       {/* Admin Routes */}
-      <Route exact path='/admin' component={AdminPage} />
+      <PrivateRoute exact path='/admin' component={AdminPage} />
     </Switch>
   );
 }

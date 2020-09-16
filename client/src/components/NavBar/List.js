@@ -30,7 +30,7 @@ function List({categories, logged, onSignout}){
             <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>
-            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGNOUT</h1></Link>)}
+            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGN OUT</h1></Link>)}
         </div>
     )
 }
