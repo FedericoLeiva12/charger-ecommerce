@@ -81,6 +81,7 @@ server.post("/", (req, res, next) => {
   User.create({
     email,
     password,
+    rol: "client",
   })
     .then((createdUser) => {
       return createdUser.createInfoUser({
@@ -161,4 +162,20 @@ server.delete("/:id", (req, res) => {
     });
 });
 
+// Set user rol to admin
+server.put("/usertoadmin/:id", (req, res) => {
+  const { id } = req.params;
+
+  User.findByPk(id)
+    .then((user) => {
+      user.update({ rol: "admin" }).then((newAdmin) => {
+        return newAdmin;
+      });
+    })
+    .then((newAdmin) => {
+      res.send({
+        text: newAdmin + " is an admin now!",
+      });
+    });
+});
 module.exports = server;

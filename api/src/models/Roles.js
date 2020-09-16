@@ -1,12 +1,11 @@
-const { DataTypes } = require('sequelize');
-
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-
-    sequelize.define('roles', {
-        rol : {
-            type : DataTypes.ENUM('admin', 'client', 'guest'),
-            defaultValue: 'client'
-        }
-    });
-}  
+  const Roles = sequelize.define("roles", {
+    rol: {
+      type: DataTypes.ENUM("admin", "client", "guest"),
+      defaultValue: "guest",
+    },
+  });
+  Roles.prototype.setAdmin = function () {};
+};
