@@ -3,7 +3,7 @@ import React from 'react';
 const UserPage = ()=>{
     return(
         <>
-            User Pagez
+            User Page
         </>
     )
 }
