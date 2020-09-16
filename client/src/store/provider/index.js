@@ -34,6 +34,7 @@ const initialState = {
   logged: false,
   user: null,
   orders: [],
+  reloadProducts: true,
 
   error: false,
   errorMessage: "",
@@ -75,7 +76,8 @@ export default function Provider(state = initialState, action) {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: action.products,
+        products: state.reloadProducts?action.products:state.products,
+        reloadProducts: true
       };
     case ADD_PRODUCT:
       return {
@@ -169,7 +171,8 @@ export default function Provider(state = initialState, action) {
     case GET_SEARCH:
       return {
           ...state,
-          products: action.products
+          products: action.products,
+          reloadProducts: false
       }	
     case ERROR_MESSAGE:
       return { ...state, error: true, errorMessage: action.message };

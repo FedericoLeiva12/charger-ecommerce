@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { TextField, withStyles, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
 import Style from './style.module.css';
+import { withRouter } from 'react-router-dom';
 
 // STYLED COMPONENTS
 const SearchField = withStyles({
@@ -26,8 +27,7 @@ const SearchField = withStyles({
     }
 })(TextField);
 
-
-export default function SearchBar({onSearch}) {
+function SearchBar({onSearch, history}) {
     const [state, setState] = useState({
         query: '',
         results: []
@@ -36,8 +36,8 @@ export default function SearchBar({onSearch}) {
     return (
         <form className={Style.form} onSubmit={e => {
             e.preventDefault();
-            console.log('a')
-            onSearch(state.query)
+            onSearch(state.query);
+            history.push('/catalog');
         }}>
             <SearchField
                 label="Search"
@@ -58,3 +58,5 @@ export default function SearchBar({onSearch}) {
         </form>
     )
 }
+
+export default withRouter(SearchBar);
