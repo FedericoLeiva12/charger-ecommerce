@@ -68,7 +68,7 @@ const NavBar = props => {
                             </Button>
                         <Button className={classes.title}>
                         <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
-       <Badge badgeContent={props.cart?props.cart.length:0} color="primary">
+       <Badge badgeContent={props.cart?props.cart.length:0} color="secondary">
                             <LocalMallOutlinedIcon />
       </Badge>
                         </Link>
