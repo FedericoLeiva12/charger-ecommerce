@@ -56,23 +56,32 @@ server.post('/', (req,res) =>{
 	const {
 		name, description, price, stock, img
 	} = req.body;
-	console.log(req.body)
+	
 	if(!name || !description || !price || !stock || !img) {
 		return res.status(400).send({ text: 'Invalid data' });
 	}
+
+	let id = null;
+
   	Product.create({
 		name, description, price, stock
-	})
-    	.then((createdProduct) => {
-	  	img.map(Url => {createdProduct.createImg({url:Url})});
-		res.send({ text: 'Product created', product: createdProduct.dataValues });
-	})
-	.catch(err => {
+	}).then(createdProduct=> {
+		id = createdProduct.dataValues.id;
+
+		let promises = img.map(Url => createdProduct.createImg({url:Url}));
+		
+		return Promise.all(promises)
+	}).then(() => {
+		return Product.findOne({where: { id: id }, include: Img})
+	}).then(product => {
+		res.send({ text: 'Product created', product: product });
+	}).catch(err => {
 		res.status(500).send({ text: 'Internal error' });
 		console.error(err);
-	})
+	});
 	
 });
+
 server.put('/:id', (req, res) =>{
 	const {
 		name, price, stock, img, description
