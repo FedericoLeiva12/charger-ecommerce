@@ -57,7 +57,6 @@ server.post('/search/', (req, res, next) => {
 	  include: [Img, Categories]
 	})
 		.then(products => {
-			console.log(products)
 			res.send({products});
 		})
 		.catch(next);
