@@ -40,7 +40,6 @@ server.get('/:productId', (req, res, next) => {
 });
 
 server.post('/search/', (req, res, next) => {
-	console.log(req.body)
 	Product.findAll({
 	  where: {[Op.or]: [
 		  {
