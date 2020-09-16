@@ -36,17 +36,10 @@ export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemo
         setActive(true)
     }
 
-    //handlers de alert
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return
-        }
-        setOpen(false)
-    }
+    const message = 'Product successfully added to your cart!'
 
     const handleClick = () => {
-        setOpen(true)
-        addToCart(product);
+        addToCart(product, message);
     }
 
     useEffect(() => {
@@ -94,16 +87,6 @@ export default function SizeSelect({talles, stock, isInCart, onAddToCart, onRemo
             >
                 {stock>0?'ADD TO CART':'OUT OF STOCK'}
             </Button>
-            <Snackbar
-                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                open={open}
-                onClose={handleClose}
-                autoHideDuration={6000}
-            >
-                <Alert onClose={handleClose} severity="success" variant='filled'>
-                    ¡Product successfully added to cart!
-                </Alert>
-            </Snackbar>
         </Box>
     )
 }

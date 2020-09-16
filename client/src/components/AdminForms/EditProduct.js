@@ -25,7 +25,8 @@ function EditProduct(props) {
     description: '',
     price: '',
     stock: '',
-    img:''
+    img:'',
+    message: 'Product was successfully edited!'
   });
 
   return (
@@ -42,7 +43,8 @@ function EditProduct(props) {
           modifyProduct.description,
 					modifyProduct.price,
 					modifyProduct.stock,
-					modifyProduct.img.split(',').map(x => x.replace(' ', ''))
+					modifyProduct.img.split(',').map(x => x.replace(' ', '')),
+          modifyProduct.message
 				);
               }}
             >

@@ -14,6 +14,9 @@ import LoginPage from './pages/loginPage';
 import CreateUserPage from './pages/createUserPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import { connect } from 'react-redux';
+import { checkLogin } from './store/actions';
+import SuccessSnackbar from './components/Snackbars/SuccessSnackbar';
+import ErrorSnackbar from './components/Snackbars/ErrorSnackbar';
 import { getUser } from './store/actions';
 
 function App({getUser}) {
@@ -21,6 +24,9 @@ function App({getUser}) {
     getUser()
   },[])
   return (
+    <>
+    <SuccessSnackbar />
+    <ErrorSnackbar />
     <Switch>
       {/* User Routes */}
       <Route exact path='/' component={HomePage} />
@@ -36,6 +42,7 @@ function App({getUser}) {
       {/* Admin Routes */}
       <Route exact path='/admin' component={AdminPage} />
     </Switch>
+    </>
   );
 }
 

@@ -23,11 +23,13 @@ import {
   LOGIN,
   LOGOUT,
   CHECKOUT,
+  SNACKBAR_CLEAR
   GET_USER,
   GET_SEARCH
 } from "../constants";
 
 const url = "localhost:3001";
+const errorNotification = 'Oh no! Something has gone wrong. Try again!'
 
 export function getCategories() {
   return (dispatch) => {
@@ -46,11 +48,17 @@ export function getCategories() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function addCategory(name, description) {
+export function addCategory(name, description, message) {
   return (dispatch) => {
     axios
       .post(`http://${url}/products/category`, {
@@ -62,19 +70,27 @@ export function addCategory(name, description) {
           dispatch({
             type: ADD_CATEGORY,
             category: res.data.category,
+            message
           });
         } else {
           dispatch({
             type: ERROR_MESSAGE,
             message: res.data.text,
+            errorNotification
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function modifyCategory(id, name, description) {
+export function modifyCategory(id, name, description, message) {
   return (dispatch) => {
     axios
       .put(`http://${url}/products/category/${id}`, {
@@ -88,6 +104,7 @@ export function modifyCategory(id, name, description) {
             id,
             name,
             description,
+            message
           });
         } else {
           dispatch({
@@ -96,11 +113,17 @@ export function modifyCategory(id, name, description) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function deleteCategory(id) {
+export function deleteCategory(id, message) {
   return (dispatch) => {
     axios
       .delete(`http://${url}/products/category/${id}`)
@@ -109,6 +132,7 @@ export function deleteCategory(id) {
           dispatch({
             type: DELETE_CATEGORY,
             id,
+            message
           });
         } else {
           dispatch({
@@ -117,7 +141,13 @@ export function deleteCategory(id) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -138,11 +168,17 @@ export function getProducts() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function deleteProduct(id) {
+export function deleteProduct(id, message) {
   return (dispatch) => {
     axios
       .delete(`http://${url}/products/${id}`)
@@ -151,6 +187,7 @@ export function deleteProduct(id) {
           dispatch({
             type: DELETE_PRODUCTS,
             id,
+            message
           });
         } else {
           dispatch({
@@ -159,11 +196,17 @@ export function deleteProduct(id) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function addProduct(name, description, price, stock, img) {
+export function addProduct(name, description, price, stock, img, message) {
   return (dispatch) => {
     axios
       .post(`http://${url}/products`, {
@@ -178,6 +221,7 @@ export function addProduct(name, description, price, stock, img) {
           dispatch({
             type: ADD_PRODUCT,
             product: res.data.product,
+            message
           });
         } else {
           dispatch({
@@ -186,11 +230,17 @@ export function addProduct(name, description, price, stock, img) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function addCategoryProduct(productId, categoryId) {
+export function addCategoryProduct(productId, categoryId, message) {
   return (dispatch) => {
     console.log({ productId, categoryId });
     axios
@@ -203,6 +253,7 @@ export function addCategoryProduct(productId, categoryId) {
               productId,
               categoryId,
             },
+            message
           });
         } else {
           dispatch({
@@ -211,11 +262,17 @@ export function addCategoryProduct(productId, categoryId) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function removeCategoryProduct(productId, categoryId) {
+export function removeCategoryProduct(productId, categoryId, message) {
   return (dispatch) => {
     axios
       .delete(`http://${url}/products/${productId}/${categoryId}`)
@@ -227,8 +284,16 @@ export function removeCategoryProduct(productId, categoryId) {
               productId,
               categoryId,
             },
+            message
           });
         }
+      })
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
       });
   };
 }
@@ -250,7 +315,13 @@ export function getProductsByCategory(categoryId) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -280,7 +351,7 @@ export function modifyProduct(
   price,
   stock,
   img,
-  idCategory
+  message
 ) {
   return (dispatch) => {
     axios
@@ -296,6 +367,7 @@ export function modifyProduct(
           dispatch({
             type: MODIFY_PRODUCT,
             product: res.data.product,
+            message
           });
         } else {
           dispatch({
@@ -304,7 +376,13 @@ export function modifyProduct(
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 export function getCart() {
@@ -318,19 +396,21 @@ export function getCart() {
     }
   };
 }
-export function addToCart(product) {
+export function addToCart(product, message) {
   return (dispatch) => {
     dispatch({
       type: ADD_TO_CART,
       cart: product,
+      message
     });
   };
 }
-export function removeFromCart(product) {
+export function removeFromCart(product, message) {
   return (dispatch) => {
     dispatch({
       type: REMOVE_FROM_CART,
       id: product.id,
+      message
     });
   };
 }
@@ -351,11 +431,17 @@ export function getSelectors() {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
-export function createUser(email, password, name, lastName, address) {
+export function createUser(email, password, name, lastName, address, message) {
   return (dispatch) => {
     axios
       .post(`http://${url}/users`, {
@@ -368,8 +454,9 @@ export function createUser(email, password, name, lastName, address) {
       .then((res) => {
         if (res.status === 200) {
           dispatch({
-            type: CREATE_USER, // aca se dispatacha esta accion para que el reducer sepa que hacer
-            createdUser: res.data.createdUser, // aca se lo envio como createdUser
+            type: CREATE_USER,
+            createdUser: res.data.createdUser,
+            message
           });
         } else {
           dispatch({
@@ -378,7 +465,13 @@ export function createUser(email, password, name, lastName, address) {
           });
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error(err)
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification
+        })
+      });
   };
 }
 
@@ -459,5 +552,11 @@ export function getUser() {
       }).catch(console.error);
   };
 }
+
+export const clearSnackbar = () => {
+  return dispatch => {
+    dispatch({ type: SNACKBAR_CLEAR });
+  };
+};
 //  w
 // en este caso, vamos a llevarnos esta funcion |

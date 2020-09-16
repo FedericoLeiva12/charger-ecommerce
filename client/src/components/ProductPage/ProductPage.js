@@ -80,7 +80,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getProducts: () => dispatch(getProducts()),
-        addToCart: (product) => dispatch(addToCart(product))
+        addToCart: (product, message) => dispatch(addToCart(product, message))
     }
 }
 

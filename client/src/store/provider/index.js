@@ -20,7 +20,9 @@ import {
   GET_USER,
   LOGOUT,
   CHECKOUT,
+  SNACKBAR_CLEAR,
   GET_SEARCH
+
 } from "../constants";
 
 import { loadState, saveState } from "../../localStorage";
@@ -28,7 +30,7 @@ import { loadState, saveState } from "../../localStorage";
 const initialState = {
   categories: [],
   products: [],
-  cart: loadState()===undefined?[]: loadState(),
+  cart: loadState() === undefined ? [] : loadState(),
   selectors: [],
   users: [],
   logged: false,
@@ -38,6 +40,12 @@ const initialState = {
 
   error: false,
   errorMessage: "",
+
+  successSnackbarOpen: false,
+  errorSnackbarOpen: false,
+  warningSnackbarOpen: false,
+  successSnackbarMessage: '',
+  errorSnackbarMessage: 'Oh no! Something has gone wrong. Try again!'
 };
 
 export default function Provider(state = initialState, action) {
@@ -52,6 +60,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         categories: [...state.categories, action.category],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case MODIFY_CATEGORY:
       let cat = state.categories.filter(
@@ -65,6 +75,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         categories, //: state.categories.map(cat => cat.id === parseInt(action.id)?{...cat, name: action.name, description: action.description}:cat)
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case DELETE_CATEGORY:
       return {
@@ -72,6 +84,8 @@ export default function Provider(state = initialState, action) {
         categories: state.categories.filter(
           (cat) => cat.id !== parseInt(action.id)
         ),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case GET_PRODUCTS:
       return {
@@ -83,6 +97,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         products: [...state.products, action.product],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case DELETE_PRODUCTS:
       return {
@@ -90,14 +106,20 @@ export default function Provider(state = initialState, action) {
         products: state.products.filter(
           (prod) => prod.id !== parseInt(action.id)
         ),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case ADD_CATEGORY_PRODUCT:
       return {
         ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case REMOVE_CATEGORY_PRODUCT:
       return {
         ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case GET_PRODUCTS_BY_CATEGORY:
       return {
@@ -119,6 +141,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         products,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case GET_CART:
       return {
@@ -129,11 +153,15 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         cart: [...state.cart, action.cart],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case REMOVE_FROM_CART:
       return {
         ...state,
         cart: state.cart.filter((prod) => prod.id !== Number(action.id)),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case GET_SELECTORS:
       return {
@@ -143,7 +171,9 @@ export default function Provider(state = initialState, action) {
     case CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.createdUser], //entonces aca lo guardo como tal dentro de un array de users
+        users: [...state.users, action.createdUser],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       };
     case LOGIN:
       return {
@@ -175,7 +205,20 @@ export default function Provider(state = initialState, action) {
           reloadProducts: false
       }	
     case ERROR_MESSAGE:
-      return { ...state, error: true, errorMessage: action.message };
+      return {
+        ...state,
+        error: true,
+        errorMessage: action.message,
+        errorSnackbarOpen: true,
+        errorSnackbarMessage: action.errorNotification
+      };
+    case SNACKBAR_CLEAR:
+      return {
+        ...state,
+        successSnackbarOpen: false,
+        errorSnackbarOpen: false,
+        warningSnackbarOpen: false
+      }
     default:
       return { ...state };
   }

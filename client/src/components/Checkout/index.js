@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
   const classes = useStyles();
-
+  const removeMessage = 'Product successfully removed from your cart!'
   useEffect(() => {
     getProducts();
   }, []);
@@ -43,7 +43,7 @@ function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
                 <CartProduct
                   key={index}
                   onClose={() => {
-                    removeFromCart(prod);
+                    removeFromCart(prod, removeMessage);
                   }}
                   product={prod}
                 />
@@ -76,7 +76,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
-    removeFromCart: (id) => dispatch(removeFromCart(id)),
+    removeFromCart: (id, message) => dispatch(removeFromCart(id, message)),
     onCheckout: () => dispatch(checkout())
   };
 }
