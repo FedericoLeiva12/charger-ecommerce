@@ -24,6 +24,7 @@ import {
   LOGOUT,
   CHECKOUT,
   GET_USER,
+  GET_SEARCH
 } from "../constants";
 
 const url = "localhost:3001";
@@ -251,6 +252,25 @@ export function getProductsByCategory(categoryId) {
       })
       .catch(console.error);
   };
+}
+
+export function getSearch(searchKey){
+    return dispatch => {
+        axios.post(`http://${url}/products/search/`, { search: searchKey })
+            .then(res =>{
+                if(res.status === 200){
+                    dispatch({
+                        type: GET_SEARCH,
+                        products: res.data.products
+                    })
+                } else {
+                    dispatch({
+                        type: ERROR_MESSAGE,
+                        message: res.data.text
+                    })
+                }
+            })
+    }
 }
 
 export function modifyProduct(
