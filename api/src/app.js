@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
@@ -15,6 +16,11 @@ server.name = 'API';
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser('changersupersecretcodethatyoucantreadpleasedontreadthatpleasepleasepleeeease'));
+server.use(expressSession({
+  secret: 'changersupersecretcodethatyoucantreadpleasedontreadthatpleasepleasepleeeease',
+  resave: true,
+  saveUninitialized: true
+}))
 server.use(morgan('dev'));
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
@@ -26,6 +32,7 @@ server.use((req, res, next) => {
 
 // Passport configuration
 server.use(passport.initialize());
+server.use(passport.session());
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -39,7 +46,7 @@ passport.use(new LocalStrategy({
   }).then(user => {
     if(user) {
       if(user.password === password) {
-        return done(null, {id: user.id, email: user.email, ...user.infoUser, ...user.roles});
+        return done(null, {email: user.email, ...user.infoUser.dataValues, ...(user.roles?user.roled.dataValues:{}), id: user.id});
       } else {
         return done(new Error('Password incorrect'));
       }
@@ -64,7 +71,7 @@ passport.deserializeUser((id, done) => {
     include: [InfoUser, Roles]
   }).then(user => {
     if(user) {
-      return done(null, {id: user.id, email: user.email, ...user.infoUser, ...user.roles});
+      return done(null, {email: user.email, ...user.infoUser.dataValues, ...(user.roles?user.roled.dataValues:{}), id: user.id});
     } else {
       return done(new Error('User not found'), null);
     }

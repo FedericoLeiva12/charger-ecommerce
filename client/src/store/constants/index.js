@@ -17,5 +17,5 @@ export const GET_SELECTORS = 'GET_SELECTORS';
 export const CREATE_USER = 'CREATE_USER'
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
-export const CHECK_LOGIN = 'CHECK_LOGIN';
+export const GET_USER = 'GET_USER';
 export const CHECKOUT = 'CHECKOUT';
