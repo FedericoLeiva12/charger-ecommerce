@@ -11,7 +11,7 @@ import {makeStyles} from '@material-ui/core';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCategories } from '../../store/actions';
+import { getCategories, getSearch } from '../../store/actions';
 import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
@@ -75,7 +75,7 @@ const NavBar = props => {
                         </Button>
                     </Typography>
                     <Link to='/' style={{textDecoration: 'none', color: 'white', marginRight: '31%'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
-                    <SearchBar />
+                    <SearchBar onSearch={props.getSearch} />
                 </Toolbar>
             </AppBar>
         </div>
@@ -91,7 +91,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: () => dispatch(getCategories())
+        getCategories: () => dispatch(getCategories()),
+        getSearch: search => dispatch(getSearch(search))
     }
 }
 
