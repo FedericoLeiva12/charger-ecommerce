@@ -17,11 +17,11 @@ import { connect } from 'react-redux';
 import { checkLogin } from './store/actions';
 import SuccessSnackbar from './components/Snackbars/SuccessSnackbar';
 import ErrorSnackbar from './components/Snackbars/ErrorSnackbar';
+import { getUser } from './store/actions';
 
-
-function App({checkLogin}) {
+function App({getUser}) {
   useEffect(() => {
-    checkLogin()
+    getUser()
   },[])
   return (
     <>
@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    checkLogin: () => dispatch(checkLogin())
+    getUser: () => dispatch(getUser())
   }
 }
 

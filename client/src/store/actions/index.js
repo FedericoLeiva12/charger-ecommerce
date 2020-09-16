@@ -21,10 +21,10 @@ import {
   GET_SELECTORS,
   CREATE_USER,
   LOGIN,
-  CHECK_LOGIN,
   LOGOUT,
   CHECKOUT,
   SNACKBAR_CLEAR
+  GET_USER,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -457,12 +457,9 @@ export function createUser(email, password, name, lastName, address, message) {
 
 export function loginUser(email, password) {
   return (dispatch) => {
-    axios.post(`http://${url}/users/login`, { email, password }).then((res) => {
+    axios.post(`http://${url}/users/login`, { email, password }, { withCredentials: true }).then((res) => {
+      console.log(res);
       if (res.data.logged === true) {
-        const sessionToken = res.data.sessionToken;
-
-        localStorage.setItem("sessionToken", sessionToken);
-
         dispatch({
           type: LOGIN,
           user: res.data.user,
@@ -504,25 +501,25 @@ export function checkout() {
 
 export function logout() {
   return (dispatch) => {
-    localStorage.removeItem("sessionToken");
-    dispatch({
-      type: LOGOUT,
-      logged: false,
-      user: null,
-    });
+    axios.get(`http://${url}/users/logout`, { withCredentials: true })
+      .then(res => {
+        dispatch({
+          type: LOGOUT,
+          logged: false,
+          user: null,
+        });
+      })
   };
 }
 
-export function checkLogin() {
+export function getUser() {
   return (dispatch) => {
     axios
-      .post(`http://${url}/users/checklog`, {
-        sessionToken: localStorage.getItem("sessionToken"),
-      })
+      .get(`http://${url}/users/getuser`, { withCredentials: true })
       .then((res) => {
         if (res.data.logged) {
           dispatch({
-            type: CHECK_LOGIN,
+            type: GET_USER,
             logged: res.data.logged,
             user: res.data.user,
           });

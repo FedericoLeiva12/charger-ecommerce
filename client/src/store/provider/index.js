@@ -17,7 +17,7 @@ import {
   GET_SELECTORS,
   CREATE_USER,
   LOGIN,
-  CHECK_LOGIN,
+  GET_USER,
   LOGOUT,
   CHECKOUT,
   SNACKBAR_CLEAR
@@ -183,7 +183,7 @@ export default function Provider(state = initialState, action) {
         logged: action.logged,
         user: action.user || null,
       };
-    case CHECK_LOGIN:
+    case GET_USER:
       return {
         ...state,
         logged: action.logged,
