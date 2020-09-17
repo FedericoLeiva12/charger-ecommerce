@@ -1,4 +1,5 @@
 //*este es el Container del Navbar 
+import { connect } from "react-redux";
 
 import React from 'react';
 import {makeStyles, Hidden} from '@material-ui/core';
@@ -46,4 +47,9 @@ const Contenedor = ({noTransparent, cart})=>{
     )
 }
 
-export default Contenedor
+function mapStateToProps(state) {
+  return {
+    cart: state.cart,
+  };
+}
+export default connect(mapStateToProps)(Contenedor);
