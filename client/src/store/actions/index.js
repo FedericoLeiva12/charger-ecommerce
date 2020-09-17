@@ -18,7 +18,9 @@ import {
   GET_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  DELETE_FROM_CART,
   GET_SELECTORS,
+  GET_ORDERS,
   CREATE_USER,
   LOGIN,
   LOGOUT,
@@ -29,7 +31,7 @@ import {
 } from "../constants";
 
 const url = "localhost:3001";
-const errorNotification = 'Oh no! Something has gone wrong. Try again!'
+const errorNotification = "Oh no! Something has gone wrong. Try again!";
 
 export function getCategories() {
   return (dispatch) => {
@@ -48,12 +50,12 @@ export function getCategories() {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -70,22 +72,22 @@ export function addCategory(name, description, message) {
           dispatch({
             type: ADD_CATEGORY,
             category: res.data.category,
-            message
+            message,
           });
         } else {
           dispatch({
             type: ERROR_MESSAGE,
             message: res.data.text,
-            errorNotification
+            errorNotification,
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -104,7 +106,7 @@ export function modifyCategory(id, name, description, message) {
             id,
             name,
             description,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -113,12 +115,12 @@ export function modifyCategory(id, name, description, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -132,7 +134,7 @@ export function deleteCategory(id, message) {
           dispatch({
             type: DELETE_CATEGORY,
             id,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -141,12 +143,12 @@ export function deleteCategory(id, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -168,12 +170,12 @@ export function getProducts() {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -187,7 +189,7 @@ export function deleteProduct(id, message) {
           dispatch({
             type: DELETE_PRODUCTS,
             id,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -196,12 +198,12 @@ export function deleteProduct(id, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -221,7 +223,7 @@ export function addProduct(name, description, price, stock, img, message) {
           dispatch({
             type: ADD_PRODUCT,
             product: res.data.product,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -230,12 +232,12 @@ export function addProduct(name, description, price, stock, img, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -253,7 +255,7 @@ export function addCategoryProduct(productId, categoryId, message) {
               productId,
               categoryId,
             },
-            message
+            message,
           });
         } else {
           dispatch({
@@ -262,12 +264,12 @@ export function addCategoryProduct(productId, categoryId, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -284,16 +286,16 @@ export function removeCategoryProduct(productId, categoryId, message) {
               productId,
               categoryId,
             },
-            message
+            message,
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -315,33 +317,34 @@ export function getProductsByCategory(categoryId) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
 
-export function getSearch(searchKey){
-    return dispatch => {
-        axios.post(`http://${url}/products/search/`, { search: searchKey })
-            .then(res =>{
-                if(res.status === 200){
-                    dispatch({
-                        type: GET_SEARCH,
-                        products: res.data.products
-                    })
-                } else {
-                    dispatch({
-                        type: ERROR_MESSAGE,
-                        message: res.data.text
-                    })
-                }
-            })
-    }
+export function getSearch(searchKey) {
+  return (dispatch) => {
+    axios
+      .post(`http://${url}/products/search/`, { search: searchKey })
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch({
+            type: GET_SEARCH,
+            products: res.data.products,
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      });
+  };
 }
 
 export function modifyProduct(
@@ -367,7 +370,7 @@ export function modifyProduct(
           dispatch({
             type: MODIFY_PRODUCT,
             product: res.data.product,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -376,12 +379,12 @@ export function modifyProduct(
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
@@ -401,7 +404,7 @@ export function addToCart(product, message) {
     dispatch({
       type: ADD_TO_CART,
       cart: product,
-      message
+      message,
     });
   };
 }
@@ -410,7 +413,15 @@ export function removeFromCart(product, message) {
     dispatch({
       type: REMOVE_FROM_CART,
       id: product.id,
-      message
+      message,
+    });
+  };
+}
+export function deleteFromCart(product) {
+  return (dispatch) => {
+    dispatch({
+      type: DELETE_FROM_CART,
+      id: product.id,
     });
   };
 }
@@ -431,13 +442,42 @@ export function getSelectors() {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
+  };
+}
+
+export function getOrders(userId) {
+  return (dispatch) => {
+    axios
+      .get(`http://${url}/order/${userId}`)
+      .then((res) => {
+        if (res.status >= 200 && res.status <= 299) {
+          console.log(res.data.orders);
+          res.data.orders = res.data.orders.map((order) => ({
+            ...order,
+            shoppingCart: {
+              ...order.shoppingCart,
+              content: JSON.parse(order.shoppingCart.content),
+            },
+          }));
+          dispatch({
+            type: GET_ORDERS,
+            orders: res.data.orders,
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch(console.error);
   };
 }
 
@@ -456,7 +496,7 @@ export function createUser(email, password, name, lastName, address, message) {
           dispatch({
             type: CREATE_USER,
             createdUser: res.data.createdUser,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -465,70 +505,84 @@ export function createUser(email, password, name, lastName, address, message) {
           });
         }
       })
-      .catch(err => {
-        console.error(err)
+      .catch((err) => {
+        console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification
-        })
+          errorNotification,
+        });
       });
   };
 }
 
 export function loginUser(email, password) {
   return (dispatch) => {
-    axios.post(`http://${url}/users/login`, { email, password }, { withCredentials: true }).then((res) => {
-      console.log(res);
-      if (res.data.logged === true) {
-        dispatch({
-          type: LOGIN,
-          user: res.data.user,
-          logged: res.data.logged,
-        });
-      } else {
-        dispatch({
-          type: ERROR_MESSAGE,
-          message: res.data.text,
-        });
-      }
-    }).catch(console.error);
+    axios
+      .post(
+        `http://${url}/users/login`,
+        { email, password },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.logged === true) {
+          dispatch({
+            type: LOGIN,
+            user: res.data.user,
+            logged: res.data.logged,
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch(console.error);
   };
 }
 
 export function checkout() {
-  const content = localStorage.getItem('cart');
-  const sessionToken = localStorage.getItem('sessionToken');
+  const content = localStorage.getItem("cart");
 
-  return dispatch => {
-    axios.post(`http://${url}/checkout`, {
-      content, sessionToken
-    }).then(res => {
-      const order = res.data.order;
-      if(order) {
-        dispatch({
-          type: CHECKOUT,
-          order: order
-        })
-      } else {
-        dispatch({
-          type: ERROR_MESSAGE,
-          message: res.data.text
-        })
-      }
-    }).catch(console.error)
-  }
+  return (dispatch) => {
+    axios
+      .post(
+        `http://${url}/checkout`,
+        {
+          content,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        const order = res.data.order;
+        if (order) {
+          dispatch({
+            type: CHECKOUT,
+            order: order,
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch(console.error);
+  };
 }
 
 export function logout() {
   return (dispatch) => {
-    axios.get(`http://${url}/users/logout`, { withCredentials: true })
-      .then(res => {
+    axios
+      .get(`http://${url}/users/logout`, { withCredentials: true })
+      .then((res) => {
         dispatch({
           type: LOGOUT,
           logged: false,
           user: null,
         });
-      })
+      });
   };
 }
 
@@ -549,12 +603,13 @@ export function getUser() {
             message: res.data.text,
           });
         }
-      }).catch(console.error);
+      })
+      .catch(console.error);
   };
 }
 
 export const clearSnackbar = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: SNACKBAR_CLEAR });
   };
 };

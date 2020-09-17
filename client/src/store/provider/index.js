@@ -14,15 +14,16 @@ import {
   GET_CART,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  DELETE_FROM_CART,
   GET_SELECTORS,
+  GET_ORDERS,
   CREATE_USER,
   LOGIN,
   GET_USER,
   LOGOUT,
   CHECKOUT,
   SNACKBAR_CLEAR,
-  GET_SEARCH
-
+  GET_SEARCH,
 } from "../constants";
 
 import { loadState, saveState } from "../../localStorage";
@@ -44,16 +45,16 @@ const initialState = {
   successSnackbarOpen: false,
   errorSnackbarOpen: false,
   warningSnackbarOpen: false,
-  successSnackbarMessage: '',
-  errorSnackbarMessage: 'Oh no! Something has gone wrong. Try again!'
+  successSnackbarMessage: "",
+  errorSnackbarMessage: "Oh no! Something has gone wrong. Try again!",
 };
 
 export default function Provider(state = initialState, action) {
   switch (action.type) {
-    case '@@INIT':
+    case "@@INIT":
       return {
-        ...state
-      }
+        ...state,
+      };
     case GET_CATEGORIES:
       return { ...state, categories: action.categories };
     case ADD_CATEGORY:
@@ -61,7 +62,7 @@ export default function Provider(state = initialState, action) {
         ...state,
         categories: [...state.categories, action.category],
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case MODIFY_CATEGORY:
       let cat = state.categories.filter(
@@ -76,7 +77,7 @@ export default function Provider(state = initialState, action) {
         ...state,
         categories, //: state.categories.map(cat => cat.id === parseInt(action.id)?{...cat, name: action.name, description: action.description}:cat)
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case DELETE_CATEGORY:
       return {
@@ -85,20 +86,20 @@ export default function Provider(state = initialState, action) {
           (cat) => cat.id !== parseInt(action.id)
         ),
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case GET_PRODUCTS:
       return {
         ...state,
-        products: state.reloadProducts?action.products:state.products,
-        reloadProducts: true
+        products: state.reloadProducts ? action.products : state.products,
+        reloadProducts: true,
       };
     case ADD_PRODUCT:
       return {
         ...state,
         products: [...state.products, action.product],
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case DELETE_PRODUCTS:
       return {
@@ -107,19 +108,19 @@ export default function Provider(state = initialState, action) {
           (prod) => prod.id !== parseInt(action.id)
         ),
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case ADD_CATEGORY_PRODUCT:
       return {
         ...state,
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case REMOVE_CATEGORY_PRODUCT:
       return {
         ...state,
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case GET_PRODUCTS_BY_CATEGORY:
       return {
@@ -142,27 +143,50 @@ export default function Provider(state = initialState, action) {
         ...state,
         products,
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case GET_CART:
       return {
         ...state,
         cart: action.cart,
       };
-    case ADD_TO_CART:
+    case GET_ORDERS:
       return {
         ...state,
-        cart: [...state.cart, action.cart],
-        successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        orders: action.orders,
       };
+    case ADD_TO_CART:
+      const c = state.cart.find((cart) => cart.id === action.cart.id);
+      if (c === undefined) {
+        action.cart.amount = 1;
+        return {
+          ...state,
+          cart: [...state.cart, action.cart],
+        };
+      } else {
+        c.amount++;
+        return {
+          ...state,
+        };
+      }
     case REMOVE_FROM_CART:
+      const m = state.cart.find((prod) => prod.id === Number(action.id));
+      if (m.amount === 1) {
+        return {
+          ...state,
+        };
+      } else {
+        m.amount--;
+        return {
+          ...state,
+        };
+      }
+    case DELETE_FROM_CART:
       return {
         ...state,
         cart: state.cart.filter((prod) => prod.id !== Number(action.id)),
-        successSnackbarOpen: true,
-        successSnackbarMessage: action.message
       };
+
     case GET_SELECTORS:
       return {
         ...state,
@@ -173,7 +197,7 @@ export default function Provider(state = initialState, action) {
         ...state,
         users: [...state.users, action.createdUser],
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
       };
     case LOGIN:
       return {
@@ -196,29 +220,29 @@ export default function Provider(state = initialState, action) {
     case CHECKOUT:
       return {
         ...state,
-        orders: [...state.orders, action.order]
-      }
+        orders: [...state.orders, action.order],
+      };
     case GET_SEARCH:
       return {
-          ...state,
-          products: action.products,
-          reloadProducts: false
-      }	
+        ...state,
+        products: action.products,
+        reloadProducts: false,
+      };
     case ERROR_MESSAGE:
       return {
         ...state,
         error: true,
         errorMessage: action.message,
         errorSnackbarOpen: true,
-        errorSnackbarMessage: action.errorNotification
+        errorSnackbarMessage: action.errorNotification,
       };
     case SNACKBAR_CLEAR:
       return {
         ...state,
         successSnackbarOpen: false,
         errorSnackbarOpen: false,
-        warningSnackbarOpen: false
-      }
+        warningSnackbarOpen: false,
+      };
     default:
       return { ...state };
   }

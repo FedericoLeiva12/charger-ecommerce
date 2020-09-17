@@ -1,6 +1,11 @@
 const server = require("express").Router();
+const { isAuthenticated } = require("../passport.js");
 const { Checkout, ShoppingCart, User } = require("../db.js");
 
+// Check if is logged
+server.get("/getuser", isAuthenticated, (req, res) => {
+  res.send({ user: req.user, logged: true });
+});
 //getCarts
 server.get("/", (req, res) => {
   ShoppingCart.findAll().then((shpcart) => {
@@ -11,8 +16,7 @@ server.get("/", (req, res) => {
 //postCarts
 server.post("/", (req, res) => {
   const { content } = req.body;
-  const { sessionToken } = req.body;
-  const useremail = new Buffer(sessionToken, "hex").toString().split(":")[0];
+  const id = req.user.id;
   ShoppingCart.create({
     content,
   })
@@ -21,7 +25,7 @@ server.post("/", (req, res) => {
         .then((order) => {
           User.findOne({
             where: {
-              email: useremail,
+              id,
             },
           }).then((user) => {
             order.setUser(user);
@@ -39,7 +43,7 @@ server.post("/", (req, res) => {
 });
 //CreateCheckout
 server.get("/check", (req, res) => {
-  Checkout.findAll().then((orders) => {
+  Checkout.findAll({ include: ShoppingCart }).then((orders) => {
     res.send(orders);
   });
 });
