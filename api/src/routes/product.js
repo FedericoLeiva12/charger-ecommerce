@@ -99,8 +99,6 @@ server.put('/:id', (req, res) =>{
 		name, price, stock, img, description
 	} = req.body;
 
-	console.log(req.body)
-
 	let test = parseInt(req.params.id);
 	if(!(test > 0)) {
 		return next();
