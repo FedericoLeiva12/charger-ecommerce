@@ -44,7 +44,6 @@ const {
   Img,
   User,
   InfoUser,
-  Roles,
   Checkout,
   ShoppingCart,
 } = sequelize.models;
@@ -56,8 +55,6 @@ Product.belongsToMany(Categories, { through: "ProductCategories" });
 Categories.belongsToMany(Product, { through: "ProductCategories" });
 User.hasOne(InfoUser);
 InfoUser.belongsTo(User);
-User.hasOne(Roles);
-Roles.belongsTo(User);
 User.hasMany(Checkout);
 Checkout.belongsTo(User);
 Checkout.hasOne(ShoppingCart);

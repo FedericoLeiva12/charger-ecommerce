@@ -1,27 +1,35 @@
-const { DataTypes } = require('sequelize');
-
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-
-  sequelize.define('user', {
-    email : {
-          type : DataTypes.STRING,
-          allowNull : false,
-          unique: true,
-          validate : {
-            isEmail : true,
-          }
+  const User = sequelize.define("user", {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
       },
-
-    password : {
-        type : DataTypes.STRING,
-        allowNull : false,
-        validate : {
-          is : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ //Min 8 caracteres, 1 number, 1 uppercase
-        },
-        timestamps: false
     },
 
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        is: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, //Min 8 caracteres, 1 number, 1 uppercase
+      },
+      timestamps: false,
+    },
+    rol: {
+      type: DataTypes.ENUM("admin", "client", "guest"),
+      defaultValue: "guest",
+    },
   });
+  /* User.prototype.makeAdmin = function () {
+    const newAdmin = {
+      email: this.email,
+      password: this.password,
+      rol: "admin",
+    };
+    return newAdmin;
+  }; */
 };
-
