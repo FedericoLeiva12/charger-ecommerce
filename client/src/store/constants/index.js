@@ -24,3 +24,4 @@ export const CHECK_LOGIN = "CHECK_LOGIN";
 export const CHECKOUT = "CHECKOUT";
 export const SNACKBAR_CLEAR = "SNACKBAR_CLEAR";
 export const GET_USER = "GET_USER";
+export const CLEAR_CART = "CLEAR_CART";
