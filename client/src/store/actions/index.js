@@ -28,6 +28,7 @@ import {
   SNACKBAR_CLEAR,
   GET_USER,
   GET_SEARCH,
+  CLEAR_CART,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -397,6 +398,16 @@ export function getCart() {
         cart: cart,
       });
     }
+  };
+}
+export function clearCart() {
+  const cart = [];
+
+  return (dispatch) => {
+    dispatch({
+      type: CLEAR_CART,
+      cart: cart,
+    });
   };
 }
 export function addToCart(product, message) {
