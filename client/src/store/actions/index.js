@@ -544,14 +544,16 @@ export function loginUser(email, password) {
 
 export function checkout() {
   const content = localStorage.getItem("cart");
-  const sessionToken = localStorage.getItem("sessionToken");
 
   return (dispatch) => {
     axios
-      .post(`http://${url}/checkout`, {
-        content,
-        sessionToken,
-      })
+      .post(
+        `http://${url}/checkout`,
+        {
+          content,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         const order = res.data.order;
         if (order) {
