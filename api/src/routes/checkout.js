@@ -33,7 +33,7 @@ server.post("/", (req, res) => {
           return order.setShoppingCart(shpcart);
         })
         .then((newOrder) => {
-          res.send(newOrder);
+          res.send({ order: newOrder });
         });
     })
     .catch((err) => {

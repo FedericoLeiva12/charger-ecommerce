@@ -579,7 +579,13 @@ export function checkout() {
           });
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   };
 }
 

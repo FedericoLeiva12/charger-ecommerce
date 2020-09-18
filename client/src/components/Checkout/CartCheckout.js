@@ -42,8 +42,13 @@ export default function CartCheckout({
     setOpenCheckout(true);
   };
   const handleCloseCheckout = () => {
-    setOpenCheckout(true);
+    setOpenCheckout(false);
   };
+  const handleOnCheckout = () => {
+    onCheckout();
+    clearCart();
+  };
+
   useEffect(() => {
     getCart();
   }, []);
@@ -103,7 +108,7 @@ export default function CartCheckout({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseClearCart} color="primary">
+          <Button onClick={handleCloseClearCart} color="secondary">
             Cancel
           </Button>
           <Button onClick={clearCart} color="primary" autoFocus>
@@ -111,7 +116,7 @@ export default function CartCheckout({
           </Button>
         </DialogActions>
       </Dialog>
-
+      <br />
       <Dialog
         open={openCheckout}
         onClose={handleCloseCheckout}
@@ -128,10 +133,10 @@ export default function CartCheckout({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseCheckout} color="primary">
+          <Button onClick={handleCloseCheckout} color="secondary">
             Cancel
           </Button>
-          <Button onClick={onCheckout} color="primary" autoFocus>
+          <Button onClick={handleOnCheckout} color="primary" autoFocus>
             Checkout this cart
           </Button>
         </DialogActions>
@@ -140,6 +145,7 @@ export default function CartCheckout({
         onClick={handleClickOpenClearCart}
         variant="contained"
         color="secondary"
+        style={{ marginRight: "8px" }}
       >
         Clear Cart
       </Button>
