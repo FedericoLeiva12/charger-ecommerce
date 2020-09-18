@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, IconButton, Grid, Typography, Button } from '@material-ui/core'
+import { Box, IconButton, Grid, Typography, Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '5px',
     marginBottom: '5px',
     maxWidth: 344,
-    maxHeight: 148,
+    maxHeight: 158,
     padding: '8px',
     paddingLeft: '0px',
     borderRadius: 10,
@@ -28,7 +28,10 @@ const useStyles = makeStyles(theme => ({
     maxHeight: 80,
   },
   icon: {
-    fontSize: '80px'
+    fontSize: '80px',
+  },
+  boldText: {
+    fontWeight: 'bold'
   }
 }))
 
@@ -37,6 +40,8 @@ function UserCard({user, deleteUser, makeAdmin}) {
 
   const message = `User ${user.infoUser.name} was successfully deleted!`
   const messageAdmin = `Now user ${user.infoUser.name} has administrator rights!`
+
+  const rolUpperCase = user.rol.toUpperCase()
 
   const [open, setOpen] = React.useState(false);
   const [makeAdminOpen ,setMakeAdminOpen] = React.useState(false);
@@ -59,6 +64,10 @@ function UserCard({user, deleteUser, makeAdmin}) {
     setMakeAdminOpen(false)
   }
 
+  const handleCancelMakeAdminClose = () => {
+    setMakeAdminOpen(false)
+  }
+
   const handleCancelClose = () => {
     setOpen(false)
   }
@@ -76,16 +85,19 @@ function UserCard({user, deleteUser, makeAdmin}) {
               {/* INFO */}
         <Grid container item xs={8} style={{textAlign: 'start'}} direction='column'>
           <Grid item>
-            <Typography variant='h6' color='inherit'>{`${user.infoUser.name} ${user.infoUser.lastName}`}</Typography>
+            <Typography variant='h6' color='inherit' className={classes.boldText}>{`${user.infoUser.name} ${user.infoUser.lastName}`}</Typography>
             <Typography>{`Email: ${user.email}`}</Typography>
             <Typography>{`Address: ${user.infoUser.address}`}</Typography>
           </Grid>
         </Grid>
+
+        <Divider variant="middle" />
               {/* BUTTONS */}
-        <Grid container item xs={12} style={{marginTop: '8px', marginLeft:'8px'}} justify='space-between' alignItems='center'>
+        <Grid container item xs={12} style={{marginTop: '8px', marginLeft:'8px', marginBottom: '8px'}} justify='space-between' alignItems='center'>
             <IconButton color='secondary' onClick={handleEditClick}>
               <EditIcon />
             </IconButton>
+            <Typography className={classes.boldText}>{rolUpperCase}</Typography>
             <IconButton color='secondary' onClick={handleDeleteDialogClick}>
               <DeleteIcon />
             </IconButton>
@@ -99,7 +111,7 @@ function UserCard({user, deleteUser, makeAdmin}) {
         <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this user?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you hit de DELETE button, this user will not be able to log back into Charger
+            If you hit the DELETE button, this user will not be able to log back into Charger
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -114,20 +126,20 @@ function UserCard({user, deleteUser, makeAdmin}) {
       {/* DIALOG ALERT MAKEADMIN USER */}
       <Dialog
         open={makeAdminOpen}
-        onClose={handleCancelClose}
+        onClose={handleCancelMakeAdminClose}
       >
-        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this user?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Are you sure you want to give to this user administrator rights?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you hit de DELETE button, this user will not be able to log back into Charger
+            If you hit the button MAKE ADMIN, this user will have administrator rights.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelClose} color="secondary">
+          <Button onClick={handleCancelMakeAdminClose} color="secondary">
             CANCEL
           </Button>
           <Button onClick={handleMakeAdminDialogClose} color="secondary" autoFocus>
-            DELETE
+            MAKE ADMIN
           </Button>
         </DialogActions>
       </Dialog>

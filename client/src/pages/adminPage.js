@@ -48,7 +48,7 @@ function AdminPage({
     removeCategoryProduct,
     modifyProduct,
 }) {
-    const [selectedTab, setSelectedTab] = React.useState(7)
+    const [selectedTab, setSelectedTab] = React.useState(0)
 
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)

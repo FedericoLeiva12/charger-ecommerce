@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getAllUsers, deleteUser, makeAdmin} from '../../store/actions'
 import UserCard from './UserCard'
 
-function ListUsers({users, getAllUsers, deleteUser}) {
+function ListUsers({users, getAllUsers, deleteUser, makeAdmin}) {
   useEffect(() => {
     getAllUsers()
   }, [])
