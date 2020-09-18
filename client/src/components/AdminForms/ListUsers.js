@@ -15,18 +15,4 @@ function ListUsers({users, getAllUsers, deleteUser, makeAdmin}) {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    users: state.users,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllUsers: () => dispatch(getAllUsers()),
-    deleteUser: (id, message) => dispatch(deleteUser(id, message)),
-    makeAdmin: (id, message) => dispatch(makeAdmin(id, message))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListUsers)
+export default  ListUsers
