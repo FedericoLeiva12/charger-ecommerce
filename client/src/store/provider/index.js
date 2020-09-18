@@ -224,6 +224,26 @@ export default function Provider(state = initialState, action) {
         ...state,
         cart: action.cart,
       };
+    case constants.GET_ALL_USERS:
+      return {
+        ...state,
+        users: action.users
+      };
+    case constants.DELETE_FROM_USERS:
+      return {
+        ...state,
+        users: state.users.filter(user => (
+          user.id !== parseInt(action.id)
+        )),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.MAKE_USER_ADMIN:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      }
     default:
       return { ...state };
   }

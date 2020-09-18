@@ -5,7 +5,7 @@ const { isAuthenticated, isNotAuthenticated } = require("../passport");
 
 // All users
 server.get("/", (req, res, next) => {
-  User.findAll({ include: [InfoUser, Checkout] })
+  User.findAll({ include: [InfoUser] })
     .then((users) => {
       res.status(200).send(users);
     })

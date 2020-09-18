@@ -25,3 +25,6 @@ export const CHECKOUT = "CHECKOUT";
 export const SNACKBAR_CLEAR = "SNACKBAR_CLEAR";
 export const GET_USER = "GET_USER";
 export const CLEAR_CART = "CLEAR_CART";
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const DELETE_FROM_USERS = "DELETE_FROM_USERS";
+export const MAKE_USER_ADMIN = "MAKE_USER_ADMIN";

@@ -26,6 +26,7 @@ import AddCategory from '../components/AdminForms/AddCategory';
 import EditCategory from '../components/AdminForms/EditCategory';
 import DeleteCategory from '../components/AdminForms/DeleteCategory';
 import Tables from '../components/AdminForms/Tables';
+import ListUsers from '../components/AdminForms/ListUsers';
 
 const darkTheme = createMuiTheme({
     palette: {
@@ -47,7 +48,7 @@ function AdminPage({
     removeCategoryProduct,
     modifyProduct,
 }) {
-    const [selectedTab, setSelectedTab] = React.useState(0)
+    const [selectedTab, setSelectedTab] = React.useState(7)
 
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
@@ -62,7 +63,7 @@ function AdminPage({
                         value={selectedTab}
                         onChange={handleChange}
                         style={{marginTop: '4em'}}
-                        centered
+                        variant='scrollable'
                     >
                         <Tab label="Products and Categories" />
                         <Tab label="Create Products" />
@@ -71,6 +72,7 @@ function AdminPage({
                         <Tab label="Add Categories" />
                         <Tab label="Edit Categories" />
                         <Tab label="Delete Categories" />
+                        <Tab label="Users" />
                     </Tabs>
                 </AppBar>
                 {selectedTab === 0 && <Tables categories={categories} products={products} viewCategories={getCategories} viewProducts={getProducts} addCategoryProduct={addCategoryProduct} removeCategoryProduct={removeCategoryProduct}/>}
@@ -80,6 +82,7 @@ function AdminPage({
                 {selectedTab === 4 && <AddCategory addCategory={addCategory}/>}
                 {selectedTab === 5 && <EditCategory modifyCategory={modifyCategory}/>}
                 {selectedTab === 6 && <DeleteCategory deleteCategory={deleteCategory}/>}
+                {selectedTab === 7 && <ListUsers />}
             </ThemeProvider>
         </>
     )
