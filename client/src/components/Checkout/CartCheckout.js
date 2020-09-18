@@ -46,7 +46,8 @@ export default function CartCheckout({
   };
   const handleOnCheckout = () => {
     onCheckout();
-    clearCart();
+    //clearCart();
+    handleCloseCheckout();
   };
 
   useEffect(() => {
