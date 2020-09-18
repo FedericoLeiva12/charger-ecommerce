@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, IconButton, Grid, Typography, Button, Divider } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -34,6 +34,15 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   }
 }))
+
+const CssIconButton = withStyles({
+  root: {
+    '& .MuiIconButton-root.Mui-disabled': {
+      color: 'rgb(245 0 87 / 40%)',
+      backgroundColor: 'transparent'
+    }
+  }
+})(IconButton)
 
 function UserCard({user, deleteUser, makeAdmin}) {
   const classes = useStyles()
@@ -94,11 +103,11 @@ function UserCard({user, deleteUser, makeAdmin}) {
         <Divider variant="middle" />
               {/* BUTTONS */}
         <Grid container item xs={12} style={{marginTop: '8px', marginLeft:'8px', marginBottom: '8px'}} justify='space-between' alignItems='center'>
-            <IconButton color='secondary' onClick={handleEditClick}>
+            <CssIconButton color='secondary' onClick={handleEditClick} disabled={rolUpperCase === 'ADMIN' ? true : false}>
               <EditIcon />
-            </IconButton>
+            </CssIconButton>
             <Typography className={classes.boldText}>{rolUpperCase}</Typography>
-            <IconButton color='secondary' onClick={handleDeleteDialogClick}>
+            <IconButton color='secondary' onClick={handleDeleteDialogClick} >
               <DeleteIcon />
             </IconButton>
         </Grid>
