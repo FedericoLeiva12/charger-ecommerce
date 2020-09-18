@@ -1,6 +1,5 @@
 import {forwardRef} from 'react'
 import React, {Component, useEffect} from 'react'
-import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
