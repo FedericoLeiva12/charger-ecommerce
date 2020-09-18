@@ -1,4 +1,10 @@
 import React, { useEffect } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import {
   Button,
   Grid,
@@ -22,6 +28,22 @@ export default function CartCheckout({
   deleteFromCart,
   clearCart,
 }) {
+  const [openClearCart, setOpenClearCart] = React.useState(false);
+  const [openCheckout, setOpenCheckout] = React.useState(false);
+
+  const handleClickOpenClearCart = () => {
+    setOpenClearCart(true);
+  };
+
+  const handleCloseClearCart = () => {
+    setOpenClearCart(false);
+  };
+  const handleClickOpenCheckout = () => {
+    setOpenCheckout(true);
+  };
+  const handleCloseCheckout = () => {
+    setOpenCheckout(true);
+  };
   useEffect(() => {
     getCart();
   }, []);
@@ -66,10 +88,66 @@ export default function CartCheckout({
         </Table>
       </TableContainer>
       <br />
-      <Button onClick={clearCart} variant="contained" color="secondary">
+      <Dialog
+        open={openClearCart}
+        onClose={handleCloseClearCart}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to clear your entire cart?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            If you clear your cart all your items will be deleted from your cart
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseClearCart} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={clearCart} color="primary" autoFocus>
+            Clear my cart
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openCheckout}
+        onClose={handleCloseCheckout}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you ready to checkout??"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Once you do checkout you wont be able to add or remove more items on
+            this cart
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCheckout} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={onCheckout} color="primary" autoFocus>
+            Checkout this cart
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Button
+        onClick={handleClickOpenClearCart}
+        variant="contained"
+        color="secondary"
+      >
         Clear Cart
       </Button>
-      <Button onClick={onCheckout} variant="contained" color="secondary">
+      <Button
+        onClick={handleClickOpenCheckout}
+        variant="contained"
+        color="secondary"
+      >
         Checkout
       </Button>
     </Grid>
