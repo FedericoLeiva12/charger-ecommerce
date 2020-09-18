@@ -224,6 +224,12 @@ export default function Provider(state = initialState, action) {
         ...state,
         cart: action.cart,
       };
+    case constants.RESET_PASSWORD:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
+      }
     default:
       return { ...state };
   }

@@ -29,6 +29,7 @@ import {
   GET_USER,
   GET_SEARCH,
   CLEAR_CART,
+  RESET_PASSWORD,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -620,9 +621,32 @@ export function getUser() {
 }
 
 export const clearSnackbar = () => {
-  return (dispatch) => {
-    dispatch({ type: SNACKBAR_CLEAR });
-  };
+  return { type: SNACKBAR_CLEAR };
 };
+
+export const resetPassword = (email, password, repassword) => {
+  return dispatch => {
+    axios.put(`http://${url}/users/password/${email}`, { password, repassword })
+      .then(res => {
+        if(res.status >= 200 && res.status < 300) {
+          return dispatch({
+            type: RESET_PASSWORD,
+            message: 'Password changed correctly'
+          });
+        } else {
+          return dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text
+          })
+        }
+      }).catch(err => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          message: err.response.data.text
+        })
+      })
+  }
+}
 //  w
 // en este caso, vamos a llevarnos esta funcion |
