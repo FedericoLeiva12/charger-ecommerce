@@ -1,5 +1,5 @@
 import {forwardRef} from 'react'
-import React, {Component, useEffect} from 'react'
+import React from 'react'
 import MaterialTable from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
@@ -55,11 +55,6 @@ function UserTable({users, makeAdmin, deleteUser, getAllUsers}) {
     name: ''
   })
   
-
-  useEffect(() => {
-    getAllUsers()
-  }, [])
-
   const data = users && users.map(user => {
     return {
       name: user.infoUser.name,
