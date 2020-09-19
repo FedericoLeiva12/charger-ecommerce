@@ -29,6 +29,9 @@ import {
   GET_USER,
   GET_SEARCH,
   CLEAR_CART,
+  GET_ALL_USERS,
+  DELETE_FROM_USERS,
+  MAKE_USER_ADMIN,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -617,6 +620,79 @@ export function getUser() {
       })
       .catch(console.error);
   };
+}
+
+export function getAllUsers() {
+  return (dispatch) => {
+    axios
+      .get(`http://${url}/users`)
+      .then(res => {
+        if(res.status === 200) {
+          console.log(res.data)
+          dispatch({
+            type: GET_ALL_USERS,
+            users: res.data
+          })
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+
+export function deleteUser(id, message) {
+  return (dispatch) => {
+    axios
+      .delete(`http://${url}/users/${id}`)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch({
+            type: DELETE_FROM_USERS,
+            id,
+            message
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+
+export function makeAdmin(id, message) {
+  return (dispatch) => {
+    axios
+      .put(`http://${url}/users/usertoadmin/${id}`)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch({
+            type: MAKE_USER_ADMIN,
+            message
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
 }
 
 export const clearSnackbar = () => {
