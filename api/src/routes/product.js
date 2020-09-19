@@ -98,11 +98,6 @@ server.put('/:id', (req, res) =>{
 	const {
 		name, price, stock, img, description
 	} = req.body;
-	console.log(req.body)
-
-	if(name === undefined || description === undefined || price === undefined || stock === undefined || img === undefined) {
-		return res.status(400).send({ text: 'Invalid data' });
-	}
 
 	let test = parseInt(req.params.id);
 	if(!(test > 0)) {
@@ -118,24 +113,37 @@ server.put('/:id', (req, res) =>{
 		include: Img
 	}).then(product => {
 		prod = product;
-		prod.imgs = prod.imgs.filter(async (image, index) => {
-			if(img.indexOf(image.url) >= 0) {
-				img.splice(img.indexOf(image.url), 1);
-				return image.url;
-			} else {
-				await image.destroy();
-				prod.imgs.splice(index, 0);
-			}
-		});
+		
+		if(img && img.length && img[0].length) {
+			prod.imgs = prod.imgs.filter(async (image, index) => {
+				if(img.indexOf(image.url) >= 0) {
+					img.splice(img.indexOf(image.url), 1);
+					return image.url;
+				} else {
+					await image.destroy();
+					prod.imgs.splice(index, 0);
+				}
+			});
 
-		let promises = img.map(img => prod.createImg({url:img}));
+			let promises = img.map(img => prod.createImg({url:img}));
 
-		return Promise.all(promises);
+			return Promise.all(promises);
+		} else {
+			return prod;
+		}
 	}).then(() => {
-		prod.name = name;
-		prod.price = price;
-		prod.stock = stock;
-		prod.description = description;
+		if(name)
+			prod.name = name;
+		
+		if(price)
+			prod.price = price;
+
+		if(stock)
+			prod.stock = stock;
+
+		if(description)
+			prod.description = description;
+
 		return prod.save()
 	}).then(prod => {
 		res.send({product: prod})
