@@ -46,6 +46,7 @@ const {
   InfoUser,
   Checkout,
   ShoppingCart,
+  Reviews
 } = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -59,6 +60,13 @@ User.hasMany(Checkout);
 Checkout.belongsTo(User);
 Checkout.hasOne(ShoppingCart);
 ShoppingCart.belongsTo(Checkout);
+
+Reviews.belongsTo(User);
+User.hasMany(Reviews);
+Reviews.belongsTo(Product);
+Product.hasMany(Reviews);
+
+
 //se usa belongsToMany pues through solo esta soportado por este. hasMany : muchos <=> muchos, belongsToMany : muchos => tabla intermedia (through) <= muchos
 //https://sequelize.org/master/manual/assocs.html
 

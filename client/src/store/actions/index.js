@@ -32,6 +32,9 @@ import {
   GET_ALL_USERS,
   DELETE_FROM_USERS,
   MAKE_USER_ADMIN,
+  GET_REVIEWS,
+  ADD_REVIEWS,
+  DELETE_REVIEWS,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -700,5 +703,41 @@ export const clearSnackbar = () => {
     dispatch({ type: SNACKBAR_CLEAR });
   };
 };
-//  w
+
+export function getReviews(Id) {
+  return (dispatch) => {
+    axios
+     .get(`http://${url}/reviews/${Id}`)
+      .then((res) => {
+          dispatch({
+            type: GET_REVIEWS,
+            reviews: res.data.reviews,
+          });
+      }).catch(console.error);
+  };
+}
+export function addReviews(userId,productId,commentary, rating) {
+  return (dispatch) => {
+    axios
+      .post(`http://${url}/reviews/`, { 
+	userId, productId, commentary, rating 
+      }).then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+          });
+      }).catch(console.error);
+  };
+}
+export function deleteReviews(reviewId){
+  return (dispatch) => {
+    axios.delete(`http://${url}/reviews/`, { reviewId })
+      .then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+          });
+      }).catch(console.error);
+  };
+}
 // en este caso, vamos a llevarnos esta funcion |

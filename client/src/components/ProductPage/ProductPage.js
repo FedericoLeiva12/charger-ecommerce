@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {Grid} from '@material-ui/core'
+import {Divider, Grid} from '@material-ui/core'
+import Rating from '@material-ui/lab/Rating'; 
 import ProductImage from './ProductImage'
 import InfoProduct from './InfoProduct'
 import Container from '../NavBar/Container'
 import { connect } from 'react-redux'
-import { getProducts, getCart, addToCart } from '../../store/actions'
+import { getProducts, getCart, addToCart, getReviews} from '../../store/actions'
 import { useParams } from 'react-router-dom'
+import Comments from './Comments';
 
 // const productPrueba = {
 //     title: 'Bomber Supreme - S20',
@@ -24,7 +26,7 @@ const imagenPrueba = [
 
 
 
-function ProductPage({products, getProducts, cart, getCart, addToCart}) {
+function ProductPage({products, getProducts, cart, getCart, addToCart, reviews,  getReviews}) {
 
 
     
@@ -37,13 +39,23 @@ function ProductPage({products, getProducts, cart, getCart, addToCart}) {
         backdropFilter: 'blur(20px)',
         color: 'white'
     }
+    const [productId, setProductId] = React.useState(useParams().product)
 
     const id = parseInt(useParams().product);
 
     const prod = products.filter(prod => prod.id === id)[0];
+    
+    const promedio = (reviews) => {
+      var p=0;
+      for(var i=0; i < reviews.length; i++){
+	p += reviews[i].rating;
+      }
+      return p = p/reviews.length;
+    }
 
     useEffect(() => {
         getProducts();
+        getReviews(productId);
     }, []);
     
     return (
@@ -62,25 +74,33 @@ function ProductPage({products, getProducts, cart, getCart, addToCart}) {
                         <Grid container item  xs={6} lg={6}>
                             <ProductImage src={prod.imgs[0].url} />
                         </Grid>
-                        <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
+                        <Grid container item  xs={6} lg={6} justify='center' alignContent='center' style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
                             <InfoProduct title={prod.name} description={prod.description} price={prod.price} talle={"XL"} stock={prod.stock} addToCart={addToCart} product={prod}/>
+			  <Rating name="read-only" value={promedio(reviews) !== undefined? promedio(reviews) :0} readOnly /> 
+                            
+                            <Grid style={{marginTop:20}}>
+			      <Comments data={reviews}/>
+                            </Grid>
                         </Grid>
                     </Grid>
                 ):'Loading'}
+
         </div>
     )
 }
 
 function mapStateToProps(state) {
     return {
-        products: state.products
+        products: state.products,
+        reviews: state.reviews
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getProducts: () => dispatch(getProducts()),
-        addToCart: (product, message) => dispatch(addToCart(product, message))
+        addToCart: (product, message) => dispatch(addToCart(product, message)),
+        getReviews: (productId) => dispatch(getReviews(productId))
     }
 }
 
