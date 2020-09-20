@@ -781,9 +781,6 @@ export function deleteReviews(reviewId, message){
             id: reviewId,
             message
           });
-<<<<<<< HEAD
-      }).catch(console.error);
-=======
       }).catch((err) => {
         console.error(err);
         dispatch({
@@ -792,7 +789,6 @@ export function deleteReviews(reviewId, message){
         });
       });
 
->>>>>>> 49056608bb06fdd56bca24625aa8a2f7f77792a9
 
   };
 }
