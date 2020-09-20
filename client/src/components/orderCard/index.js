@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, Card, CardContent, Typography } from '@material-ui/core';
-import CreateReview from '../CreateReview';
 
 const useStyle = makeStyles({
     card: {

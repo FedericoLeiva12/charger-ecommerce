@@ -44,6 +44,7 @@ function ProductPage({products, getProducts, cart, getCart, addToCart, reviews, 
     const id = parseInt(useParams().product);
 
     const prod = products.filter(prod => prod.id === id)[0];
+  console.log(reviews);
     
     const promedio = (reviews) => {
       var p=0;

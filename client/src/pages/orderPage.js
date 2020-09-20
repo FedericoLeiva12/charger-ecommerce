@@ -134,21 +134,22 @@ function OrderPage({user, orders, getOrders}) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12}>
-
-      </Grid>
     </Grid>
       <Modal
+
 	open={open}
 	onClose={handleClose}>
-	<div>
-		<CreateReview userId={user.id} productId={p}/>
-	</div>
-    </Modal> </>
+	<Box alignItems="center" justifyContent="center">
+	  <CreateReview userId={user.id} productId={p}/>
+	</Box>
+      </Modal>
+    </>
   )} else {
-    return (<Box>
-      No orders
-    </Box>)
+    return (
+      <Box>
+        No orders
+      </Box>
+    )
   }
 }
 
