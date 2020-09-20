@@ -1,5 +1,4 @@
 import * as constants from "../constants";
-
 import { loadState, saveState } from "../../localStorage";
 
 const initialState = {
@@ -14,6 +13,7 @@ const initialState = {
   orders: [],
   reloadProducts: true,
   checkoutTotal: 0,
+  reviews: [],
 
   error: false,
   errorMessage: "",
@@ -229,6 +229,40 @@ export default function Provider(state = initialState, action) {
         ...state,
         successSnackbarOpen: true,
         successSnackbarMessage: action.message
+    case constants.GET_ALL_USERS:
+      return {
+        ...state,
+        users: action.users
+      };
+    case constants.DELETE_FROM_USERS:
+      return {
+        ...state,
+        users: state.users.filter(user => (
+          user.id !== parseInt(action.id)
+        )),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.MAKE_USER_ADMIN:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      }
+    case constants.GET_REVIEWS:
+      return {
+          ...state,
+          reviews: action.reviews,
+      }	
+    case  constants.ADD_REVIEWS:
+      return {
+          ...state,
+          reviews: [...state.reviews, action.review ]
+      }
+    case  constants.DELETE_REVIEWS:
+      return {
+          ...state,
+          reviews: state.cart.filter((prod) => prod.id !== Number(action.id)),
       }
     default:
       return { ...state };

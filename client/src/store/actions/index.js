@@ -29,7 +29,16 @@ import {
   GET_USER,
   GET_SEARCH,
   CLEAR_CART,
+
   RESET_PASSWORD,
+
+  GET_ALL_USERS,
+  DELETE_FROM_USERS,
+  MAKE_USER_ADMIN,
+  GET_REVIEWS,
+  ADD_REVIEWS,
+  DELETE_REVIEWS,
+
 } from "../constants";
 
 const url = "localhost:3001";
@@ -580,7 +589,13 @@ export function checkout() {
           });
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   };
 }
 
@@ -620,9 +635,83 @@ export function getUser() {
   };
 }
 
+export function getAllUsers() {
+  return (dispatch) => {
+    axios
+      .get(`http://${url}/users`)
+      .then(res => {
+        if(res.status === 200) {
+          console.log(res.data)
+          dispatch({
+            type: GET_ALL_USERS,
+            users: res.data
+          })
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+
+export function deleteUser(id, message) {
+  return (dispatch) => {
+    axios
+      .delete(`http://${url}/users/${id}`)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch({
+            type: DELETE_FROM_USERS,
+            id,
+            message
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+
+export function makeAdmin(id, message) {
+  return (dispatch) => {
+    axios
+      .put(`http://${url}/users/usertoadmin/${id}`)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch({
+            type: MAKE_USER_ADMIN,
+            message
+          })
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+
 export const clearSnackbar = () => {
   return { type: SNACKBAR_CLEAR };
 };
+
 
 export const resetPassword = (email, password, repassword) => {
   return dispatch => {
@@ -649,4 +738,41 @@ export const resetPassword = (email, password, repassword) => {
   }
 }
 //  w
+
+export function getReviews(Id) {
+  return (dispatch) => {
+    axios
+     .get(`http://${url}/reviews/${Id}`)
+      .then((res) => {
+          dispatch({
+            type: GET_REVIEWS,
+            reviews: res.data.reviews,
+          });
+      }).catch(console.error);
+  };
+}
+export function addReviews(userId,productId,commentary, rating) {
+  return (dispatch) => {
+    axios
+      .post(`http://${url}/reviews/`, { 
+	userId, productId, commentary, rating 
+      }).then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+          });
+      }).catch(console.error);
+  };
+}
+export function deleteReviews(reviewId){
+  return (dispatch) => {
+    axios.delete(`http://${url}/reviews/`, { reviewId })
+      .then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+          });
+      }).catch(console.error);
+  };
+}
 // en este caso, vamos a llevarnos esta funcion |
