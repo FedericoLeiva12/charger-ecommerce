@@ -1,6 +1,6 @@
 const server = require("express").Router();
 const { isAuthenticated } = require("../passport.js");
-const { Checkout, ShoppingCart, User } = require("../db.js");
+const { Checkout, ShoppingCart, User, CreditCard } = require("../db.js");
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
@@ -55,6 +55,38 @@ server.get("/check", (req, res) => {
     res.send(orders);
   });
 });
-// Put creditCard
-//User
+// Post creditCard
+server.post("/addcard/:id", (req, res) => {
+  const id = req.user.id;
+  const { cardNumber, cardName, expirationDate, CCV, orderId } = req.body;
+
+  const order = find;
+  console.log(userId);
+  User.findOne({
+    where: {
+      id,
+    },
+  }).then((loggedUser) => {
+    loggedUser
+      .createCreditCard({
+        cardNumber,
+        cardName,
+        expirationDate,
+        CCV,
+      })
+      .then((userWithCard) => {
+        console.log(userWithCard);
+        res.send(userWithCard);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  });
+});
+//getcreditcards
+server.get("/creditcards", (req, res) => {
+  CreditCard.findAll().then((cards) => {
+    res.send(cards);
+  });
+});
 module.exports = server;
