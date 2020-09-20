@@ -224,17 +224,21 @@ export default function Provider(state = initialState, action) {
         ...state,
         cart: action.cart,
       };
+    case constants.RESET_PASSWORD:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
     case constants.GET_ALL_USERS:
       return {
         ...state,
-        users: action.users
+        users: action.users,
       };
     case constants.DELETE_FROM_USERS:
       return {
         ...state,
-        users: state.users.filter(user => (
-          user.id !== parseInt(action.id)
-        )),
+        users: state.users.filter((user) => user.id !== parseInt(action.id)),
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
       };
@@ -243,22 +247,23 @@ export default function Provider(state = initialState, action) {
         ...state,
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
-      }
+      };
     case constants.GET_REVIEWS:
       return {
-          ...state,
-          reviews: action.reviews,
-      }	
-    case  constants.ADD_REVIEWS:
+        ...state,
+        reviews: action.reviews,
+      };
+    case constants.ADD_REVIEWS:
       return {
-          ...state,
-          reviews: [...state.reviews, action.review ]
-      }
-    case  constants.DELETE_REVIEWS:
+        ...state,
+        reviews: [...state.reviews, action.review],
+      };
+    case constants.DELETE_REVIEWS:
       return {
           ...state,
           reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
       }
+
     default:
       return { ...state };
   }
