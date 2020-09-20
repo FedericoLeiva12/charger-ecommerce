@@ -35,6 +35,7 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
+  GET_USER_REVIEWS
 } from "../constants";
 
 const url = "localhost:3001";
@@ -759,5 +760,24 @@ export function deleteReviews(reviewId, message){
         });
       });
   };
+}
+
+export function getUserReviews(idUser) {
+  return (dispatch) => {
+    axios.get(`http://${url}/reviews/user/${idUser}`)
+      .then(res => {
+        dispatch({
+          type: GET_USER_REVIEWS,
+          userReviews: res.data
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
 }
 // en este caso, vamos a llevarnos esta funcion |

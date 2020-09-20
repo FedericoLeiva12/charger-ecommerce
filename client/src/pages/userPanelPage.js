@@ -5,7 +5,7 @@ import TabPanel from '../components/TabPanel';
 import UserCard from '../components/UserCard';
 import NavBarContainer from '../components/NavBar/Container'
 import OrderCard from '../components/orderCard';
-import { getOrders } from '../store/actions';
+import { getOrders, getUserReviews } from '../store/actions';
 import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles({
@@ -46,6 +46,7 @@ function UserPanelPage ({user, orders, getOrders}) {
                     <Tab label="Information" {...a11yProps(0)} />
                     <Tab label="Orders" {...a11yProps(1)} />
                     <Tab label="Account Settings" {...a11yProps(2)} />
+                    <Tab label="Reviews" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
 
@@ -93,6 +94,11 @@ function UserPanelPage ({user, orders, getOrders}) {
             <TabPanel value={tab} index={2}>
                 Account Settings
             </TabPanel>
+
+            {/* REVIEWS */}
+            <TabPanel value={tab} index={3}>
+                
+            </TabPanel>
         </Box>
         </>
     )
@@ -101,12 +107,14 @@ function UserPanelPage ({user, orders, getOrders}) {
 function mapStateToProps(state) {
     return {
         orders: state.orders,
-        user: state.user
+        user: state.user,
+        userReviews: state.userReviews
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        getUserReviews: (idUser) => dispatch(getUserReviews(idUser)),
         getOrders: (userId) => dispatch(getOrders(userId))
     }
 }

@@ -14,6 +14,7 @@ const initialState = {
   reloadProducts: true,
   checkoutTotal: 0,
   reviews: [],
+  userReviews: [],
 
   error: false,
   errorMessage: "",
@@ -262,6 +263,11 @@ export default function Provider(state = initialState, action) {
           reviews: state.cart.filter((prod) => prod.id !== Number(action.id)),
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
+      }
+    case constants.GET_USER_REVIEWS:
+      return {
+        ...state,
+        userReviews: action.userReviews,
       }
     default:
       return { ...state };
