@@ -41,11 +41,12 @@ server.post("/", (req, res) => {
       console.error(err);
     });
 });
-//CreateCheckout
+//Get Checkout
 server.get("/check", (req, res) => {
   Checkout.findAll({ include: ShoppingCart }).then((orders) => {
     res.send(orders);
   });
 });
-
+// Put creditCard
+//User
 module.exports = server;
