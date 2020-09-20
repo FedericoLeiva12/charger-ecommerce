@@ -770,7 +770,6 @@ export function addReviews(userId, productId, commentary, rating) {
 }
 export function deleteReviews(reviewId) {
   return (dispatch) => {
-<<<<<<< HEAD
     axios.delete(`http://${url}/reviews/${reviewId}`)
       .then((res) => {
           dispatch({
