@@ -745,12 +745,16 @@ export function addReviews(userId,productId,commentary, rating, message) {
 }
 export function deleteReviews(reviewId, message){
   return (dispatch) => {
-    axios.delete(`http://${url}/reviews/`, { reviewId })
+    axios.delete(`http://${url}/reviews/${reviewId}`)
       .then((res) => {
           dispatch({
             type: DELETE_REVIEWS,
+<<<<<<< HEAD
             review: res.data.review,
             message
+=======
+            id: reviewId,
+>>>>>>> a3127fa730ce67ec091cd84b589ce4e9ab46a127
           });
       }).catch((err) => {
         console.error(err);

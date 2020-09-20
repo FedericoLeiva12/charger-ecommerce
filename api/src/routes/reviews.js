@@ -2,12 +2,20 @@ const server = require('express').Router();
 const { Reviews, Product, User, InfoUser } = require('../db.js');
 
 server.get('/:productId', (req, res)=> {
-    Product.findByPk(req.params.productId)
-    .then(product =>{
-      return product.getReviews()
+    Product.findAll({
+      where:{id: req.params.productId},
+      include: {
+	model:Reviews,
+	include:{
+	  model: User,
+	  include:{
+	    model: InfoUser
+	  }
+	}
+      }
     })
     .then(reviews => {
-      res.send({text: 'reviews logged', reviews: reviews});
+      res.send({text: 'reviews logged', reviews: reviews[0].reviews});
     }).catch(error=>{
         res.status(500).send({text: error})
     });
@@ -35,6 +43,7 @@ server.get('/user/:userId', (req, res)=> {
         res.status(500).send({text: error})
     });
 })
+
 server.post('/', (req, res)=>{
     const {commentary, rating, productId, userId} = req.body
     if(!commentary || typeof commentary !== 'string' || commentary.length <= 0) {

@@ -260,7 +260,7 @@ export default function Provider(state = initialState, action) {
     case  constants.DELETE_REVIEWS:
       return {
           ...state,
-          reviews: state.cart.filter((prod) => prod.id !== Number(action.id)),
+          reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
       }
