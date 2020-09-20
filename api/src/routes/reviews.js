@@ -4,8 +4,7 @@ const { Reviews, Product, User, InfoUser } = require('../db.js');
 server.get('/:productId', (req, res)=> {
     Product.findByPk(req.params.productId)
     .then(product =>{
-      const name = 
-        return product.getReviews()
+      return product.getReviews()
     })
     .then(reviews => {
       res.send({text: 'reviews logged', reviews: reviews});
@@ -20,14 +19,18 @@ server.get('/user/:userId', (req, res)=> {
             model: InfoUser,
       },{
 	    model: Reviews,
+	    include: {
+	      model: Product
+	    }
             }],
       })
-    .then(product =>{
-      const name = 
-        return product.getReviews()
-    })
     .then(reviews => {
-      res.send({text: 'reviews logged', reviews: reviews});
+      res.send({
+	text: 'reviews logged', 
+	user: reviews[0].infoUser,
+	reviews: reviews[0].reviews
+
+      });
     }).catch(error=>{
         res.status(500).send({text: error})
     });
