@@ -17,24 +17,32 @@ server.get("/", (req, res) => {
 server.post("/", (req, res) => {
   const { content } = req.body;
   const id = req.user.id;
+
+  // Auxiliars
+  let order = null;
+  let shpcart = null;
+
   ShoppingCart.create({
     content,
   })
-    .then((shpcart) => {
-      Checkout.create()
-        .then((order) => {
-          User.findOne({
-            where: {
-              id,
-            },
-          }).then((user) => {
-            order.setUser(user);
-          });
-          return order.setShoppingCart(shpcart);
-        })
-        .then((newOrder) => {
-          res.send(newOrder);
-        });
+    .then((shopcart) => {
+      shpcart = shopcart;
+      return Checkout.create();
+    })
+    .then((norder) => {
+      order = norder;
+      return User.findOne({
+        where: {
+          id,
+        },
+      });
+    })
+    .then((user) => {
+      order.setUser(user);
+      return order.setShoppingCart(shpcart);
+    })
+    .then((newOrder) => {
+      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
     })
     .catch((err) => {
       res.status(500).send({ text: "Internal error" });
