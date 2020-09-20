@@ -36,6 +36,7 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
+  GET_USER_REVIEWS
 } from "../constants";
 
 const url = "localhost:3001";
@@ -476,7 +477,7 @@ export function getOrders(userId) {
       .get(`http://${url}/order/${userId}`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
-          console.log(res.data.orders);
+          // console.log(res.data.orders);
           res.data.orders = res.data.orders.map((order) => ({
             ...order,
             shoppingCart: {
@@ -750,35 +751,65 @@ export function getReviews(Id) {
       .catch(console.error);
   };
 }
-export function addReviews(userId, productId, commentary, rating) {
+
+export function addReviews(userId,productId,commentary, rating, message) {
   return (dispatch) => {
     axios
-      .post(`http://${url}/reviews/`, {
-        userId,
-        productId,
-        commentary,
-        rating,
-      })
-      .then((res) => {
+      .post(`http://${url}/reviews/`, { 
+	userId, productId, commentary, rating 
+      }).then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+            message
+          });
+      }).catch((err) => {
+        console.error(err);
         dispatch({
-          type: ADD_REVIEWS,
-          review: res.data.review,
+          type: ERROR_MESSAGE,
+          errorNotification,
         });
-      })
-      .catch(console.error);
+      });
   };
 }
-export function deleteReviews(reviewId) {
+export function deleteReviews(reviewId, message){
   return (dispatch) => {
-    axios
-      .delete(`http://${url}/reviews/`, { reviewId })
+    axios.delete(`http://${url}/reviews/${reviewId}`)
       .then((res) => {
+          dispatch({
+            type: DELETE_REVIEWS,
+            id: reviewId,
+            message
+          });
+      }).catch((err) => {
+        console.error(err);
         dispatch({
-          type: ADD_REVIEWS,
-          review: res.data.review,
+          type: ERROR_MESSAGE,
+          errorNotification,
         });
-      })
-      .catch(console.error);
+      });
+
+
   };
+}
+
+export function getUserReviews(userId) {
+  return (dispatch) => {
+    axios.get(`http://${url}/reviews/user/${userId}`)
+      .then(res => {
+        console.log(res.data.text)
+        dispatch({
+          type: GET_USER_REVIEWS,
+          userReviews: res.data
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
 }
 // en este caso, vamos a llevarnos esta funcion |

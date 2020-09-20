@@ -5,8 +5,9 @@ import TabPanel from '../components/TabPanel';
 import UserCard from '../components/UserCard';
 import NavBarContainer from '../components/NavBar/Container'
 import OrderCard from '../components/orderCard';
-import { getOrders } from '../store/actions';
+import { getOrders, getUserReviews, deleteReviews } from '../store/actions';
 import { Link } from 'react-router-dom';
+import SeeReviews from '../components/SeeReviews';
 
 const useStyle = makeStyles({
     content: {
@@ -17,7 +18,7 @@ const useStyle = makeStyles({
     }
 })
 
-function UserPanelPage ({user, orders, getOrders}) {
+function UserPanelPage ({user, orders, getOrders, userReviews, deleteReviews, getUserReviews}) {
     const [tab, setTab] = useState(0);
 
     const classes = useStyle();
@@ -25,7 +26,8 @@ function UserPanelPage ({user, orders, getOrders}) {
     useEffect(() => {
         if(user)
             getOrders(user.id);
-    }, [user]);
+        }, [user]);
+        
 
     function a11yProps(index) {
         return {
@@ -46,6 +48,7 @@ function UserPanelPage ({user, orders, getOrders}) {
                     <Tab label="Information" {...a11yProps(0)} />
                     <Tab label="Orders" {...a11yProps(1)} />
                     <Tab label="Account Settings" {...a11yProps(2)} />
+                    <Tab label="Reviews" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
 
@@ -59,8 +62,8 @@ function UserPanelPage ({user, orders, getOrders}) {
 
             {/* ORDERS */}
             <TabPanel value={tab} index={1}>
-                {orders.map(order => (
-                    <Link to={`/order/${order.id}`} style={{textDecoration: 'none'}}>
+                {orders.map((order, index) => (
+                    <Link to={`/order/${order.id}`} style={{textDecoration: 'none'}} key={index}>
                         <OrderCard
                             id={order.id}
                             status={order.state}
@@ -93,6 +96,11 @@ function UserPanelPage ({user, orders, getOrders}) {
             <TabPanel value={tab} index={2}>
                 Account Settings
             </TabPanel>
+
+            {/* REVIEWS */}
+            <TabPanel value={tab} index={3}>
+                <SeeReviews userReviews={userReviews} deleteReviews={deleteReviews} getUserReviews={getUserReviews} user={user}/>
+            </TabPanel>
         </Box>
         </>
     )
@@ -101,12 +109,15 @@ function UserPanelPage ({user, orders, getOrders}) {
 function mapStateToProps(state) {
     return {
         orders: state.orders,
-        user: state.user
+        user: state.user,
+        userReviews: state.userReviews
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        getUserReviews: (userId) => dispatch(getUserReviews(userId)),
+        deleteReviews: (reviewId, message) => dispatch(deleteReviews(reviewId, message)),
         getOrders: (userId) => dispatch(getOrders(userId))
     }
 }

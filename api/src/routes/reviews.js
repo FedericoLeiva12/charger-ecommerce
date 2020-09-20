@@ -1,13 +1,44 @@
 const server = require('express').Router();
-const { Reviews, Product, User } = require('../db.js');
+const { Reviews, Product, User, InfoUser } = require('../db.js');
 
 server.get('/:productId', (req, res)=> {
-    Product.findByPk(req.params.productId)
-    .then(product =>{
-        return product.getReviews()
+    Product.findAll({
+      where:{id: req.params.productId},
+      include: {
+	model:Reviews,
+	include:{
+	  model: User,
+	  include:{
+	    model: InfoUser
+	  }
+	}
+      }
     })
     .then(reviews => {
-      res.send({text: 'reviews logged', reviews: reviews});
+      res.send({text: 'reviews logged', reviews: reviews[0].reviews});
+    }).catch(error=>{
+        res.status(500).send({text: error})
+    });
+})
+server.get('/user/:userId', (req, res)=> {
+    User.findAll({
+      where: { id : req.params.userId },
+      include:[{
+            model: InfoUser,
+      },{
+	    model: Reviews,
+	    include: {
+	      model: Product
+	    }
+            }],
+      })
+    .then(reviews => {
+      res.send({
+	text: 'reviews logged', 
+	user: reviews[0].infoUser,
+	reviews: reviews[0].reviews
+
+      });
     }).catch(error=>{
         res.status(500).send({text: error})
     });

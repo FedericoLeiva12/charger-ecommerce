@@ -30,6 +30,7 @@ import EditCategory from '../components/AdminForms/EditCategory'
 import DeleteCategory from '../components/AdminForms/DeleteCategory'
 import Tables from '../components/AdminForms/Tables'
 import ListUsers from '../components/AdminForms/ListUsers'
+import SeeReviews from '../components/SeeReviews'
 
 const darkTheme = createMuiTheme({
     palette: {
@@ -80,6 +81,7 @@ function AdminPage({
                         <Tab label="Edit Categories" />
                         <Tab label="Delete Categories" />
                         <Tab label="Users" />
+                        <Tab label="Reviews" />
                     </Tabs>
                 </AppBar>
                 {selectedTab === 0 && (
@@ -109,6 +111,7 @@ function AdminPage({
                     <DeleteCategory deleteCategory={deleteCategory} />
                 )}
                 {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} />}
+                {selectedTab === 8 && <SeeReviews />}
             </ThemeProvider>
         </>
     )

@@ -14,6 +14,7 @@ const initialState = {
   reloadProducts: true,
   checkoutTotal: 0,
   reviews: [],
+  userReviews: [],
 
   error: false,
   errorMessage: "",
@@ -254,15 +255,25 @@ export default function Provider(state = initialState, action) {
         reviews: action.reviews,
       };
     case constants.ADD_REVIEWS:
+      return { 
+          ...state,
+          reviews: [...state.reviews, action.review ],
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+      }
+    case  constants.DELETE_REVIEWS:
+      return {
+          ...state,
+          reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+      }
+    case constants.GET_USER_REVIEWS:
       return {
         ...state,
-        reviews: [...state.reviews, action.review],
-      };
-    case constants.DELETE_REVIEWS:
-      return {
-        ...state,
-        reviews: state.cart.filter((prod) => prod.id !== Number(action.id)),
-      };
+        userReviews: action.userReviews,
+      }
+
     default:
       return { ...state };
   }
