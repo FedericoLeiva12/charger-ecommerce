@@ -142,4 +142,22 @@ server.put("/usertoadmin/:id", (req, res) => {
       });
     });
 });
+//Change password
+server.put("/password/:email", (req, res) => {
+  const userEmail = req.params.email;
+  const newPass = req.body.password;
+  User.findOne({
+    where: {
+      email: userEmail,
+    },
+  }).then((forgotUser) => {
+    forgotUser
+      .update({
+        password: newPass,
+      })
+      .then((updatedUser) => {
+        res.send(updatedUser);
+      });
+  });
+});
 module.exports = server;

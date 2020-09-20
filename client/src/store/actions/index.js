@@ -29,16 +29,13 @@ import {
   GET_USER,
   GET_SEARCH,
   CLEAR_CART,
-
   RESET_PASSWORD,
-
   GET_ALL_USERS,
   DELETE_FROM_USERS,
   MAKE_USER_ADMIN,
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-
 } from "../constants";
 
 const url = "localhost:3001";
@@ -639,13 +636,13 @@ export function getAllUsers() {
   return (dispatch) => {
     axios
       .get(`http://${url}/users`)
-      .then(res => {
-        if(res.status === 200) {
-          console.log(res.data)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
           dispatch({
             type: GET_ALL_USERS,
-            users: res.data
-          })
+            users: res.data,
+          });
         } else {
           dispatch({
             type: ERROR_MESSAGE,
@@ -660,20 +657,20 @@ export function getAllUsers() {
           errorNotification,
         });
       });
-  }
+  };
 }
 
 export function deleteUser(id, message) {
   return (dispatch) => {
     axios
       .delete(`http://${url}/users/${id}`)
-      .then(res => {
-        if(res.status === 200) {
+      .then((res) => {
+        if (res.status === 200) {
           dispatch({
             type: DELETE_FROM_USERS,
             id,
-            message
-          })
+            message,
+          });
         }
       })
       .catch((err) => {
@@ -683,19 +680,19 @@ export function deleteUser(id, message) {
           errorNotification,
         });
       });
-  }
+  };
 }
 
 export function makeAdmin(id, message) {
   return (dispatch) => {
     axios
       .put(`http://${url}/users/usertoadmin/${id}`)
-      .then(res => {
-        if(res.status === 200) {
+      .then((res) => {
+        if (res.status === 200) {
           dispatch({
             type: MAKE_USER_ADMIN,
-            message
-          })
+            message,
+          });
         }
       })
       .catch((err) => {
@@ -705,74 +702,83 @@ export function makeAdmin(id, message) {
           errorNotification,
         });
       });
-  }
+  };
 }
 
 export const clearSnackbar = () => {
   return { type: SNACKBAR_CLEAR };
 };
 
-
 export const resetPassword = (email, password, repassword) => {
-  return dispatch => {
-    axios.put(`http://${url}/users/password/${email}`, { password, repassword })
-      .then(res => {
-        if(res.status >= 200 && res.status < 300) {
+  return (dispatch) => {
+    axios
+      .put(`http://${url}/users/password/${email}`, { password, repassword })
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
           return dispatch({
             type: RESET_PASSWORD,
-            message: 'Password changed correctly'
+            message: "Password changed correctly",
           });
         } else {
           return dispatch({
             type: ERROR_MESSAGE,
-            message: res.data.text
-          })
+            message: res.data.text,
+          });
         }
-      }).catch(err => {
-        console.error(err);
+      })
+      .catch((err) => {
+        console.log(err);
         dispatch({
           type: ERROR_MESSAGE,
-          message: err.response.data.text
-        })
-      })
-  }
-}
+          message: err.data,
+        });
+      });
+  };
+};
 //  w
 
 export function getReviews(Id) {
   return (dispatch) => {
     axios
-     .get(`http://${url}/reviews/${Id}`)
+      .get(`http://${url}/reviews/${Id}`)
       .then((res) => {
-          dispatch({
-            type: GET_REVIEWS,
-            reviews: res.data.reviews,
-          });
-      }).catch(console.error);
+        dispatch({
+          type: GET_REVIEWS,
+          reviews: res.data.reviews,
+        });
+      })
+      .catch(console.error);
   };
 }
-export function addReviews(userId,productId,commentary, rating) {
+export function addReviews(userId, productId, commentary, rating) {
   return (dispatch) => {
     axios
-      .post(`http://${url}/reviews/`, { 
-	userId, productId, commentary, rating 
-      }).then((res) => {
-          dispatch({
-            type: ADD_REVIEWS,
-            review: res.data.review,
-          });
-      }).catch(console.error);
+      .post(`http://${url}/reviews/`, {
+        userId,
+        productId,
+        commentary,
+        rating,
+      })
+      .then((res) => {
+        dispatch({
+          type: ADD_REVIEWS,
+          review: res.data.review,
+        });
+      })
+      .catch(console.error);
   };
 }
-export function deleteReviews(reviewId){
+export function deleteReviews(reviewId) {
   return (dispatch) => {
-    axios.delete(`http://${url}/reviews/`, { reviewId })
+    axios
+      .delete(`http://${url}/reviews/`, { reviewId })
       .then((res) => {
-          dispatch({
-            type: ADD_REVIEWS,
-            review: res.data.review,
-          });
-      }).catch(console.error);
+        dispatch({
+          type: ADD_REVIEWS,
+          review: res.data.review,
+        });
+      })
+      .catch(console.error);
   };
 }
 // en este caso, vamos a llevarnos esta funcion |
