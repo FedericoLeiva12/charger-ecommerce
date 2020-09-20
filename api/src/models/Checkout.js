@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
   sequelize.define("checkout", {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV1,
       primaryKey: true,
     },
     state: {
