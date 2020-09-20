@@ -105,14 +105,14 @@ export default function CartCheckout({
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you clear your cart all your items will be deleted from your cart
+            If you clear your cart all your items will be deleted from your cart.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseClearCart} color="secondary">
             Cancel
           </Button>
-          <Button onClick={clearCart} color="primary" autoFocus>
+          <Button onClick={clearCart} color="secondary" autoFocus>
             Clear my cart
           </Button>
         </DialogActions>
@@ -125,19 +125,19 @@ export default function CartCheckout({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you ready to checkout??"}
+          {"Are you ready to checkout?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Once you do checkout you wont be able to add or remove more items on
-            this cart
+            this cart.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCheckout} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleOnCheckout} color="primary" autoFocus>
+          <Button onClick={handleOnCheckout} color="secondary" autoFocus>
             Checkout this cart
           </Button>
         </DialogActions>

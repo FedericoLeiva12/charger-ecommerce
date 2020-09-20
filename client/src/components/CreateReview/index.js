@@ -39,7 +39,10 @@ function CreateReview({ userId, productId ,addReviews}) {
     commentary: "",
     rating: 0
   });
+
   const classes = useStyles()
+  const message = 'Review successfully created!'
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -56,7 +59,8 @@ function CreateReview({ userId, productId ,addReviews}) {
 	    reviewToAdd.userId,
 	    reviewToAdd.productId,
 	    reviewToAdd.commentary, 
-	    reviewToAdd.rating
+	    reviewToAdd.rating,
+      message
 	    )} } autoComplete="off" >
 	    <TextField
                 label="Let us know your opinion."
@@ -88,7 +92,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addReviews: (userId, productId, commentary, rating) => dispatch(addReviews(userId, productId, commentary, rating)),
+    addReviews: (userId, productId, commentary, rating, message) => dispatch(addReviews(userId, productId, commentary, rating, message)),
   };
 }
 

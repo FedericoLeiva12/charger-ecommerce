@@ -722,7 +722,7 @@ export function getReviews(Id) {
       }).catch(console.error);
   };
 }
-export function addReviews(userId,productId,commentary, rating) {
+export function addReviews(userId,productId,commentary, rating, message) {
   return (dispatch) => {
     axios
       .post(`http://${url}/reviews/`, { 
@@ -731,19 +731,33 @@ export function addReviews(userId,productId,commentary, rating) {
           dispatch({
             type: ADD_REVIEWS,
             review: res.data.review,
+            message
           });
-      }).catch(console.error);
+      }).catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   };
 }
-export function deleteReviews(reviewId){
+export function deleteReviews(reviewId, message){
   return (dispatch) => {
     axios.delete(`http://${url}/reviews/`, { reviewId })
       .then((res) => {
           dispatch({
-            type: ADD_REVIEWS,
+            type: DELETE_REVIEWS,
             review: res.data.review,
+            message
           });
-      }).catch(console.error);
+      }).catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   };
 }
 // en este caso, vamos a llevarnos esta funcion |

@@ -252,12 +252,16 @@ export default function Provider(state = initialState, action) {
     case  constants.ADD_REVIEWS:
       return {
           ...state,
-          reviews: [...state.reviews, action.review ]
+          reviews: [...state.reviews, action.review ],
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
       }
     case  constants.DELETE_REVIEWS:
       return {
           ...state,
           reviews: state.cart.filter((prod) => prod.id !== Number(action.id)),
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
       }
     default:
       return { ...state };
