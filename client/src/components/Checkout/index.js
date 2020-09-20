@@ -8,8 +8,9 @@ import {
   removeFromCart,
   deleteFromCart,
   checkout,
+  clearCart,
 } from "../../store/actions";
-import CartProduct from "./CartProduct";
+
 import CartCheckout from "./CartCheckout";
 
 import {
@@ -33,6 +34,7 @@ function Checkout({
   removeFromCart,
   onCheckout,
   deleteFromCart,
+  clearCart,
 }) {
   useEffect(() => {
     getProducts();
@@ -54,6 +56,7 @@ function Checkout({
               /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
               <>
                 <CartCheckout
+                  clearCart={clearCart}
                   onCheckout={onCheckout}
                   cart={cart}
                   getCart={getCart}
@@ -91,6 +94,7 @@ function mapDispatchToProps(dispatch) {
     removeFromCart: (id, message) => dispatch(removeFromCart(id, message)),
     deleteFromCart: (id, message) => dispatch(deleteFromCart(id, message)),
     onCheckout: () => dispatch(checkout()),
+    clearCart: () => dispatch(clearCart()),
   };
 }
 

@@ -12,6 +12,7 @@
     "axios": "^0.20.0",
     "fontsource-roboto": "^3.0.3",
     "hybrid-crypto-js": "^0.2.3",
+    "material-table": "^1.69.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",

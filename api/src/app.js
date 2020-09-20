@@ -90,15 +90,15 @@ passport.deserializeUser((id, done) => {
     where: {
       id,
     },
-    include: [InfoUser, Roles],
+    include: [InfoUser],
   })
     .then((user) => {
       if (user) {
         return done(null, {
           email: user.email,
           ...user.infoUser.dataValues,
-          ...(user.roles ? user.roled.dataValues : {}),
           id: user.id,
+          rol: user.rol,
         });
       } else {
         return done(new Error("User not found"), null);

@@ -13,16 +13,23 @@ import {
 } from "@material-ui/core";
 import CartProduct from "./CartProduct";
 
-export default function CartCheckout({ cart, onCheckout, getCart, addToCart, removeFromCart, deleteFromCart}) {
+export default function CartCheckout({
+  cart,
+  onCheckout,
+  getCart,
+  addToCart,
+  removeFromCart,
+  deleteFromCart,
+  clearCart,
+}) {
   useEffect(() => {
     getCart();
-    
   }, []);
   var total = 0;
   cart.map((prod) => {
     total += prod.amount * prod.price;
   });
- 
+
   return (
     <Grid item xs={12}>
       <TableContainer component={Paper}>
@@ -44,8 +51,8 @@ export default function CartCheckout({ cart, onCheckout, getCart, addToCart, rem
                     deleteFromCart(prod);
                   }}
                   product={prod}
-		  addToCart={addToCart}
-		  removeFromCart={removeFromCart}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
                 />
               </TableRow>
             ))}
@@ -59,6 +66,9 @@ export default function CartCheckout({ cart, onCheckout, getCart, addToCart, rem
         </Table>
       </TableContainer>
       <br />
+      <Button onClick={clearCart} variant="contained" color="secondary">
+        Clear Cart
+      </Button>
       <Button onClick={onCheckout} variant="contained" color="secondary">
         Checkout
       </Button>
