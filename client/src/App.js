@@ -20,6 +20,7 @@ import { checkLogin } from "./store/actions";
 import SuccessSnackbar from "./components/Snackbars/SuccessSnackbar";
 import ErrorSnackbar from "./components/Snackbars/ErrorSnackbar";
 import { getUser } from "./store/actions";
+import CreateReview from './pages/createReview.js';
 
 function App({ getUser }) {
   useEffect(() => {
@@ -43,10 +44,11 @@ function App({ getUser }) {
         <Route exact path="/product/:product" component={ProductoPage} />
         <Route exact path="/user" component={userPanelPage} />
         <Route exact path="/order/:id" component={orderPage} />
+        <Route exact path='/createReview/' component={CreateReview} />
         {/* Admin Routes */}
         <Route exact path="/admin" component={AdminPage} />
       </Switch>
-    </>
+   </>
   );
 }
 
