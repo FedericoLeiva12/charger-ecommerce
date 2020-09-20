@@ -80,7 +80,7 @@ const array=[
                                     className={classes.inline}
                                     color="textSecondary"
                                 >
-                                    {c.id}
+                                    {c.user.infoUser.name}
                                 </Typography>
                                 : {c.commentary}
                                 </React.Fragment>

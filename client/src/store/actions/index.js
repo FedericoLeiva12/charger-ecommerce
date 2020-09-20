@@ -731,11 +731,11 @@ export function addReviews(userId,productId,commentary, rating) {
 }
 export function deleteReviews(reviewId){
   return (dispatch) => {
-    axios.delete(`http://${url}/reviews/`, { reviewId })
+    axios.delete(`http://${url}/reviews/${reviewId}`)
       .then((res) => {
           dispatch({
-            type: ADD_REVIEWS,
-            review: res.data.review,
+            type: DELETE_REVIEWS,
+            id: reviewId,
           });
       }).catch(console.error);
   };
