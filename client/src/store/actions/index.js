@@ -476,7 +476,7 @@ export function getOrders(userId) {
       .get(`http://${url}/order/${userId}`)
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
-          console.log(res.data.orders);
+          // console.log(res.data.orders);
           res.data.orders = res.data.orders.map((order) => ({
             ...order,
             shoppingCart: {
@@ -749,12 +749,8 @@ export function deleteReviews(reviewId, message){
       .then((res) => {
           dispatch({
             type: DELETE_REVIEWS,
-<<<<<<< HEAD
-            review: res.data.review,
-            message
-=======
             id: reviewId,
->>>>>>> a3127fa730ce67ec091cd84b589ce4e9ab46a127
+            message
           });
       }).catch((err) => {
         console.error(err);
@@ -766,10 +762,11 @@ export function deleteReviews(reviewId, message){
   };
 }
 
-export function getUserReviews(idUser) {
+export function getUserReviews(userId) {
   return (dispatch) => {
-    axios.get(`http://${url}/reviews/user/${idUser}`)
+    axios.get(`http://${url}/reviews/user/${userId}`)
       .then(res => {
+        console.log(res.data.text)
         dispatch({
           type: GET_USER_REVIEWS,
           userReviews: res.data

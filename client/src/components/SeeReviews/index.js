@@ -1,4 +1,4 @@
-import {forwardRef} from 'react'
+import {forwardRef, useEffect} from 'react'
 import React from 'react'
 import { deleteReviews, getUserReviews } from '../../store/actions'
 import { connect } from 'react-redux'
@@ -43,42 +43,32 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 
-function SeeReviews({deleteReviews, reviews}) {
+function SeeReviews({deleteReviews, userReviews, getUserReviews, user}) {
+
+  useEffect(() => {
+    if(user) {
+      getUserReviews(user.id)
+    }
+  }, [])
   
-  const data = reviews && reviews.map(review => {
+  console.log(userReviews)
+
+  const data = userReviews.reviews && userReviews.reviews.map(review => {
     return {
-      user: review.infoUser.name || 'User 1',
       commentary: review.commentary || 'No commentary',
       rating: review.rating || 1,
-      product: review. product || 'Product 1',
+      product: review. product.name || 'Product 1',
       reviewId: review.id || 0,
     }
   })
 
-//   const data = [{
-//     user: 'Juancho',
-//     commentary: 'Muy copado che',
-//     rating: 5,
-//     product: 'Camperita',
-//     reviewId: 1,
-//   },
-//   {
-//     user: 'Manu',
-//     commentary: 'Se ve chispas',
-//     rating: 4,
-//     product: 'Camperita',
-//     reviewId: 2,
-//   }
-// ]
-
   return (
     <div>
       <MaterialTable
-        title="All Reviews"
+        title='All reviews'
         icons={tableIcons}
         data={data}
         columns={[
-          {title: 'User', field: 'user', editable: 'never'},
           {title: 'Commentary', field: 'commentary', editable: 'onUpdate'},
           {title: 'Rating', field: 'rating', editable: 'never', type: 'numeric'},
           {title: 'Product', field: 'product', editable: 'never'},
@@ -110,17 +100,5 @@ function SeeReviews({deleteReviews, reviews}) {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    reviews: state.reviews
-  }
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getUserReviews: (idUser) => dispatch(getUserReviews(idUser)),
-    deleteReviews: (id, message) => dispatch(deleteReviews(id, message)),
-  }
-}
-
-export default  connect(mapStateToProps, mapDispatchToProps)(SeeReviews);
+export default  SeeReviews;
