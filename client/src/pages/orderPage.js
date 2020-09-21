@@ -10,6 +10,7 @@ import {
   Grid,
   Modal,
   Button,
+  Divider
 } from "@material-ui/core";
 import PaymentIcon from "@material-ui/icons/Payment";
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
@@ -20,7 +21,9 @@ import { getOrders } from "../store/actions";
 
 const useStyle = makeStyles({
   root: {
-    marginTop: '4em'
+    marginTop: '4em',
+    background: '#3d3d3d',
+    height: '90.8vh'
   },
   card: {
     margin: "2em",
@@ -89,13 +92,13 @@ function OrderPage({user, orders, getOrders}) {
         <Card className={classes.card}>
           <CardContent>
             <Box>
-              <Typography variant="h4">Total: ${total}</Typography>
+              <Typography>Order: #{order.id}</Typography>
             </Box>
             {order.products.map((prod, index) => (
 	      <>
               <Box key={index} className={classes.product}>
-                <Avatar src={prod.image} />
-                <Typography>- {prod.name} - ${prod.price * prod.amount} ( ${prod.price} x{prod.amount} )</Typography>
+                <Avatar src={prod.image} style={{marginRight: '8px'}}/>
+                <Typography> {prod.name} - ${prod.price * prod.amount} ( ${prod.price} x{prod.amount} )</Typography>
               </Box>
 	      <Box>
 		<Button type="button" variant="contained" color="secondary" onClick={() => handleOpen(prod.id)}>
@@ -105,8 +108,9 @@ function OrderPage({user, orders, getOrders}) {
 	      </Box>
 	      </>
             ))}
-            <Box>
-              <Typography>#{order.id}</Typography>
+            <Box mt={1} style={{maxWidth: '100%'}} display='flex' justifyContent="flex-end">
+            <Divider />
+            <Typography variant="h5">Total: ${total}</Typography>
             </Box>
           </CardContent>
         </Card>
