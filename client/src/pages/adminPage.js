@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
     getCategories,
     addCategory,
@@ -13,6 +13,10 @@ import {
     getAllUsers,
     makeAdmin,
     deleteUser,
+    getUserReviews,
+    modifyReview,
+    deleteReviews,
+    getOrders
 } from '../store/actions'
 import {connect} from 'react-redux'
 import NavBar from '../components/NavBar/Container'
@@ -54,13 +58,24 @@ function AdminPage({
     getAllUsers,
     deleteUser,
     makeAdmin,
-    users
+    users,
+    deleteReviews,
+    modifyReview,
+    getUserReviews,
+    user,
+    getOrders
 }) {
     const [selectedTab, setSelectedTab] = React.useState(0)
 
     const handleChange = (event, newValue) => {
         setSelectedTab(newValue)
     }
+
+    useEffect(() => {
+        if(user) {
+            getOrders(user.id)
+        }
+    }, [])
 
     return (
         <>
@@ -81,7 +96,6 @@ function AdminPage({
                         <Tab label="Edit Categories" />
                         <Tab label="Delete Categories" />
                         <Tab label="Users" />
-                        <Tab label="Reviews" />
                     </Tabs>
                 </AppBar>
                 {selectedTab === 0 && (
@@ -111,7 +125,6 @@ function AdminPage({
                     <DeleteCategory deleteCategory={deleteCategory} />
                 )}
                 {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} />}
-                {selectedTab === 8 && <SeeReviews />}
             </ThemeProvider>
         </>
     )
@@ -121,7 +134,10 @@ function mapStateToProps(state) {
     return {
         categories: state.categories,
         products: state.products,
-        users: state.users
+        users: state.users,
+        user: state.user,
+        reviews: state.reviews,
+        userReviews: state.userReviews
     }
 }
 
@@ -148,6 +164,10 @@ function mapDispatchToProps(dispatch) {
         getAllUsers: () => dispatch(getAllUsers()),
         deleteUser: (id, message) => dispatch(deleteUser(id, message)),
         makeAdmin: (id, message) => dispatch(makeAdmin(id, message)),
+        getUserReviews: (userId) => dispatch(getUserReviews(userId)),
+        deleteReviews: (reviewId, message) => dispatch(deleteReviews(reviewId, message)),
+        getOrders: (userId) => dispatch(getOrders(userId)),
+        modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message))
     }
 }
 
