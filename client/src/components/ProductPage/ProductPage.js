@@ -62,14 +62,6 @@ function ProductPage({products, getProducts, cart, getCart, addToCart, reviews, 
     return (
         <div style={sectionStyle}>
             <Container />
-            {/*<Grid container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
-                <Grid container item  xs={6} lg={6}>
-                    <ProductImage src={imagenPrueba[1]} />
-                </Grid>
-                <Grid container item  xs={6} lg={6} justify='center' alignContent='center'>
-                    <InfoProduct {...productPrueba} />
-                </Grid>
-            </Grid>*/}
                 {prod?(
                     <Grid container justify='center' alignItems='center' style={{maxWidth:1366, maxHeight:768, paddingTop: '80px', backdropFilter: 'blur(10px)', paddingBottom: '40px'}}>
                         <Grid container item  xs={6} lg={6}>
@@ -80,7 +72,7 @@ function ProductPage({products, getProducts, cart, getCart, addToCart, reviews, 
 			  <Rating name="read-only" value={promedio(reviews) !== undefined? promedio(reviews) :0} readOnly /> 
                             
                             <Grid style={{marginTop:20}}>
-			      <Comments data={reviews}/>
+			     { reviews.length>0 ? <Comments data={reviews}/> : null}
                             </Grid>
                         </Grid>
                     </Grid>
