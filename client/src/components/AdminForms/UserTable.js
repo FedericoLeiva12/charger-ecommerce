@@ -2,6 +2,7 @@ import {forwardRef} from 'react'
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import MaterialTable from 'material-table'
+import Box from '@material-ui/core/Box'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Check from '@material-ui/icons/Check'
@@ -66,6 +67,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  boxStyle: {
+    border: '2px solid #fafafa',
+    borderRadius: '20px',
+    background: '#3D3D3D'
+  }
 }))
 
 function UserTable({
@@ -91,7 +97,8 @@ function UserTable({
     name: '',
   })
 
-  const handleOpen = () => {
+  const handleOpen = (id) => {
+    getUserReviews(id)
     setOpen(true)
   }
 
@@ -150,11 +157,11 @@ function UserTable({
             disabled: rowData.rol === 'admin',
             onClick: () => handleMakeAdminClick(rowData),
           }),
-          {
+          rowData => ({
             icon: () => <RateReviewIcon />,
             tooltip: 'See reviews',
-            onClick: () => handleOpen,
-          },
+            onClick: () => handleOpen(rowData.id),
+          }),
         ]}
         editable={{
           onRowDelete: oldData =>

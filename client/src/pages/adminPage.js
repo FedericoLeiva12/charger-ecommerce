@@ -63,7 +63,8 @@ function AdminPage({
     modifyReview,
     getUserReviews,
     user,
-    getOrders
+    getOrders,
+    reviews
 }) {
     const [selectedTab, setSelectedTab] = React.useState(0)
 
@@ -124,7 +125,7 @@ function AdminPage({
                 {selectedTab === 6 && (
                     <DeleteCategory deleteCategory={deleteCategory} />
                 )}
-                {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} />}
+                {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} getUserReviews={getUserReviews} modifyReview={modifyReview} deleteReviews={deleteReviews} reviews={reviews} />}
             </ThemeProvider>
         </>
     )
