@@ -274,6 +274,20 @@ export default function Provider(state = initialState, action) {
         ...state,
         userReviews: action.userReviews,
       }
+    case constants.MODIFY_REVIEW:
+        let rev = state.reviews.filter(
+          (rev) => rev.id === parseInt(action.id)
+        )[0];
+        if (rev === undefined) return { ...state };
+        let i = state.reviews.indexOf(rev);
+        let reviews = [...state.reviews];
+        reviews[i].commentary = action.commentary;
+        return {
+          ...state,
+          reviews, 
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+        };
 
     default:
       return { ...state };

@@ -1,7 +1,5 @@
 import {forwardRef, useEffect} from 'react'
 import React from 'react'
-import { deleteReviews, getUserReviews } from '../../store/actions'
-import { connect } from 'react-redux'
 import MaterialTable from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
@@ -43,7 +41,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 
-function SeeReviews({deleteReviews, userReviews, getUserReviews, user}) {
+function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyReview}) {
 
   useEffect(() => {
     if(user) {
@@ -89,7 +87,7 @@ function SeeReviews({deleteReviews, userReviews, getUserReviews, user}) {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
-              // setData([...dataUpdate]);
+              modifyReview(index +1, newData.commentary);
 
               resolve();
             }, 1000)
