@@ -198,6 +198,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         orders: [...state.orders, action.order],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
     case constants.GET_SEARCH:
       return {

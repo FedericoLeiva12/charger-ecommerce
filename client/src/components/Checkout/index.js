@@ -93,7 +93,7 @@ function mapDispatchToProps(dispatch) {
     addToCart: (product, message) => dispatch(addToCart(product, message)),
     removeFromCart: (id, message) => dispatch(removeFromCart(id, message)),
     deleteFromCart: (id, message) => dispatch(deleteFromCart(id, message)),
-    onCheckout: () => dispatch(checkout()),
+    onCheckout: (message) => dispatch(checkout(message)),
     clearCart: () => dispatch(clearCart()),
   };
 }

@@ -561,7 +561,7 @@ export function loginUser(email, password) {
   };
 }
 
-export function checkout() {
+export function checkout(message) {
   const content = localStorage.getItem("cart");
 
   return (dispatch) => {
@@ -579,6 +579,7 @@ export function checkout() {
           dispatch({
             type: CHECKOUT,
             order: order,
+            message
           });
         } else {
           dispatch({

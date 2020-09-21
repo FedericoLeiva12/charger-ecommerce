@@ -175,7 +175,7 @@ function OrderPage({user, orders, getOrders}) {
             </Card>
           </Grid>
         </Grid>
-        <Modal open={open} onClose={handleClose} className={classes.modal}>
+        <Modal open={open} onClose={handleClose} className={classes.modal} disableAutoFocus disableEnforceFocus>
           <Box alignItems="center" justifyContent="center">
             <CreateReview userId={user.id} productId={p} />
           </Box>
