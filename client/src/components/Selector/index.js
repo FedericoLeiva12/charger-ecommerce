@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Selector(props) {
+export default withRouter(function Selector(props) {
   const classes = useStyles();
   const [prop, setProp] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -37,12 +37,15 @@ export default function Selector(props) {
   };
 
   if (redirect) {
-    if(prop !== '0')
+    if(prop !== '0')  {
       //window.location.href = '/category/'+prop;
-      return (<Redirect to={`/category/${prop}`} />)
-    else
-      return (<Redirect to={`/catalog`} />)
+      props.history.push(`/category/${prop}`);
+    } else {
+      props.history.psuh(`/catalog`);
       //window.location.href = '/catalog'
+    }
+
+    setRedirect(false);
   }
   return (
     <div>
@@ -78,4 +81,4 @@ export default function Selector(props) {
       </FormControl>
     </div>
   );
-}
+});
