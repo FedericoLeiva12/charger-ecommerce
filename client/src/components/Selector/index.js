@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -36,17 +36,20 @@ export default withRouter(function Selector(props) {
     setOpen(true);
   };
 
-  if (redirect) {
-    if(prop !== '0')  {
-      //window.location.href = '/category/'+prop;
-      props.history.push(`/category/${prop}`);
-    } else {
-      props.history.psuh(`/catalog`);
-      //window.location.href = '/catalog'
-    }
+  useEffect(() => {
+    if (redirect) {
+      if(prop !== '0')  {
+        //window.location.href = '/category/'+prop;
+        props.history.push(`/category/${prop}`);
+      } else {
+        props.history.psuh(`/catalog`);
+        //window.location.href = '/catalog'
+      }
 
-    setRedirect(false);
-  }
+      setRedirect(false);
+    }
+  });
+
   return (
     <div>
       <FormControl className={classes.formControl}>

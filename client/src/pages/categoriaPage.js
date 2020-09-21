@@ -51,7 +51,7 @@ function CategoryPage({
   }, [categoryId]);
 
   function onSelect(id) {
-    getProducts(id);
+    //getProducts(id);
   }
   return (
     <>
@@ -80,7 +80,7 @@ function CategoryPage({
 
                   for (let [key, value] of Object.entries(selectors)) {
                     results.push(
-                      <Selector key={i} nom={key} elements={value} onSelect={onSelect}/>
+                      <Selector key={i} nom={key} elements={value} />
                     );
                     i++;
                   }

@@ -47,7 +47,7 @@ function Catalogo({
   }, []);
 
   function onSelect(id) {
-    getProducts(id);
+    //getProducts(id);
   }
   return (
     <>
@@ -76,7 +76,7 @@ function Catalogo({
 
                   for (let [key, value] of Object.entries(selectors)) {
                     results.push(
-                      <Selector key={i} nom={key} elements={value} onSelect={onSelect} />
+                      <Selector key={i} nom={key} elements={value} />
                     );
                     i++;
                   }
