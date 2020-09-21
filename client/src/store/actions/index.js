@@ -814,7 +814,7 @@ export function getUserReviews(userId) {
 }
 // en este caso, vamos a llevarnos esta funcion |
 
-export function modifyReview(id, commentary) {
+export function modifyReview(id, commentary, message) {
   return (dispatch) => {
     axios
       .put(`http://${url}/reviews/${id}`, {
@@ -825,7 +825,8 @@ export function modifyReview(id, commentary) {
           dispatch({
             type: MODIFY_REVIEW,
             id,
-            commentary
+            commentary,
+            message
           });
         } else {
           dispatch({

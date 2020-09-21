@@ -119,7 +119,7 @@ function mapDispatchToProps(dispatch) {
         getUserReviews: (userId) => dispatch(getUserReviews(userId)),
         deleteReviews: (reviewId, message) => dispatch(deleteReviews(reviewId, message)),
         getOrders: (userId) => dispatch(getOrders(userId)),
-        modifyReview: (id, commentary)=> dispatch(modifyReview(id, commentary))
+        modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message))
     }
 }
 
