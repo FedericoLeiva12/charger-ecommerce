@@ -273,6 +273,7 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         userReviews: action.userReviews,
+	reviews: action.userReviews.reviews
       }
     case constants.MODIFY_REVIEW:
         let rev = state.reviews.filter(

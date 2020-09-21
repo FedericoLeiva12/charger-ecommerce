@@ -41,7 +41,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 
-function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyReview}) {
+function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyReview, reviews}) {
 
   useEffect(() => {
     if(user) {
@@ -49,9 +49,9 @@ function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyRev
     }
   }, [])
   
-  console.log(userReviews)
+  console.log(reviews)
 
-  const data = userReviews.reviews && userReviews.reviews.map(review => {
+  const data = reviews && reviews.map(review => {
     return {
       commentary: review.commentary || 'No commentary',
       rating: review.rating || 1,
