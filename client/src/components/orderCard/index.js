@@ -24,7 +24,7 @@ export default function OrderCard({id, products, status}) {
     let total = 0;
 
     products.forEach(prod => {
-        total += prod.precio * prod.cantidad;
+        total += prod.price * prod.amount;
     });
 
     return (
