@@ -132,6 +132,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getProducts: (id) => dispatch(getProductsByCategory(id)),
     getSelectors: () => dispatch(getSelectors()),
+    addToCart: (product, message) => dispatch(addToCart(product, message)),
   };
 }
 
