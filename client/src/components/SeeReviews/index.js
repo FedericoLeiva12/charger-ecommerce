@@ -87,7 +87,7 @@ function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyRev
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
-              modifyReview(index +1, newData.commentary);
+              modifyReview(oldData.reviewId, newData.commentary);
 
               resolve();
             }, 1000)
