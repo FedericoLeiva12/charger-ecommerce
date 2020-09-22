@@ -47,6 +47,9 @@ function Catalogo({
     getSelectors();
   }, []);
 
+  function onSelect(id) {
+    //getProducts(id);
+  }
   return (
     <>
       <NavBarCOntainer cart={cart} />
