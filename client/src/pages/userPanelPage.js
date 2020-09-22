@@ -5,7 +5,7 @@ import TabPanel from '../components/TabPanel';
 import UserCard from '../components/UserCard';
 import NavBarContainer from '../components/NavBar/Container'
 import OrderCard from '../components/orderCard';
-import { getOrders, getUserReviews, deleteReviews } from '../store/actions';
+import { getOrders, getUserReviews, deleteReviews, modifyReview } from '../store/actions';
 import { Link } from 'react-router-dom';
 import SeeReviews from '../components/SeeReviews';
 
@@ -18,7 +18,7 @@ const useStyle = makeStyles({
     }
 })
 
-function UserPanelPage ({user, orders, getOrders, userReviews, deleteReviews, getUserReviews}) {
+function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteReviews, getUserReviews, modifyReview}) {
     const [tab, setTab] = useState(0);
 
     const classes = useStyle();
@@ -99,7 +99,7 @@ function UserPanelPage ({user, orders, getOrders, userReviews, deleteReviews, ge
 
             {/* REVIEWS */}
             <TabPanel value={tab} index={3}>
-                <SeeReviews userReviews={userReviews} deleteReviews={deleteReviews} getUserReviews={getUserReviews} user={user}/>
+                <SeeReviews reviews={reviews} userReviews={userReviews} deleteReviews={deleteReviews} getUserReviews={getUserReviews} user={user} modifyReview={modifyReview}/>
             </TabPanel>
         </Box>
         </>
@@ -110,7 +110,8 @@ function mapStateToProps(state) {
     return {
         orders: state.orders,
         user: state.user,
-        userReviews: state.userReviews
+        userReviews: state.userReviews,
+        reviews: state.reviews
     }
 }
 
@@ -118,7 +119,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getUserReviews: (userId) => dispatch(getUserReviews(userId)),
         deleteReviews: (reviewId, message) => dispatch(deleteReviews(reviewId, message)),
-        getOrders: (userId) => dispatch(getOrders(userId))
+        getOrders: (userId) => dispatch(getOrders(userId)),
+        modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message))
     }
 }
 

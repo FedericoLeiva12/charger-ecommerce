@@ -26,6 +26,7 @@ const darkTheme = createMuiTheme({
 const useStyles = makeStyles(() => ({
   cont: {
     background: "#3D3D3D",
+    height: '100vh'
   },
 }));
 
@@ -60,6 +61,7 @@ function Catalogo({
             direction="row"
             alignItems="flex-start"
             paddingBottom="40px"
+            className={classes.background}
           >
             {
               /*selectors.map(cat=>{

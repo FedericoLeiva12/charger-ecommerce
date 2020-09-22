@@ -66,7 +66,7 @@ const array=[
     return(
         <Paper className={classes.root}>
             <List >
-                {
+                {  
                     data.map((c)=>{
                         return(
                         <>
@@ -80,7 +80,7 @@ const array=[
                                     className={classes.inline}
                                     color="textSecondary"
                                 >
-                                    {c.user.infoUser.name}
+                                    {c.user ? c.user.infoUser.name : 'Usuario'}
                                 </Typography>
                                 : {c.commentary}
                                 </React.Fragment>

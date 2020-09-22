@@ -198,6 +198,8 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         orders: [...state.orders, action.order],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
     case constants.GET_SEARCH:
       return {
@@ -263,6 +265,7 @@ export default function Provider(state = initialState, action) {
       }
     case  constants.DELETE_REVIEWS:
       return {
+
           ...state,
           reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
           successSnackbarOpen: true,
@@ -272,7 +275,22 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         userReviews: action.userReviews,
+	reviews: action.userReviews.reviews
       }
+    case constants.MODIFY_REVIEW:
+        let rev = state.reviews.filter(
+          (rev) => rev.id === parseInt(action.id)
+        )[0];
+        if (rev === undefined) return { ...state };
+        let i = state.reviews.indexOf(rev);
+        let reviews = [...state.reviews];
+        reviews[i].commentary = action.commentary;
+        return {
+          ...state,
+          reviews, 
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+        };
 
     default:
       return { ...state };

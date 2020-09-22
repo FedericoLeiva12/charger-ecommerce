@@ -30,6 +30,7 @@ export default function CartCheckout({
 }) {
   const [openClearCart, setOpenClearCart] = React.useState(false);
   const [openCheckout, setOpenCheckout] = React.useState(false);
+  const message = 'The order was created you can follow it on your profile!'
 
   const handleClickOpenClearCart = () => {
     setOpenClearCart(true);
@@ -45,7 +46,7 @@ export default function CartCheckout({
     setOpenCheckout(false);
   };
   const handleOnCheckout = () => {
-    onCheckout();
+    onCheckout(message);
     //clearCart();
     handleCloseCheckout();
   };

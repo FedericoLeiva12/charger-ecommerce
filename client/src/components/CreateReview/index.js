@@ -28,7 +28,8 @@ const useStyles = makeStyles(() => ({
      boxShadow: '5px 10px 10px rgba(0, 0, 0, 0.2)',
      '&:hover':{
         backgroundColor: 'rgba(66, 66, 66, 0.8)',
-        boxShadow: '5px 20px 30px rgba(0, 0, 0, 0.2)'
+        boxShadow: '5px 20px 30px rgba(0, 0, 0, 0.2)',
+        transition: '0.4s'
       }
   },
 }));
@@ -77,7 +78,7 @@ function CreateReview({ userId, productId ,addReviews}) {
               />
       <Divider/>
 	    <br/> 
-	    <Button type='submit' style={{border: '0.05px solid grey'  }}>submit</Button>
+	    <Button type='submit' color='inherit' variant='outlined' size='medium'>submit</Button>
 	  </form>
       </Grid>
       </Box>
