@@ -27,7 +27,13 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
         if(user)
             getOrders(user.id);
         }, [user]);
-        
+
+    useEffect(() => {
+        if(user) {
+            getUserReviews(user.id)
+        }
+    }, [])
+
 
     function a11yProps(index) {
         return {
