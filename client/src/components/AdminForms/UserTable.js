@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
 import React from 'react'
+import {makeStyles} from '@material-ui/core/styles'
 import MaterialTable from 'material-table'
+import Box from '@material-ui/core/Box'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Check from '@material-ui/icons/Check'
@@ -16,13 +18,18 @@ import Remove from '@material-ui/icons/Remove'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
+import RateReviewIcon from '@material-ui/icons/RateReview'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import SeeReviews from '../SeeReviews'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -48,31 +55,80 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 
-function UserTable({users, makeAdmin, deleteUser, getAllUsers}) {
-  const [makeAdminOpen ,setMakeAdminOpen] = React.useState(false);
-  const [user, setUser] = React.useState({
+const useStyles = makeStyles(theme => ({
+  cont: {
+    background: '#3D3D3D',
+  },
+  root: {
+    color: '#A4A4A4',
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boxStyle: {
+    border: '2px solid #fafafa',
+    borderRadius: '20px',
+    background: '#3D3D3D'
+  }
+}))
+
+function UserTable({
+  users,
+  makeAdmin,
+  deleteUser,
+  getAllUsers,
+  deleteReviews,
+  userReviews,
+  getUserReviews,
+  user,
+  modifyReview,
+  reviews,
+}) {
+  const classes = useStyles()
+
+  const [open, setOpen] = React.useState(false)
+
+  const [makeAdminOpen, setMakeAdminOpen] = React.useState(false)
+
+  const [actualUser, setActualUser] = React.useState({
     id: 0,
-    name: ''
-  })
-  
-  const data = users && users.map(user => {
-    return {
-      name: user.infoUser.name,
-      lastname: user.infoUser.lastName,
-      email: user.email,
-      rol: user.rol,
-      address: user.infoUser.address,
-      id: user.id
-    }
+    name: '',
   })
 
-  const handleMakeAdminClick = (rowData) => {
-    setUser({id: rowData.id, name: rowData.name})
+  const handleOpen = (id) => {
+    getUserReviews(id)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const data =
+    users &&
+    users.map(user => {
+      return {
+        name: user.infoUser.name,
+        lastname: user.infoUser.lastName,
+        email: user.email,
+        rol: user.rol,
+        address: user.infoUser.address,
+        id: user.id,
+      }
+    })
+
+  const handleMakeAdminClick = rowData => {
+    setActualUser({id: rowData.id, name: rowData.name})
     setMakeAdminOpen(true)
   }
 
   const handleMakeAdminDialogClose = () => {
-    makeAdmin(user.id, `Now User ${user.name} has administrator rights!` )
+    makeAdmin(
+      actualUser.id,
+      `Now User ${actualUser.name} has administrator rights!`
+    )
     setMakeAdminOpen(false)
   }
 
@@ -91,47 +147,82 @@ function UserTable({users, makeAdmin, deleteUser, getAllUsers}) {
           {title: 'Lastname', field: 'lastname', editable: 'never'},
           {title: 'Email', field: 'email', editable: 'never'},
           {title: 'Rol', field: 'rol', editable: 'never'},
-          {title: 'Address', field:'address', editable: 'never'},
-          {title: 'ID', field:'id', type: 'numeric', editable: 'never'}
+          {title: 'Address', field: 'address', editable: 'never'},
+          {title: 'ID', field: 'id', type: 'numeric', editable: 'never'},
         ]}
         actions={[
           rowData => ({
             icon: () => <SupervisorAccountIcon />,
             tooltip: 'Make admin',
             disabled: rowData.rol === 'admin',
-            onClick: () => handleMakeAdminClick(rowData)
-          })
+            onClick: () => handleMakeAdminClick(rowData),
+          }),
+          rowData => ({
+            icon: () => <RateReviewIcon />,
+            tooltip: 'See reviews',
+            onClick: () => handleOpen(rowData.id),
+          }),
         ]}
         editable={{
           onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const idUser = oldData.id
-              deleteUser(idUser, `User ${oldData.name} was successfully deleted!`)
-              resolve()
-            }, 1000)
-          })
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const idUser = oldData.id
+                deleteUser(
+                  idUser,
+                  `User ${oldData.name} was successfully deleted!`
+                )
+                resolve()
+              }, 1000)
+            }),
         }}
       />
-      <Dialog
-        open={makeAdminOpen}
-        onClose={handleCancelMakeAdminClose}
-      >
-        <DialogTitle id="alert-dialog-title">{"Are you sure you want to give to this user administrator rights?"}</DialogTitle>
+      <Dialog open={makeAdminOpen} onClose={handleCancelMakeAdminClose}>
+        <DialogTitle id="alert-dialog-title">
+          {'Are you sure you want to give to this user administrator rights?'}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you hit the button MAKE ADMIN, this user will have administrator rights.
+            If you hit the button MAKE ADMIN, this user will have administrator
+            rights.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelMakeAdminClose} color="secondary">
             CANCEL
           </Button>
-          <Button onClick={handleMakeAdminDialogClose} color="secondary" autoFocus>
+          <Button
+            onClick={handleMakeAdminDialogClose}
+            color="secondary"
+            autoFocus
+          >
             MAKE ADMIN
           </Button>
         </DialogActions>
       </Dialog>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <SeeReviews
+            reviews={reviews}
+            userReviews={userReviews}
+            deleteReviews={deleteReviews}
+            getUserReviews={getUserReviews}
+            user={user}
+            modifyReview={modifyReview}
+          />
+        </Fade>
+      </Modal>
     </div>
   )
 }

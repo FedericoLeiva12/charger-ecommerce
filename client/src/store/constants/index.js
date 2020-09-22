@@ -33,3 +33,4 @@ export const GET_REVIEWS = 'GET_REVIEWS';
 export const ADD_REVIEWS = 'ADD_REVIEWS';
 export const DELETE_REVIEWS = 'DELETE_REVIEWS';
 export const GET_USER_REVIEWS = 'GET_USER_REVIEWS';
+export const MODIFY_REVIEW = 'MODIFY_REVIEW';

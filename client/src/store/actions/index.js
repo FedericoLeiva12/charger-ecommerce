@@ -36,7 +36,7 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS
+  GET_USER_REVIEWS, MODIFY_REVIEW
 } from "../constants";
 
 const url = "localhost:3001";
@@ -561,7 +561,7 @@ export function loginUser(email, password) {
   };
 }
 
-export function checkout() {
+export function checkout(message) {
   const content = localStorage.getItem("cart");
 
   return (dispatch) => {
@@ -579,6 +579,7 @@ export function checkout() {
           dispatch({
             type: CHECKOUT,
             order: order,
+            message
           });
         } else {
           dispatch({
@@ -813,3 +814,34 @@ export function getUserReviews(userId) {
   }
 }
 // en este caso, vamos a llevarnos esta funcion |
+
+export function modifyReview(id, commentary, message) {
+  return (dispatch) => {
+    axios
+      .put(`http://${url}/reviews/${id}`, {
+        commentary,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch({
+            type: MODIFY_REVIEW,
+            id,
+            commentary,
+            message
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  };
+}

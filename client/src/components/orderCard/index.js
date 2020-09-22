@@ -3,7 +3,8 @@ import { makeStyles, Card, CardContent, Typography } from '@material-ui/core';
 
 const useStyle = makeStyles({
     card: {
-        maxWidth: '25em'
+        maxWidth: '25em',
+        marginTop: '8px'
     },
     title: {
         fontSize: '0.75em'

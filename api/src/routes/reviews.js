@@ -83,6 +83,25 @@ server.delete('/:id', (req, res)=>{
 
 })
 
+server.put('/:id', (req,res)=>{
+  const {id} = req.params;
+  const{commentary} = req.body
+  if(!id)return res.status(400).send({ text: 'Invalid id' });
+
+  Reviews.findOne({
+    where: {
+      id: parseInt(id)
+    }
+  }).then(rev=>{
+    rev.commentary = commentary;
+    return rev.save()
+  }).then((review) => {
+		res.send({ text: 'Review updated.', review: review });
+	}).catch(err => {
+		res.status(500).send({ text: 'Internal error' });
+		console.error(err);
+	})
+})
 
 
 
