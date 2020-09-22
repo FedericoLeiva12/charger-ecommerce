@@ -46,8 +46,9 @@ export default function CartCheckout({
     setOpenCheckout(false);
   };
   const handleOnCheckout = () => {
-    onCheckout(message);
-    //clearCart();
+    onCheckout();
+    clearCart();
+
     handleCloseCheckout();
   };
 
@@ -55,9 +56,7 @@ export default function CartCheckout({
     getCart();
   }, []);
   var total = 0;
-  cart.map((prod) => {
-    total += prod.amount * prod.price;
-  });
+  
 
   return (
     <Grid item xs={12}>
@@ -72,7 +71,9 @@ export default function CartCheckout({
             </TableRow>
           </TableHead>
           <TableBody>
-            {cart.map((prod) => (
+            {cart.map((prod) => {
+	      total += prod.amount * prod.price;
+	      return(
               <TableRow key={prod.id}>
                 <CartProduct
                   key={prod.id}
@@ -84,14 +85,16 @@ export default function CartCheckout({
                   removeFromCart={removeFromCart}
                 />
               </TableRow>
-            ))}
+	      )
+	    } 
+	    )}
           </TableBody>
-          <TableFooter>
+	  {/*<TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
               <TableCell align="right">{total}</TableCell>
             </TableRow>
-          </TableFooter>
+	  </TableFooter>*/}
         </Table>
       </TableContainer>
       <br />

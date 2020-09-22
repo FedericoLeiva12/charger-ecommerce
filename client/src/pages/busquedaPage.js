@@ -26,7 +26,6 @@ const darkTheme = createMuiTheme({
 const useStyles = makeStyles(() => ({
   cont: {
     background: "#3D3D3D",
-    height: '100vh'
   },
 }));
 
