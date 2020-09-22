@@ -42,7 +42,7 @@ export default withRouter(function Selector(props) {
         //window.location.href = '/category/'+prop;
         props.history.push(`/category/${prop}`);
       } else {
-        props.history.psuh(`/catalog`);
+        props.history.push(`/catalog`);
         //window.location.href = '/catalog'
       }
 
