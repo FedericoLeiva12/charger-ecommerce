@@ -36,7 +36,9 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS, MODIFY_REVIEW
+  GET_USER_REVIEWS,
+  MODIFY_REVIEW,
+  GET_ALL_ORDERS
 } from "../constants";
 
 const url = "localhost:3001";
@@ -844,4 +846,23 @@ export function modifyReview(id, commentary, message) {
         });
       });
   };
+}
+export function getAllOrders() {
+  return (dispatch) => {
+    axios.get(`http://${url}/checkout/check/`)
+      .then(res => {
+        console.log(res.data)
+        dispatch({
+          type: GET_ALL_ORDERS,
+          allOrders: res.data,
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
 }

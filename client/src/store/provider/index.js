@@ -11,6 +11,7 @@ const initialState = {
   logged: false,
   user: null,
   orders: [],
+  allOrders: [],
   reloadProducts: true,
   checkoutTotal: 0,
   reviews: [],
@@ -291,6 +292,11 @@ export default function Provider(state = initialState, action) {
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
         };
+    case constants.GET_ALL_ORDERS:
+      return {
+	...state,
+	allOrders: action.allOrders,
+      }
 
     default:
       return { ...state };
