@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -28,9 +28,10 @@ export default function CartCheckout({
   deleteFromCart,
   clearCart,
 }) {
-  const [openClearCart, setOpenClearCart] = React.useState(false);
-  const [openCheckout, setOpenCheckout] = React.useState(false);
-  const message = 'The order was created you can follow it on your profile!'
+  const [openClearCart, setOpenClearCart] = useState(false);
+  const [openCheckout, setOpenCheckout] = useState(false);
+  const [total, setTotal] = useState(0);
+  const message = "The order was created you can follow it on your profile!";
 
   const handleClickOpenClearCart = () => {
     setOpenClearCart(true);
@@ -54,10 +55,19 @@ export default function CartCheckout({
   useEffect(() => {
     getCart();
   }, []);
-  var total = 0;
-  cart.map((prod) => {
-    total += prod.amount * prod.price;
-  });
+
+  useEffect(() => {
+    getTotal(cart);
+  }, [cart]);
+
+  const getTotal = (cart) => {
+    let result = 0;
+    cart.map((prod) => {
+      result += prod.amount * prod.price;
+    });
+    console.log(result);
+    setTotal(result);
+  };
 
   return (
     <Grid item xs={12}>
@@ -106,7 +116,8 @@ export default function CartCheckout({
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you clear your cart all your items will be deleted from your cart.
+            If you clear your cart all your items will be deleted from your
+            cart.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
