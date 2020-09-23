@@ -48,8 +48,11 @@ function CategoryPage({
   useEffect(() => {
     getProducts(categoryId);
     getSelectors();
-  }, []);
+  }, [categoryId]);
 
+  function onSelect(id) {
+    //getProducts(id);
+  }
   return (
     <>
       <NavBarCOntainer cart={cart} />
@@ -129,6 +132,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getProducts: (id) => dispatch(getProductsByCategory(id)),
     getSelectors: () => dispatch(getSelectors()),
+    addToCart: (product, message) => dispatch(addToCart(product, message)),
   };
 }
 

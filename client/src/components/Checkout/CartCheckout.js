@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -27,10 +27,12 @@ export default function CartCheckout({
   removeFromCart,
   deleteFromCart,
   clearCart,
+  handleChange,
+  prices
 }) {
-  const [openClearCart, setOpenClearCart] = React.useState(false);
-  const [openCheckout, setOpenCheckout] = React.useState(false);
-  const message = 'The order was created you can follow it on your profile!'
+  const [openClearCart, setOpenClearCart] = useState(false);
+  const [openCheckout, setOpenCheckout] = useState(false);
+  const message = "The order was created you can follow it on your profile!";
 
   const handleClickOpenClearCart = () => {
     setOpenClearCart(true);
@@ -55,8 +57,10 @@ export default function CartCheckout({
   useEffect(() => {
     getCart();
   }, []);
-  var total = 0;
-  
+
+  let tot = 0;
+
+  Object.values(prices).forEach(price => tot += price);
 
   return (
     <Grid item xs={12}>
@@ -83,6 +87,7 @@ export default function CartCheckout({
                   product={prod}
                   addToCart={addToCart}
                   removeFromCart={removeFromCart}
+                  handleChange={handleChange}
                 />
               </TableRow>
 	      )
@@ -92,7 +97,7 @@ export default function CartCheckout({
 	  {/*<TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{total}</TableCell>
+              <TableCell align="right">{tot}</TableCell> {/* tabla total */}
             </TableRow>
 	  </TableFooter>*/}
         </Table>
@@ -109,7 +114,8 @@ export default function CartCheckout({
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you clear your cart all your items will be deleted from your cart.
+            If you clear your cart all your items will be deleted from your
+            cart.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

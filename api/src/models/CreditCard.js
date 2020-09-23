@@ -1,11 +1,10 @@
 const { DataTypes } = require("sequelize");
-const { User, Checkout } = require("./Categories");
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   sequelize.define("creditCard", {
     cardNumber: {
-      type: DataTypes.BIGINT(255),
+      type: DataTypes.BIGINT,
       allowNull: false,
       unique: true,
       validate: {

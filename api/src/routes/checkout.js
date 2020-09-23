@@ -70,11 +70,6 @@ server.post("/", (req, res) => {
     });
 });
 //Get Checkout
-server.get("/check", (req, res) => {
-  Checkout.findAll({ include: ShoppingCart }).then((orders) => {
-    res.send(orders);
-  });
-});
 // Post creditCard
 server.post("/addcard/:id", (req, res) => {
   const id = req.user.id;
