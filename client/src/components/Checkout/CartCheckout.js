@@ -27,10 +27,11 @@ export default function CartCheckout({
   removeFromCart,
   deleteFromCart,
   clearCart,
+  handleChange,
+  prices
 }) {
   const [openClearCart, setOpenClearCart] = useState(false);
   const [openCheckout, setOpenCheckout] = useState(false);
-  const [total, setTotal] = useState(0);
   const message = "The order was created you can follow it on your profile!";
 
   const handleClickOpenClearCart = () => {
@@ -56,18 +57,9 @@ export default function CartCheckout({
     getCart();
   }, []);
 
-  useEffect(() => {
-    getTotal(cart);
-  }, [cart]);
+  let tot = 0;
 
-  const getTotal = (cart) => {
-    let result = 0;
-    cart.map((prod) => {
-      result += prod.amount * prod.price;
-    });
-    console.log(result);
-    setTotal(result);
-  };
+  Object.values(prices).forEach(price => tot += price);
 
   return (
     <Grid item xs={12}>
@@ -92,6 +84,7 @@ export default function CartCheckout({
                   product={prod}
                   addToCart={addToCart}
                   removeFromCart={removeFromCart}
+                  handleChange={handleChange}
                 />
               </TableRow>
             ))}
@@ -99,7 +92,7 @@ export default function CartCheckout({
           <TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{total}</TableCell>
+              <TableCell align="right">{tot}</TableCell> {/* tabla total */}
             </TableRow>
           </TableFooter>
         </Table>

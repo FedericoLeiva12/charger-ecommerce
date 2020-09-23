@@ -40,6 +40,12 @@ function Checkout({
     getProducts();
   }, []);
 
+  const [prices, setPrices] = React.useState({})
+
+  function handleChange(key, value) {
+    setPrices({...prices, [key]:value})
+  }
+
   return (
     <>
       <NavBarCOntainer />
@@ -63,6 +69,8 @@ function Checkout({
                   addToCart={addToCart}
                   removeFromCart={removeFromCart}
                   deleteFromCart={deleteFromCart}
+                  handleChange={handleChange}
+                  prices={prices}
                 />
               </>
             ) : (

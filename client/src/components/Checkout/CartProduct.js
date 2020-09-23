@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -38,11 +38,16 @@ export default function CartProduct({
   addToCart,
   removeFromCart,
   deleteFromCart,
+  handleChange
 }) {
   const classes = useStyles();
   product.image =
     product.image === undefined ? product.imgs[0].url : product.image;
   const [amount, setAmount] = useState(product.amount);
+
+  useEffect(() => {
+    handleChange(product.id, amount * product.price);
+  }, [amount])
 
   return (
     <>
