@@ -11,10 +11,16 @@ import SeeReviews from '../components/SeeReviews';
 
 const useStyle = makeStyles({
     content: {
-        marginTop: '4em'
+        marginTop: '4em',
     },
     appbar: {
-        backgroundColor: '#444'
+        backgroundColor: '#444',
+        justifyContent: 'center',
+        display: 'flex'
+    },
+    infoUser: {
+       justifyContent: 'center',
+       display: 'flex'
     }
 })
 
@@ -48,7 +54,7 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
 
     return (
         <><NavBarContainer noTransparent={true}/>
-        <Box compoent="div" className={classes.content}>
+        <Box compoent="div" className={classes.content} >
             <AppBar className={classes.appbar} position="static">
                 <Tabs value={tab} onChange={handleChange}>
                     <Tab label="Information" {...a11yProps(0)} />
@@ -57,15 +63,16 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                     <Tab label="Reviews" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
-
+            <div className={classes.infoUser}>
             {/* USER INFORMATION */}
-            <TabPanel value={tab} index={0}>
+            <TabPanel value={tab} index={0}  >
                 {user && (<UserCard
                     name={`${user.name} ${user.lastName}`}
                     email={user.email}
-                    address={user.address}/>)}
+                    address={user.address}
+                    />)}
             </TabPanel>
-
+             </div>           
             {/* ORDERS */}
             <TabPanel value={tab} index={1}>
                 {orders.map((order, index) => (
