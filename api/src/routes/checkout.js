@@ -6,12 +6,32 @@ const { Checkout, ShoppingCart, User, CreditCard } = require("../db.js");
 server.get("/getuser", isAuthenticated, (req, res) => {
   res.send({ user: req.user, logged: true });
 });
+
 //getCarts
 server.get("/", (req, res) => {
   ShoppingCart.findAll().then((shpcart) => {
     res.send(shpcart);
   });
 });
+
+//change the state of order
+server.put("/check",(req, res) => {
+  console.log(req.body);
+  Checkout.findByPk(req.body.id)
+  .then(order => {
+    if(req.body.state === "shipping"|| req.body.state === "complete"){
+      order.state = req.body.state;
+      order.save();
+      res.send(order);
+    }else{
+      res.status(500).send({ text: "invalid state"});
+    }
+  })
+    .catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    })
+})
 
 //postCarts
 server.post("/", (req, res) => {

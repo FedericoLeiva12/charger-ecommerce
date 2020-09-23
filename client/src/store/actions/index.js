@@ -38,7 +38,8 @@ import {
   DELETE_REVIEWS,
   GET_USER_REVIEWS,
   MODIFY_REVIEW,
-  GET_ALL_ORDERS
+  GET_ALL_ORDERS,
+  MODIFY_ORDERS_STATE
 } from "../constants";
 
 const url = "localhost:3001";
@@ -856,6 +857,34 @@ export function getAllOrders() {
           type: GET_ALL_ORDERS,
           allOrders: res.data,
         })
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+export function modifyOrdersState(orderId, newState) {
+  return (dispatch) => {
+    axios.put(`http://${url}/checkout/check/`,
+      {id:orderId, state: newState}
+    )
+      .then(res => {
+	if(res.status === 200){
+         dispatch({
+	   type: MODIFY_ORDERS_STATE,
+	   order: res.data
+	 })
+        }
+	else{
+	  dispatch({
+            type: ERROR_MESSAGE,
+            errorNotification,
+          });
+	}
       })
       .catch((err) => {
         console.error(err);

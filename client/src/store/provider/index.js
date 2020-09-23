@@ -297,7 +297,18 @@ export default function Provider(state = initialState, action) {
 	...state,
 	allOrders: action.allOrders,
       }
-
+    case constants.MODIFY_ORDERS_STATE:
+      let ord = state.allOrders.filter(
+          (order) => order.id === action.order.id
+        )[0];
+      if (ord === undefined) return { ...state };
+      let ind = state.allOrders.indexOf(ord);
+      let allOrders = [...state.allOrders];
+      allOrders[ind] = action.order;
+      return {
+	...state,
+	allOrders,
+      }
     default:
       return { ...state };
   }

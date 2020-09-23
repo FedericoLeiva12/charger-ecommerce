@@ -1,6 +1,5 @@
 import {forwardRef, useEffect} from 'react'
 import React from 'react'
-import {makeStyles} from '@material-ui/core/styles'
 import MaterialTable from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
@@ -17,10 +16,6 @@ import Remove from '@material-ui/icons/Remove'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
-import Modal from '@material-ui/core/Modal'
-import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -45,84 +40,56 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
-const useStyles = makeStyles(theme => ({
 
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  
-}))
+function cartTable({ shoppingCart }) {
 
-function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
 
-  useEffect(() => {
-    getAllOrders()
-  }, [])
-  const classes = useStyles()
-
-  const [open, setOpen] = React.useState(false);
-  const data = allOrders && allOrders.map(ord => {
+  const data = reviews && reviews.map(review => {
     return {
-      state: ord.state,
-      id: ord.id
+      commentary: review.commentary || 'No commentary',
+      rating: review.rating || 1,
+      product: review. product.name || 'Product 1',
+      reviewId: review.id || 0,
     }
   })
-  const handleOpen = (id) => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   return (
     <div>
-     <MaterialTable
-        title='All orders'
+      <MaterialTable
+        title='All reviews'
         icons={tableIcons}
         data={data}
         columns={[
-          {title: 'state', field: 'state', editable: 'onUpdate'},
-          {title: 'ID', field: 'id', editable: 'never'}
+          {title: 'Commentary', field: 'commentary', editable: 'onUpdate'},
+          {title: 'Rating', field: 'rating', editable: 'never', type: 'numeric'},
+          {title: 'Product', field: 'product', editable: 'never'},
+          {title: 'ID', field: 'reviewId', editable: 'never'}
         ]}
-        actions={[
-          rowData => ({
-            icon: () => <ShoppingCartIcon />,
-            tooltip: 'See reviews',
-            onClick: () => handleOpen(rowData.id),
-          }),
-        ]}
-
         editable={{
+          onRowDelete: oldData =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+              const idReview = oldData.reviewId
+              deleteReviews(idReview, `Review ${oldData.reviewId} was successfully deleted!`)
+              resolve()
+            }, 1000)
+          }),
           onRowUpdate: (newData, oldData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
-	      modifyOrdersState(oldData.id, newData.state);
+              modifyReview(oldData.reviewId, newData.commentary, `Review ${oldData.reviewId} was successfully modified!`);
+
               resolve();
             }, 1000)
           }),
         }}
       />
-      <Modal
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-
-      </Modal>
     </div>
   )
 }
 
 
-export default  OrdersTable;
+export default  SeeReviews;

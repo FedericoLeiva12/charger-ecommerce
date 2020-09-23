@@ -18,16 +18,17 @@ module.exports = (sequelize) => {
           throw new Error("This order is already on shipping");
         }
         return this.setDataValues("state", "shipping");
-      },
-      completeOrder: {
+      }
+    },
+   completeOrder: {
         type: DataTypes.VIRTUAL,
         set() {
           if (this.state === "complete") {
             throw new Error("This order is already completed");
           }
           return this.setDataValues("state", "complete");
-        },
+       },
       },
     },
-  });
+  );
 };
