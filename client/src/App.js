@@ -15,6 +15,7 @@ import CreateUserPage from "./pages/createUserPage";
 import userPanelPage from "./pages/userPanelPage";
 import orderPage from "./pages/orderPage";
 import ForgotPasswordPage from "./pages/forgotPasswordPage";
+import OrderCheckoutPage from './pages/orderCheckoutPage';
 import { connect } from "react-redux";
 import { checkLogin } from "./store/actions";
 import SuccessSnackbar from "./components/Snackbars/SuccessSnackbar";
@@ -45,6 +46,7 @@ function App({ getUser }) {
         <Route exact path="/user" component={userPanelPage} />
         <Route exact path="/order/:id" component={orderPage} />
         <Route exact path='/createReview/' component={CreateReview} />
+        <Route exact path='/checkout/confirm' component={OrderCheckoutPage} />
         {/* Admin Routes */}
         <Route exact path="/admin" component={AdminPage} />
       </Switch>
