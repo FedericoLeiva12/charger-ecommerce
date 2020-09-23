@@ -1,5 +1,7 @@
 import {forwardRef, useEffect} from 'react'
 import React from 'react'
+import { browserHistory } from 'react-router'
+import {  Redirect } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
@@ -16,6 +18,7 @@ import Remove from '@material-ui/icons/Remove'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
+import PageviewIcon from '@material-ui/icons/Pageview'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -41,55 +44,53 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 
-function cartTable({ shoppingCart }) {
+function CartTable({ shoppingCart }) {
 
+  const [redirect, setRedirect] = React.useState(false);
+  const [id, setId] = React.useState(0);
+  const renderRedirect = () => {
+    if (redirect) {
+      return <Redirect to={`/product/${id}`} />
+    }
+  }
 
-  const data = reviews && reviews.map(review => {
+  console.log(shoppingCart);
+  const data = shoppingCart && shoppingCart.map(shoppingCart => {
     return {
-      commentary: review.commentary || 'No commentary',
-      rating: review.rating || 1,
-      product: review. product.name || 'Product 1',
-      reviewId: review.id || 0,
+      name: shoppingCart.name ,
+      description: shoppingCart.description,
+      amount: shoppingCart.amount,
+      id: shoppingCart.id
     }
   })
 
   return (
     <div>
       <MaterialTable
-        title='All reviews'
+        title='Detail'
         icons={tableIcons}
         data={data}
         columns={[
-          {title: 'Commentary', field: 'commentary', editable: 'onUpdate'},
-          {title: 'Rating', field: 'rating', editable: 'never', type: 'numeric'},
-          {title: 'Product', field: 'product', editable: 'never'},
-          {title: 'ID', field: 'reviewId', editable: 'never'}
+          {title: 'name', field: 'name', editable: 'never'},
+          {title: 'description', field: 'description', editable: 'never', type: 'numeric'},
+          {title: 'amount', field: 'amount', editable: 'never'},
+          {title: 'id', field: 'id', editable: 'never'},
         ]}
-        editable={{
-          onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const idReview = oldData.reviewId
-              deleteReviews(idReview, `Review ${oldData.reviewId} was successfully deleted!`)
-              resolve()
-            }, 1000)
+         actions={[
+          rowData => ({
+            icon: () => <PageviewIcon />,
+            tooltip: 'See product page',
+            onClick: () => {
+	      setId(rowData.id);
+	      setRedirect(true);
+	    },
           }),
-          onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              dataUpdate[index] = newData;
-              modifyReview(oldData.reviewId, newData.commentary, `Review ${oldData.reviewId} was successfully modified!`);
-
-              resolve();
-            }, 1000)
-          }),
-        }}
+        ]}
       />
+      {renderRedirect()}
     </div>
   )
 }
 
 
-export default  SeeReviews;
+export default  CartTable;

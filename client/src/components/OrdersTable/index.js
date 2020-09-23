@@ -21,6 +21,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
+import CartTable from './cartTable.js'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -69,8 +70,12 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
       id: ord.id
     }
   })
+
+  const [cart, setCart] = React.useState([]);
+
   const handleOpen = (id) => {
-    setOpen(true)
+    setOpen(true);
+    setCart(JSON.parse(allOrders.filter(order => order.id === id)[0].shoppingCart.content));
   }
 
   const handleClose = () => {
@@ -118,6 +123,7 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
           timeout: 500,
         }}
       >
+	<CartTable shoppingCart={cart}/>
 
       </Modal>
     </div>
