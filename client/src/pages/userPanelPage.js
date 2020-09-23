@@ -8,6 +8,7 @@ import OrderCard from '../components/orderCard';
 import { getOrders, getUserReviews, deleteReviews, modifyReview } from '../store/actions';
 import { Link } from 'react-router-dom';
 import SeeReviews from '../components/SeeReviews';
+import { AccountSettings } from '../components/AccountSettings';
 
 const useStyle = makeStyles({
     content: {
@@ -19,13 +20,13 @@ const useStyle = makeStyles({
         display: 'flex'
     },
     infoUser: {
-       justifyContent: 'center',
-       display: 'flex'
+        justifyContent: 'center',
+        display: 'flex'
     }
 })
 
 function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteReviews, getUserReviews, modifyReview}) {
-    const [tab, setTab] = useState(0);
+    const [tab, setTab] = useState(2);
 
     const classes = useStyle();
 
@@ -54,7 +55,7 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
 
     return (
         <><NavBarContainer noTransparent={true}/>
-        <Box compoent="div" className={classes.content} >
+        <Box compoent="div" className={classes.content}>
             <AppBar className={classes.appbar} position="static">
                 <Tabs value={tab} onChange={handleChange}>
                     <Tab label="Information" {...a11yProps(0)} />
@@ -64,6 +65,7 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                 </Tabs>
             </AppBar>
             <div className={classes.infoUser}>
+
             {/* USER INFORMATION */}
             <TabPanel value={tab} index={0}  >
                 {user && (<UserCard
@@ -72,7 +74,8 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                     address={user.address}
                     />)}
             </TabPanel>
-             </div>           
+            </div>
+
             {/* ORDERS */}
             <TabPanel value={tab} index={1}>
                 {orders.map((order, index) => (
@@ -83,31 +86,16 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                             products={order.shoppingCart.content} />
                     </Link>
                 ))}
-                {/* <OrderCard
-                     id="332"
-                     status="active"
-                     products={[{
-                         titulo: 'West Jean',
-                         precio: 854,
-                         cantidad: 2
-                     },{
-                         titulo: 'West Jean',
-                         precio: 854,
-                         cantidad: 2
-                     },{
-                         titulo: 'West Jean',
-                         precio: 854,
-                         cantidad: 2
-                     },{
-                         titulo: 'West Jean',
-                         precio: 854,
-                         cantidad: 2
-                     }]}/> */}
             </TabPanel>
 
             {/* ACCOUNT SETTINGS */}
             <TabPanel value={tab} index={2}>
-                Account Settings
+                  <div style={{backgroundColor: 'rgba(224, 224, 224, 0.4)', width: '100%', display: 'flex', height:'77vh', margin: 0, justifyContent: 'center', alignItems: 'center'}}>
+                    {user && (<AccountSettings 
+                          user={user}
+                          />)
+                    }  
+                  </div>
             </TabPanel>
 
             {/* REVIEWS */}
