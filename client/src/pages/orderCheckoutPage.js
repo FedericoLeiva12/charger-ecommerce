@@ -21,7 +21,6 @@ const useStyle = makeStyles({
     },
     card: {
         maxWidth: '480px',
-        boxShadow: '8px 8px 8px -8px rgba(33,33,33,0.5);',
         borderRadius: '8px',
         backgroundColor: '#fafafa'
     },
@@ -51,7 +50,7 @@ export default () => {
     const classes = useStyle()
     return (
         <Box className={Style.root}>
-            <Paper className={classes.card}>
+            <Paper className={classes.card} elevation={4}>
                 <CardContent className={classes.content}>
                     <FavoriteBorderIcon className={classes.icon} />
                     <Typography variant="h2" className={classes.titleText}>THANK YOU!</Typography>
