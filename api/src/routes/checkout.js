@@ -1,6 +1,6 @@
 const server = require("express").Router();
 const { isAuthenticated } = require("../passport.js");
-const { Checkout, ShoppingCart, User, CreditCard } = require("../db.js");
+const { Checkout, ShoppingCart, User, InfoUser, CreditCard } = require("../db.js");
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
@@ -71,7 +71,12 @@ server.post("/", (req, res) => {
 });
 //Get Checkout
 server.get("/check", (req, res) => {
-  Checkout.findAll({ include: ShoppingCart }).then((orders) => {
+  Checkout.findAll({ 
+    include:[
+      {model: ShoppingCart},
+      {model:User, include: InfoUser}
+    ]
+  }).then((orders) => {
     res.send(orders);
   });
 });

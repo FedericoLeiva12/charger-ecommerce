@@ -9,7 +9,7 @@ function ListOrders({allOrders, getAllOrders, modifyOrdersState}) {
   }, [])
 
   return (
-    <div style={{height: '79.36vh', background: '#3d3d3d', padding: '16px'}}>
+    <div style={{ background: '#3d3d3d', padding: '10px'}}>
       <Grid container justify='center'>
           <OrdersTable allOrders={allOrders} getAllOrders={getAllOrders} modifyOrdersState={modifyOrdersState}/>
       </Grid>

@@ -67,7 +67,10 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
   const data = allOrders && allOrders.map(ord => {
     return {
       state: ord.state,
-      id: ord.id
+      id: ord.id,
+      email: ord.user.email,
+      username: ord.user.infoUser.name +" "+ ord.user.infoUser.lastName,
+      address: ord.user.infoUser.address,
     }
   })
 
@@ -89,8 +92,12 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
         icons={tableIcons}
         data={data}
         columns={[
-          {title: 'state', field: 'state', editable: 'onUpdate'},
-          {title: 'ID', field: 'id', editable: 'never'}
+          {title: 'State', field: 'state', editable: 'onUpdate', 
+	      lookup: { 'pending': 'pending', 'shipping': 'shipping','complete':'complete'}},
+          {title: 'Email', field: 'email', editable: 'never'},
+          {title: 'Address', field: 'address', editable: 'never'},
+	  {title: 'Username', field: 'username', editable: 'never'},
+	  {title: 'ID', field: 'id', editable: 'never'},
         ]}
         actions={[
           rowData => ({

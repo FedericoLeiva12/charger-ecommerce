@@ -72,7 +72,6 @@ function CartTable({ shoppingCart }) {
         data={data}
         columns={[
           {title: 'name', field: 'name', editable: 'never'},
-          {title: 'description', field: 'description', editable: 'never', type: 'numeric'},
           {title: 'amount', field: 'amount', editable: 'never'},
           {title: 'id', field: 'id', editable: 'never'},
         ]}
