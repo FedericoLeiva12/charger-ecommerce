@@ -17,7 +17,7 @@ import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import NavBarContainer from '../components/NavBar/Container'
 import CreateReview from '../components/CreateReview'
 import {useParams} from 'react-router-dom'
-import {getOrders} from '../store/actions'
+import {getOrders, getUserReviews, getReviews} from '../store/actions'
 
 const useStyle = makeStyles({
   root: {
@@ -45,7 +45,7 @@ const useStyle = makeStyles({
   },
 })
 
-function OrderPage({user, orders, getOrders}) {
+function OrderPage({user, orders, getOrders, reviews, getUserReviews, getReviews  }) {
   const classes = useStyle()
 
   const {id} = useParams()
@@ -56,9 +56,12 @@ function OrderPage({user, orders, getOrders}) {
 
   const [p, setP] = React.useState(0)
 
+  const [invalid, setInvalid] = React.useState(false)
+
   const handleOpen = productId => {
     setOpen(true)
-    setP(productId)
+    setP(productId)  
+    // getReviews(productId)
   }
 
   const handleClose = () => {
@@ -66,11 +69,15 @@ function OrderPage({user, orders, getOrders}) {
   }
 
   useEffect(() => {
-    if (user) getOrders(user.id)
+    if (user){ 
+      getOrders(user.id)
+      getUserReviews(user.id)
+    }
   }, [user])
 
   useEffect(() => {
     if (orders)
+    
       setOrder(
         orders
           .map(order => ({
@@ -79,17 +86,38 @@ function OrderPage({user, orders, getOrders}) {
             products: order.shoppingCart.content,
           }))
           .filter(order => {
-            console.log(order.id, id)
             return order.id === id
           })[0]
       )
-    console.log(order)
-  }, [orders])
+      
+  } , [orders])
+  
+  const handleDisabled = (prodId, i) =>{
+    let value 
+    console.log(prodId)
+    console.log(reviews)
+    
+      
+
+    if(!reviews ){
+      value = false
+    }else{
+      for(var j = 0; j<reviews.length; j++){
+        if(reviews[j].productId === prodId ){
+          value = true
+        }
+      } 
+    }
+    
+  
+    console.log(value)
+    return value
+  } 
 
   let total = 0
 
   if (order !== null && order !== undefined) {
-    console.log(order)
+    
     order.products.map(prod => {
       total += prod.price * prod.amount
       return prod
@@ -120,6 +148,7 @@ function OrderPage({user, orders, getOrders}) {
                         variant="contained"
                         color="secondary"
                         onClick={() => handleOpen(prod.id)}
+                        disabled={handleDisabled(prod.id, index)}
                       >
                         Create Review
                       </Button>
@@ -193,12 +222,15 @@ function mapStateToProps(state) {
   return {
     orders: state.orders,
     user: state.user,
+    reviews: state.reviews
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getOrders: userId => dispatch(getOrders(userId)),
+    getUserReviews: userId => dispatch(getUserReviews(userId)),
+    getReviews: productId => dispatch(getReviews(productId))
   }
 }
 
