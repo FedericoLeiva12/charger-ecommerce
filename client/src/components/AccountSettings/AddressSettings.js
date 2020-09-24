@@ -8,8 +8,9 @@ function AddressSettings({openAddress, handleClose, modifyUser}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    handleClose();
     modifyUser(state);
+    setState('')
   }
 
   return (
@@ -53,7 +54,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    modifyUser: (address) => dispatch(modifyMyUser({address}, 'Address changed correctly', 'Error changing address, try again.'))
+    modifyUser: (address) => dispatch(modifyMyUser({address}, 'Address successfully changed!', 'Error changing address, please try again.'))
   }
 }
 

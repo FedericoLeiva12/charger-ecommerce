@@ -102,7 +102,7 @@ export const AccountSettings = (props) => {
       </Grid>
 
       {/* DIALOG EMAIL */}
-      <EmailSettings openEmail={openEmail} handleEmailClose={handleEmailClose} handleClose={handleClose} />
+      <EmailSettings openEmail={openEmail} handleEmailClose={handleEmailClose} handleClose={handleClose} userEmail={user.email}/>
 
       {/* DIALOG NAME */}
       <FullnameSettings openName={openName} handleFullnameClose={handleFullnameClose} handleClose={handleClose} />

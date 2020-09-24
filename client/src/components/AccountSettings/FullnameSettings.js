@@ -9,8 +9,9 @@ function FullnameSettings({openName, handleClose, handleFullnameClose, modifyUse
   function handleSubmit(e) {
     e.preventDefault();
     console.log(state);
-
+    handleClose();
     modifyUser(state.name, state.lastName);
+    setState({name: '', lastName: ''})
   }
 
   return (
@@ -66,7 +67,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    modifyUser: (name, lastName) => dispatch(modifyMyUser({name, lastName}, 'Name changed correctly', 'Error changing your name, try again.'))
+    modifyUser: (name, lastName) => dispatch(modifyMyUser({name, lastName}, 'Name successfully changed!', 'Error changing your name, please try again.'))
   }
 }
 

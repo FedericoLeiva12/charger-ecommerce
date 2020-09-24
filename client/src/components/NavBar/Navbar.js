@@ -74,10 +74,10 @@ const NavBar = props => {
                         {props.logged && <Link to="/user" style={{textDecoration:'none', color:'white'}}>{props.user.name}</Link>}
                             </Button>
                         <Button className={classes.title}>
-                        <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
-       <Badge badgeContent={props.cart?props.cart.length:0} color="secondary">
+                        <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '8px'}}>
+                        <Badge badgeContent={props.cart?props.cart.length:0} color="secondary">
                             <LocalMallOutlinedIcon />
-      </Badge>
+                        </Badge>
                         </Link>
                         </Button>
                     </Typography>

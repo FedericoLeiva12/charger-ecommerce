@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, AppBar, Tabs, Tab, makeStyles } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
+import SettingsIcon from '@material-ui/icons/Settings';
+import RateReviewIcon from '@material-ui/icons/RateReview';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { connect } from 'react-redux';
 import TabPanel from '../components/TabPanel';
 import UserCard from '../components/UserCard';
@@ -26,7 +30,7 @@ const useStyle = makeStyles({
 })
 
 function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteReviews, getUserReviews, modifyReview}) {
-    const [tab, setTab] = useState(2);
+    const [tab, setTab] = useState(0);
 
     const classes = useStyle();
 
@@ -57,11 +61,11 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
         <><NavBarContainer noTransparent={true}/>
         <Box compoent="div" className={classes.content}>
             <AppBar className={classes.appbar} position="static">
-                <Tabs value={tab} onChange={handleChange}>
-                    <Tab label="Information" {...a11yProps(0)} />
-                    <Tab label="Orders" {...a11yProps(1)} />
-                    <Tab label="Account Settings" {...a11yProps(2)} />
-                    <Tab label="Reviews" {...a11yProps(3)} />
+                <Tabs value={tab} onChange={handleChange} centered>
+                    <Tab icon={<InfoIcon/>} label='INFORMATION' {...a11yProps(0)} />
+                    <Tab icon={<ShoppingBasketIcon/>} label="ORDERS" {...a11yProps(1)} />
+                    <Tab icon={<SettingsIcon/>} label="SETTINGS" {...a11yProps(2)} />
+                    <Tab icon={<RateReviewIcon/>} label="REVIEWS" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <div className={classes.infoUser}>
