@@ -36,7 +36,8 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS, MODIFY_REVIEW
+  GET_USER_REVIEWS,
+  MODIFY_REVIEW,
 } from "../constants";
 
 const url = "localhost:3001";
@@ -579,7 +580,7 @@ export function checkout(message) {
           dispatch({
             type: CHECKOUT,
             order: order,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -587,6 +588,12 @@ export function checkout(message) {
             message: res.data.text,
           });
         }
+      })
+      .then(() => {
+        dispatch({
+          type: CLEAR_CART,
+          cart: [],
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -607,6 +614,12 @@ export function logout() {
           type: LOGOUT,
           logged: false,
           user: null,
+        });
+      })
+      .then(() => {
+        dispatch({
+          type: CLEAR_CART,
+          cart: [],
         });
       });
   };
@@ -753,56 +766,21 @@ export function getReviews(Id) {
   };
 }
 
-export function addReviews(userId,productId,commentary, rating, message) {
+export function addReviews(userId, productId, commentary, rating, message) {
   return (dispatch) => {
     axios
-      .post(`http://${url}/reviews/`, { 
-	userId, productId, commentary, rating 
-      }).then((res) => {
-          dispatch({
-            type: ADD_REVIEWS,
-            review: res.data.review,
-            message
-          });
-      }).catch((err) => {
-        console.error(err);
-        dispatch({
-          type: ERROR_MESSAGE,
-          errorNotification,
-        });
-      });
-  };
-}
-export function deleteReviews(reviewId, message){
-  return (dispatch) => {
-    axios.delete(`http://${url}/reviews/${reviewId}`)
+      .post(`http://${url}/reviews/`, {
+        userId,
+        productId,
+        commentary,
+        rating,
+      })
       .then((res) => {
-          dispatch({
-            type: DELETE_REVIEWS,
-            id: reviewId,
-            message
-          });
-      }).catch((err) => {
-        console.error(err);
         dispatch({
-          type: ERROR_MESSAGE,
-          errorNotification,
+          type: ADD_REVIEWS,
+          review: res.data.review,
+          message,
         });
-      });
-
-
-  };
-}
-
-export function getUserReviews(userId) {
-  return (dispatch) => {
-    axios.get(`http://${url}/reviews/user/${userId}`)
-      .then(res => {
-        console.log(res.data.text)
-        dispatch({
-          type: GET_USER_REVIEWS,
-          userReviews: res.data
-        })
       })
       .catch((err) => {
         console.error(err);
@@ -811,7 +789,48 @@ export function getUserReviews(userId) {
           errorNotification,
         });
       });
-  }
+  };
+}
+export function deleteReviews(reviewId, message) {
+  return (dispatch) => {
+    axios
+      .delete(`http://${url}/reviews/${reviewId}`)
+      .then((res) => {
+        dispatch({
+          type: DELETE_REVIEWS,
+          id: reviewId,
+          message,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  };
+}
+
+export function getUserReviews(userId) {
+  return (dispatch) => {
+    axios
+      .get(`http://${url}/reviews/user/${userId}`)
+      .then((res) => {
+        console.log(res.data.text);
+        dispatch({
+          type: GET_USER_REVIEWS,
+          userReviews: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  };
 }
 // en este caso, vamos a llevarnos esta funcion |
 
@@ -827,7 +846,7 @@ export function modifyReview(id, commentary, message) {
             type: MODIFY_REVIEW,
             id,
             commentary,
-            message
+            message,
           });
         } else {
           dispatch({

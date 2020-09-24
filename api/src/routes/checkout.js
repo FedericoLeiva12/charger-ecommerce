@@ -24,9 +24,11 @@ server.post("/", (req, res) => {
 
   ShoppingCart.create({
     content,
+    state: "closed",
   })
     .then((shopcart) => {
       shpcart = shopcart;
+      console.log(shpcart);
       return Checkout.create();
     })
     .then((norder) => {
@@ -49,7 +51,30 @@ server.post("/", (req, res) => {
       console.error(err);
     });
 });
-//Get Checkout
+//Modify cart
+/* server.put("/modifyCart/:orderId", (req, res) => {
+  const { orderId } = req.params;
+  const { content } = req.body;
+  shoppingCart
+    .findOne({
+      where: {
+        orderId,
+      },
+    })
+    .then((cart) => {
+      cart
+        .update({
+          content,
+        })
+        .then((newCart) => {
+          res.send(newCart);
+        })
+        .catch((err) => {
+          res.status(500).send({ text: "Internal error" });
+          console.error(err);
+        });
+    });
+}); */
 // Post creditCard
 server.post("/addcard/:id", (req, res) => {
   const id = req.user.id;
@@ -84,4 +109,5 @@ server.get("/creditcards", (req, res) => {
     res.send(cards);
   });
 });
+// Payment and Shipping
 module.exports = server;
