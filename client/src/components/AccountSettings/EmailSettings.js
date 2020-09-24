@@ -1,9 +1,19 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Button, TextField } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { modifyMyUser } from '../../store/actions';
 
-function EmailSettings({openEmail, handleClose, handleEmailClose}) {
+function EmailSettings({openEmail, handleClose, modifyUser}) {
+  const [state, setState] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    modifyUser(state);
+  }
+
   return (
-    <>
+    <form onSubmit={e => e.preventDefault()}>
       <Dialog open={openEmail} onClose={handleClose}>
         <DialogTitle>Email settings</DialogTitle>
         <DialogContent>
@@ -19,28 +29,33 @@ function EmailSettings({openEmail, handleClose, handleEmailClose}) {
             fullWidth
             color="secondary"
             autoComplete="off"
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Confirm New Email Address"
-            type="email"
-            fullWidth
-            color="secondary"
-            autoComplete="off"
+            value={state}
+            onChange={e => setState(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleEmailClose} color="secondary">
+          <Button onClick={handleSubmit} color="secondary">
             Save
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </form>
   )
 }
 
-export default EmailSettings
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    modifyUser: (email) => dispatch(modifyMyUser({email}, 'Email changed correctly', 'Error changing email, try again.'))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmailSettings)

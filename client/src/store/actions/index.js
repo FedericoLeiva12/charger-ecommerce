@@ -38,7 +38,8 @@ import {
   DELETE_REVIEWS,
   GET_USER_REVIEWS, 
   MODIFY_REVIEW,
-  MODIFY_USER
+  MODIFY_USER,
+  MODIFY_MY_USER
 } from "../constants";
 
 const url = "localhost:3001";
@@ -875,4 +876,25 @@ export function modifyUser(id, name, lastName, password, address, message) {
         });
       });
   };
+}
+
+export function modifyMyUser(data, successMessage, errorMessage) {
+  return dispatch => {
+    axios.post(`http://${url}/users/modify`, {...data},{withCredentials: true})
+      .then(res => {
+        if(res.status >= 200 || res.status <= 299) {
+          dispatch({
+            type: MODIFY_MY_USER,
+            user: res.data.user,
+            message: successMessage
+          })
+        }
+      }).catch(err => {
+        console.error(err.response);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification: errorMessage
+        });
+      })
+  }
 }

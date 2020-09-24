@@ -296,6 +296,13 @@ export default function Provider(state = initialState, action) {
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
       }
+    case constants.MODIFY_MY_USER:
+      return {
+        ...state,
+        user: action.user,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
+      }
     default:
       return { ...state };
   }

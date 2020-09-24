@@ -1,9 +1,20 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Button, TextField } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
+import { modifyMyUser } from '../../store/actions';
+import { connect } from 'react-redux';
 
-function FullnameSettings({openName, handleClose, handleFullnameClose}) {
+function FullnameSettings({openName, handleClose, handleFullnameClose, modifyUser}) {
+  const [state, setState] = useState({name: '', lastName: ''});
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(state);
+
+    modifyUser(state.name, state.lastName);
+  }
+
   return (
-    <>
+    <form onSubmit={e => e.preventDefault()}>
       <Dialog open={openName} onClose={handleClose}>
         <DialogTitle>Fullname settings</DialogTitle>
         <DialogContent>
@@ -19,6 +30,8 @@ function FullnameSettings({openName, handleClose, handleFullnameClose}) {
             fullWidth
             color="secondary"
             autoComplete="off"
+            value={state.name}
+            onChange={e => setState({...state, name: e.target.value})}
           />
           <TextField
             margin="dense"
@@ -28,19 +41,33 @@ function FullnameSettings({openName, handleClose, handleFullnameClose}) {
             fullWidth
             color="secondary"
             autoComplete="off"
+            value={state.lastName}
+            onChange={e => setState({...state, lastName: e.target.value})}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleFullnameClose} color="secondary">
+          <Button onClick={handleSubmit} color="secondary">
             Save
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </form>
   )
 }
 
-export default FullnameSettings
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    modifyUser: (name, lastName) => dispatch(modifyMyUser({name, lastName}, 'Name changed correctly', 'Error changing your name, try again.'))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FullnameSettings)
