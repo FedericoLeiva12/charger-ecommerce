@@ -58,9 +58,9 @@ export default function CartCheckout({
     getCart();
   }, []);
 
-  let tot = 0;
+  let total = 0;
 
-  Object.values(prices).forEach(price => tot += price);
+  Object.values(prices).forEach(price => total += price);
 
   return (
     <Grid item xs={12}>
@@ -97,7 +97,7 @@ export default function CartCheckout({
 	  {/*<TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{tot}</TableCell> {/* tabla total */}
+              <TableCell align="right">{tot}</TableCell> {/* tabla total }
             </TableRow>
 	  </TableFooter>*/}
         </Table>
