@@ -11,13 +11,14 @@ import {
   Modal,
   Button,
   Divider,
+  Tooltip
 } from '@material-ui/core'
 import PaymentIcon from '@material-ui/icons/Payment'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import NavBarContainer from '../components/NavBar/Container'
 import CreateReview from '../components/CreateReview'
 import {useParams} from 'react-router-dom'
-import {getOrders, getUserReviews, getReviews} from '../store/actions'
+import {getOrders, getUserReviews} from '../store/actions'
 
 const useStyle = makeStyles({
   root: {
@@ -136,15 +137,19 @@ function OrderPage({user, orders, getOrders, reviews, getUserReviews  }) {
                       </Typography>
                     </Box>
                     <Box>
-                      <Button
-                        type="button"
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleOpen(prod.id)}
-                        disabled={handleDisabled(prod.id)}
-                      >
-                        {handleDisabled(prod.id) ? 'Review already created' : 'Create Review'}
-                      </Button>
+                      <Tooltip title={handleDisabled(prod.id)?'Review already created':'Create a review'} placement='right' arrow >
+                        <span>
+                          <Button
+                            type="button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleOpen(prod.id)}
+                            disabled={handleDisabled(prod.id)}
+                          >
+                            Add Review
+                          </Button>
+                        </span>
+                      </Tooltip>
                     </Box>
                   </>
                 ))}
