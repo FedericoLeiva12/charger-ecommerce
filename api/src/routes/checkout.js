@@ -75,39 +75,24 @@ server.post("/", (req, res) => {
         });
     });
 }); */
-// Post creditCard
-server.post("/addcard/:id", (req, res) => {
-  const id = req.user.id;
-  const { cardNumber, cardName, expirationDate, CCV, orderId } = req.body;
 
-  const order = find;
-  console.log(userId);
-  User.findOne({
-    where: {
-      id,
-    },
-  }).then((loggedUser) => {
-    loggedUser
-      .createCreditCard({
-        cardNumber,
-        cardName,
-        expirationDate,
-        CCV,
-      })
-      .then((userWithCard) => {
-        console.log(userWithCard);
-        res.send(userWithCard);
-      })
-      .catch((err) => {
-        res.status(500).send(err);
+// Set Payment and Shipping
+server.put("/payment/:orderId", (req, res) => {
+  const { orderId } = req.params;
+  const { paymentMethod, shippingAdress } = req.body;
+  Checkout.findOne({ where: { id: orderId } })
+    .then((order) => {
+      order.update({
+        paymentMethod,
+        shippingAdress,
       });
-  });
+    })
+    .then((orderUpdated) => {
+      res.send(orderUpdated);
+    })
+    .catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    });
 });
-//getcreditcards
-server.get("/creditcards", (req, res) => {
-  CreditCard.findAll().then((cards) => {
-    res.send(cards);
-  });
-});
-// Payment and Shipping
 module.exports = server;

@@ -23,7 +23,6 @@ function Payment() {
             alignItems="center"
           >
             <NavBarCOntainer />
-            {/*  <OrderCard /> */}
             <PaymentForm />
           </Grid>
         </Box>

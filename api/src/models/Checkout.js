@@ -8,8 +8,14 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     state: {
-      type: DataTypes.ENUM("pending", "shipping", "complete"),
+      type: DataTypes.ENUM("pending", "processing", "shipping", "complete"),
       defaultValue: "pending",
+    },
+    paymentMethod: {
+      type: DataTypes.STRING,
+    },
+    shippingAdress: {
+      type: DataTypes.STRING,
     },
     shipOrder: {
       type: DataTypes.VIRTUAL,
