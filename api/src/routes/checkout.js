@@ -1,6 +1,8 @@
 const server = require("express").Router();
+const sendEmail = require('../services/email');
 const { isAuthenticated } = require("../passport.js");
-const { Checkout, ShoppingCart, User, InfoUser, CreditCard } = require("../db.js");
+
+const { Checkout, ShoppingCart, User, CreditCard, InfoUser } = require("../db.js");
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
@@ -41,6 +43,7 @@ server.post("/", (req, res) => {
   // Auxiliars
   let order = null;
   let shpcart = null;
+  let user = null;
 
   ShoppingCart.create({
     content,
@@ -55,16 +58,32 @@ server.post("/", (req, res) => {
         where: {
           id,
         },
+        include: InfoUser
       });
     })
-    .then((user) => {
-      order.setUser(user);
+    .then((nuser) => {
+      user = nuser;
+      order.setUser(nuser);
       return order.setShoppingCart(shpcart);
-    })
-    .then((newOrder) => {
-      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
-    })
-    .catch((err) => {
+    }).then(() => {
+      return order.genToken();
+    }).then((norder) => {
+      return sendEmail({
+        from: 'checkout',
+        to: user.email,
+        subject: 'Order confirmation',
+        content: 'template.html'
+      }, {
+        NAME: user.infoUser.name,
+        LINK: 'http://localost:3000/order/confirm/' + order.token,
+        CART: Object.values(JSON.parse(content)).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n')
+      })
+    }).then(() => {
+      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } })
+    }).catch((err) => {
+      if(order) {
+        order.destroy();
+      }
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
