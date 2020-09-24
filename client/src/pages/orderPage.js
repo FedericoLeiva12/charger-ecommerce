@@ -45,7 +45,7 @@ const useStyle = makeStyles({
   },
 })
 
-function OrderPage({user, orders, getOrders, reviews, getUserReviews, getReviews  }) {
+function OrderPage({user, orders, getOrders, reviews, getUserReviews  }) {
   const classes = useStyle()
 
   const {id} = useParams()
@@ -56,16 +56,17 @@ function OrderPage({user, orders, getOrders, reviews, getUserReviews, getReviews
 
   const [p, setP] = React.useState(0)
 
-  const [invalid, setInvalid] = React.useState(false)
+  
 
   const handleOpen = productId => {
     setOpen(true)
     setP(productId)  
-    // getReviews(productId)
+    
   }
 
   const handleClose = () => {
     setOpen(false)
+    getUserReviews(user.id)
   }
 
   useEffect(() => {
@@ -92,25 +93,17 @@ function OrderPage({user, orders, getOrders, reviews, getUserReviews, getReviews
       
   } , [orders])
   
-  const handleDisabled = (prodId, i) =>{
-    let value 
-    console.log(prodId)
-    console.log(reviews)
-    
-      
-
+  const handleDisabled = (prodId) =>{
+    let value;
     if(!reviews ){
       value = false
-    }else{
+    }else {
       for(var j = 0; j<reviews.length; j++){
-        if(reviews[j].productId === prodId ){
+        if(reviews[j] && reviews[j].productId === prodId ){
           value = true
         }
       } 
     }
-    
-  
-    console.log(value)
     return value
   } 
 
@@ -148,9 +141,9 @@ function OrderPage({user, orders, getOrders, reviews, getUserReviews, getReviews
                         variant="contained"
                         color="secondary"
                         onClick={() => handleOpen(prod.id)}
-                        disabled={handleDisabled(prod.id, index)}
+                        disabled={handleDisabled(prod.id)}
                       >
-                        Create Review
+                        {handleDisabled(prod.id) ? 'Review already created' : 'Create Review'}
                       </Button>
                     </Box>
                   </>
@@ -230,7 +223,6 @@ function mapDispatchToProps(dispatch) {
   return {
     getOrders: userId => dispatch(getOrders(userId)),
     getUserReviews: userId => dispatch(getUserReviews(userId)),
-    getReviews: productId => dispatch(getReviews(productId))
   }
 }
 
