@@ -5,6 +5,7 @@ import React from 'react';
 import {makeStyles, Hidden} from '@material-ui/core';
 import NavBar from './Navbar';
 import Box from './Box';
+import { getUser } from "../../store/actions";
 
 const styles = makeStyles(theme => ({
     root: {
@@ -12,13 +13,14 @@ const styles = makeStyles(theme => ({
     },
 }))
 
-const Contenedor = ({noTransparent, cart})=>{
+const Contenedor = ({noTransparent, cart, getUser})=>{
     
     const classes = styles()
     const[open, setOpen] = React.useState(false)
 
     const onOpen = () =>{
         setOpen(!open)
+        getUser()
     }
 
     return(
@@ -52,4 +54,9 @@ function mapStateToProps(state) {
     cart: state.cart,
   };
 }
-export default connect(mapStateToProps)(Contenedor);
+function mapDispatchToProps(dispatch){
+    return {
+        getUser: ()=> dispatch(getUser())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Contenedor);
