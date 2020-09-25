@@ -36,7 +36,10 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS, MODIFY_REVIEW
+  GET_USER_REVIEWS, 
+  MODIFY_REVIEW,
+  MODIFY_USER,
+  MODIFY_MY_USER
 } from "../constants";
 
 const url = "localhost:3001";
@@ -844,4 +847,54 @@ export function modifyReview(id, commentary, message) {
         });
       });
   };
+}
+
+export function modifyUser(id, name, lastName, password, address, message) {
+  return (dispatch) => {
+    axios
+      .put(`http://${url}/users/${id}`, {
+        name, lastName, password, address
+      })
+      .then(res => {
+        if(res.status === 200) {
+          dispatch({
+            type: MODIFY_USER,
+            user: res.data.user
+          })
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            message: res.data.text,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  };
+}
+
+export function modifyMyUser(data, successMessage, errorMessage) {
+  return dispatch => {
+    axios.post(`http://${url}/users/modify`, {...data},{withCredentials: true})
+      .then(res => {
+        if(res.status >= 200 || res.status <= 299) {
+          dispatch({
+            type: MODIFY_MY_USER,
+            user: res.data.user,
+            message: successMessage
+          })
+        }
+      }).catch(err => {
+        console.error(err.response);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification: errorMessage
+        });
+      })
+  }
 }
