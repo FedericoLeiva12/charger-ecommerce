@@ -291,6 +291,13 @@ export default function Provider(state = initialState, action) {
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
         };
+    case constants.CONFIRM_ORDER:
+      return {
+        ...state,
+        orders: [...state.orders.filter(order => order.id != action.order.id), action.order],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
+      }
 
     default:
       return { ...state };
