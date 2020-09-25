@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -32,61 +32,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CartProduct({ product, onClose, addToCart,removeFromCart, deleteFromCart }) {
+export default function CartProduct({
+  product,
+  onClose,
+  addToCart,
+  removeFromCart,
+  deleteFromCart,
+  handleChange
+}) {
   const classes = useStyles();
-  product.image = product.image === undefined?product.imgs[0].url:product.image;
+  product.image =
+    product.image === undefined ? product.imgs[0].url : product.image;
   const [amount, setAmount] = useState(product.amount);
+
+  useEffect(() => {
+    handleChange(product.id, amount * product.price);
+  }, [amount])
 
   return (
     <>
-          <TableCell align="right">
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.img}
-                /*alt="complex"*/
-                src={product.image}
-              />
-            </ButtonBase>
-         </TableCell>
-              <TableCell align="right">
-                <Typography gutterBottom variant="subtitle1">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {product.description}
-                </Typography>
-             </TableCell>
-           <TableCell align="right">
-                <Button
-                  onClick={(e) =>{
-		    if(product.amount < product.stock){
-		    addToCart(product);
-                    setAmount(product.amount);
-		    }else{
-		      //pass
-		    }
-		    }}>                  
-                  <AddCircleIcon />
-                </Button>
-	     x{amount} {'\u00A0'} {/* \u00A0 es un espacio */}
-	        ${product.price * amount}
-
-                <Button
-                  onClick={(e) =>{
-                    removeFromCart(product);
-                    setAmount(product.amount);
-                    }
-		  }
-                >
-		  <RemoveCircleIcon />
-                </Button>
-	   </TableCell>
-	   <TableCell align="right" >
-                 <Button onClick={onClose}>
-                  <DeleteForeverIcon fontSize="large" />
-                </Button>
-              </TableCell>
+      <TableCell align="right">
+        <ButtonBase className={classes.image}>
+          <img
+            className={classes.img}
+            /*alt="complex"*/
+            src={product.image}
+          />
+        </ButtonBase>
+      </TableCell>
+      <TableCell align="right">
+        <Typography gutterBottom variant="subtitle1">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          {product.description}
+        </Typography>
+      </TableCell>
+      <TableCell align="right">
+        <Button
+          onClick={(e) => {
+            if (product.amount < product.stock) {
+              addToCart(product);
+              setAmount(product.amount);
+            } else {
+              //pass
+            }
+          }}
+        >
+          <AddCircleIcon />
+        </Button>
+        x{amount} {"\u00A0"} {/* \u00A0 es un espacio */}$
+        {product.price * amount}
+        <Button
+          onClick={(e) => {
+            removeFromCart(product);
+            setAmount(product.amount);
+          }}
+        >
+          <RemoveCircleIcon />
+        </Button>
+      </TableCell>
+      <TableCell align="right">
+        <Button onClick={onClose}>
+          <DeleteForeverIcon fontSize="large" />
+        </Button>
+      </TableCell>
     </>
-
   );
 }

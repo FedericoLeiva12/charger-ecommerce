@@ -49,7 +49,7 @@ function SeeReviews({deleteReviews, userReviews, getUserReviews, user, modifyRev
     }
   }, [])
   
-  console.log(reviews)
+  // console.log(reviews)
 
   const data = reviews && reviews.map(review => {
     return {
