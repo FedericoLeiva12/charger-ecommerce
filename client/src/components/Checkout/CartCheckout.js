@@ -62,7 +62,7 @@ export default function CartCheckout({
   let tot = 0;
 
 
-  Object.values(prices).forEach(price => total += price);
+  Object.values(prices).forEach(price => tot += price);
 
   return (
     <Grid item xs={12}>
