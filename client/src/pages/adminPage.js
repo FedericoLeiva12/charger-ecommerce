@@ -78,6 +78,10 @@ function AdminPage({
         }
     }, [])
 
+    useEffect(() => {
+        getAllUsers()
+    }, [])
+
     return (
         <>
             <NavBar />

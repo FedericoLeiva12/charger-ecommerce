@@ -17,8 +17,8 @@ import PaymentIcon from '@material-ui/icons/Payment'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import NavBarContainer from '../components/NavBar/Container'
 import CreateReview from '../components/CreateReview'
-import {useParams} from 'react-router-dom'
 import {getOrders, getUserReviews} from '../store/actions'
+import {Link, useParams} from 'react-router-dom'
 
 const useStyle = makeStyles({
   root: {
@@ -129,11 +129,15 @@ function OrderPage({user, orders, getOrders, reviews, getUserReviews  }) {
                 {order.products.map((prod, index) => (
                   <>
                     <Box key={index} className={classes.product}>
+                    <Tooltip title='Go to product' arrow>
+                    <Link to={`/product/${prod.id}`}>
                       <Avatar src={prod.image} style={{marginRight: '8px'}} />
+                    </Link>
+                    </Tooltip>
                       <Typography>
                         {' '}
                         {prod.name} - ${prod.price * prod.amount} ( $
-                        {prod.price} x{prod.amount} )
+                        {prod.price} x {prod.amount} )
                       </Typography>
                     </Box>
                     <Box>
