@@ -102,7 +102,7 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
         actions={[
           rowData => ({
             icon: () => <ShoppingCartIcon />,
-            tooltip: 'See reviews',
+            tooltip: 'See Cart',
             onClick: () => handleOpen(rowData.id),
           }),
         ]}
@@ -115,6 +115,7 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
 	      modifyOrdersState(oldData.id, newData.state);
+	      getAllOrders();
               resolve();
             }, 1000)
           }),

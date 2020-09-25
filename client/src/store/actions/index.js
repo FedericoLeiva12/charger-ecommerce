@@ -852,7 +852,6 @@ export function getAllOrders() {
   return (dispatch) => {
     axios.get(`http://${url}/checkout/check/`)
       .then(res => {
-        console.log(res.data)
         dispatch({
           type: GET_ALL_ORDERS,
           allOrders: res.data,

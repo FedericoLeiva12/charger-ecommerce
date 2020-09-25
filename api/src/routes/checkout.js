@@ -18,13 +18,29 @@ server.get("/", (req, res) => {
 
 //change the state of order
 server.put("/check",(req, res) => {
-  console.log(req.body);
-  Checkout.findByPk(req.body.id)
+  Checkout.findOne({
+    where: { id: req.body.id },
+    include: { model: User, include: InfoUser }
+  })
   .then(order => {
     if(req.body.state === "shipping"|| req.body.state === "complete"){
       order.state = req.body.state;
       order.save();
       res.send(order);
+      sendEmail({
+        from: 'admin',
+        to: order.user.email,
+        subject: 'Charger Order Status',
+        content: 'templeteState.html'
+      }, {
+        NAME: order.user.infoUser.name,
+        ID: order.id,
+        ORDER: order.state
+      }).catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    })
+
     }else{
       res.status(500).send({ text: "invalid state"});
     }

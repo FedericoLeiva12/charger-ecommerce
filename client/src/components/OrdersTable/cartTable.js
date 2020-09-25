@@ -54,7 +54,6 @@ function CartTable({ shoppingCart }) {
     }
   }
 
-  console.log(shoppingCart);
   const data = shoppingCart && shoppingCart.map(shoppingCart => {
     return {
       name: shoppingCart.name ,
