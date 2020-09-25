@@ -21,7 +21,7 @@ import SuccessSnackbar from "./components/Snackbars/SuccessSnackbar";
 import ErrorSnackbar from "./components/Snackbars/ErrorSnackbar";
 import { getUser } from "./store/actions";
 import CreateReview from "./pages/createReview.js";
-import PaymentPage from "./pages/PaymentPage";
+import PurchasePage from "./pages/PurchasePage";
 
 function App({ getUser }) {
   useEffect(() => {
@@ -42,7 +42,11 @@ function App({ getUser }) {
         <Route exact path="/product" component={ProductoPage} />
         <Route exact path="/category/:categoryId" component={CategoriaPage} />
         <Route exact path="/checkout" component={CheckoutPage} />
-        <Route exact path="/checkout/payment" component={PaymentPage} />
+        <Route
+          exact
+          path="/checkout/purchase/:orderId"
+          component={PurchasePage}
+        />
         <Route exact path="/product/:product" component={ProductoPage} />
         <Route exact path="/user" component={userPanelPage} />
         <Route exact path="/order/:id" component={orderPage} />

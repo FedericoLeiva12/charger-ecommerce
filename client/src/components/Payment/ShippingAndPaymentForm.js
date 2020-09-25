@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderForm() {
+export default function PurchaseForm({ setPurchaseData }) {
   const classes = useStyles();
   const [paymentMethod, setpaymentMethod] = React.useState("");
   const [shippingAdress, setshippinAdress] = React.useState("");
@@ -43,7 +43,7 @@ export default function OrderForm() {
         autoComplete="off"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(paymentMethod, shippingAdress);
+          setPurchaseData(paymentMethod, shippingAdress);
         }}
       >
         <div>
