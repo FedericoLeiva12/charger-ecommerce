@@ -4,7 +4,6 @@ import { SvgIcon, Snackbar } from "@material-ui/core";
 import Style from "../productCard/style.module.css";
 import cart from "../../assets/imgs/carrito_icon.png";
 import DoneIcon from "@material-ui/icons/Done";
-import ClearIcon from "@material-ui/icons/Clear";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import { Link } from "react-router-dom";
 
@@ -13,12 +12,12 @@ export default function ProductCard(props) {
 
   function handleClick(e) {
     const clicked = e.target.className;
-
+    const message = 'Product successfully added to your cart!'
     if (props.product.stock > 0) {
       if (active === clicked) {
         setActive("");
       } else {
-        props.addToCart(props.product);
+        props.addToCart(props.product, message);
         setActive(clicked);
       }
     } else {
@@ -40,7 +39,7 @@ export default function ProductCard(props) {
           <div className={Style.left}>
             <div className={Style.details}>
               <div className={Style.title}>
-                <h3>{props.product.title}</h3>
+                <h3>{props.product.name}</h3>
               </div>
               <p>${props.product.price} </p>
             </div>

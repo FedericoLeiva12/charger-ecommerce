@@ -30,15 +30,19 @@ function AddDeleteCategoryToProduct(props) {
       mode: true
     });
 
+    const addedMessage = `Category ${addCategoryProduct.categoryId} was successfully added to product ${addCategoryProduct.productId}!`
+
+    const removeMessage = `Category ${addCategoryProduct.categoryId} was successfully removed from product ${addCategoryProduct.productId}!`
+
     return (
         <Box className={classes.cont} my={0} p={3} className={classes.boxStyle}>
             <Grid container justify="center" p={0} direction="column">
             <form autoComplete='off' onSubmit={(e) => {
         e.preventDefault();
         if(addCategoryProduct.mode)
-          props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+          props.addCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId, addedMessage);
         else
-          props.removeCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId);
+          props.removeCategoryProduct(addCategoryProduct.productId, addCategoryProduct.categoryId, removeMessage);
       }}>
         <TextField
                 label="Category ID"

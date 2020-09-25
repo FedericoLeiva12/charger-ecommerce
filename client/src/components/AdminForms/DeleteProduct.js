@@ -22,7 +22,8 @@ function DeleteProduct(props) {
     const classes = useStyles();
 
     const [deleteProduct, setDeleteProduct] = React.useState({
-      id: 0
+        id: 0,
+        message: 'Product was successfully removed!'
     });
 
     return (
@@ -33,7 +34,7 @@ function DeleteProduct(props) {
                         autoComplete="off"
                         onSubmit={e => {
                             e.preventDefault()
-                            props.deleteProduct(deleteProduct.id)
+                            props.deleteProduct(deleteProduct.id, deleteProduct.message)
                         }}
                     >
                         <TextField

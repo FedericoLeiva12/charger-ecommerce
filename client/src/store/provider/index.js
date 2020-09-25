@@ -1,57 +1,47 @@
-import {
-  GET_CATEGORIES,
-  GET_PRODUCTS,
-  ERROR_MESSAGE,
-  ADD_CATEGORY,
-  MODIFY_CATEGORY,
-  DELETE_CATEGORY,
-  ADD_PRODUCT,
-  DELETE_PRODUCTS,
-  ADD_CATEGORY_PRODUCT,
-  REMOVE_CATEGORY_PRODUCT,
-  GET_PRODUCTS_BY_CATEGORY,
-  MODIFY_PRODUCT,
-  GET_CART,
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  GET_SELECTORS,
-  CREATE_USER,
-  LOGIN,
-  GET_USER,
-  LOGOUT,
-  CHECKOUT,
-} from "../constants";
-
+import * as constants from "../constants";
 import { loadState, saveState } from "../../localStorage";
 
 const initialState = {
   categories: [],
   products: [],
-  cart: loadState()===undefined?[]: loadState(),
+  cart: loadState() === undefined ? [] : loadState(),
   selectors: [],
   users: [],
+
   logged: false,
   user: null,
   orders: [],
+  reloadProducts: true,
+  checkoutTotal: 0,
+  reviews: [],
+  userReviews: [],
 
   error: false,
   errorMessage: "",
+
+  successSnackbarOpen: false,
+  errorSnackbarOpen: false,
+  warningSnackbarOpen: false,
+  successSnackbarMessage: "",
+  errorSnackbarMessage: "Oh no! Something has gone wrong. Try again!",
 };
 
 export default function Provider(state = initialState, action) {
   switch (action.type) {
-    case '@@INIT':
+    case "@@INIT":
       return {
-        ...state
-      }
-    case GET_CATEGORIES:
+        ...state,
+      };
+    case constants.GET_CATEGORIES:
       return { ...state, categories: action.categories };
-    case ADD_CATEGORY:
+    case constants.ADD_CATEGORY:
       return {
         ...state,
         categories: [...state.categories, action.category],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case MODIFY_CATEGORY:
+    case constants.MODIFY_CATEGORY:
       let cat = state.categories.filter(
         (cat) => cat.id === parseInt(action.id)
       )[0];
@@ -63,45 +53,58 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         categories, //: state.categories.map(cat => cat.id === parseInt(action.id)?{...cat, name: action.name, description: action.description}:cat)
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case DELETE_CATEGORY:
+    case constants.DELETE_CATEGORY:
       return {
         ...state,
         categories: state.categories.filter(
           (cat) => cat.id !== parseInt(action.id)
         ),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case GET_PRODUCTS:
+    case constants.GET_PRODUCTS:
       return {
         ...state,
-        products: action.products,
+        products: state.reloadProducts ? action.products : state.products,
+        reloadProducts: true,
       };
-    case ADD_PRODUCT:
+    case constants.ADD_PRODUCT:
       return {
         ...state,
         products: [...state.products, action.product],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case DELETE_PRODUCTS:
+    case constants.DELETE_PRODUCTS:
       return {
         ...state,
         products: state.products.filter(
           (prod) => prod.id !== parseInt(action.id)
         ),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case ADD_CATEGORY_PRODUCT:
+    case constants.ADD_CATEGORY_PRODUCT:
       return {
         ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case REMOVE_CATEGORY_PRODUCT:
+    case constants.REMOVE_CATEGORY_PRODUCT:
       return {
         ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case GET_PRODUCTS_BY_CATEGORY:
+    case constants.GET_PRODUCTS_BY_CATEGORY:
       return {
         ...state,
         products: action.products,
       };
-    case MODIFY_PRODUCT:
+    case constants.MODIFY_PRODUCT:
       let prod = state.products.filter(
         (prod) => prod.id === action.product.id
       )[0];
@@ -116,57 +119,179 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         products,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case GET_CART:
+    case constants.GET_CART:
       return {
         ...state,
         cart: action.cart,
       };
-    case ADD_TO_CART:
+    case constants.GET_ORDERS:
       return {
         ...state,
-        cart: [...state.cart, action.cart],
+        orders: action.orders,
       };
-    case REMOVE_FROM_CART:
+    case constants.ADD_TO_CART:
+      const c = state.cart.find((cart) => cart.id === action.cart.id);
+      if (c === undefined) {
+        action.cart.amount = 1;
+        return {
+          ...state,
+          cart: [...state.cart, action.cart],
+        };
+      } else {
+        c.amount++;
+        return {
+          ...state,
+        };
+      }
+    case constants.REMOVE_FROM_CART:
+      const m = state.cart.find((prod) => prod.id === Number(action.id));
+      if (m.amount === 1) {
+        return {
+          ...state,
+        };
+      } else {
+        m.amount--;
+        return {
+          ...state,
+        };
+      }
+    case constants.DELETE_FROM_CART:
       return {
         ...state,
         cart: state.cart.filter((prod) => prod.id !== Number(action.id)),
       };
-    case GET_SELECTORS:
+
+    case constants.GET_SELECTORS:
       return {
         ...state,
         selectors: action.selectors,
       };
-    case CREATE_USER:
+    case constants.CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.createdUser], //entonces aca lo guardo como tal dentro de un array de users
+        users: [...state.users, action.createdUser],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
       };
-    case LOGIN:
+    case constants.LOGIN:
       return {
         ...state,
         logged: action.logged,
         user: action.user || null,
       };
-    case LOGOUT:
+    case constants.LOGOUT:
       return {
         ...state,
         logged: action.logged,
         user: action.user || null,
       };
-    case GET_USER:
+    case constants.GET_USER:
       return {
         ...state,
         logged: action.logged,
         user: action.user || null,
       };
-    case CHECKOUT:
+    case constants.CHECKOUT:
       return {
         ...state,
-        orders: [...state.orders, action.order]
+        orders: [...state.orders, action.order],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.GET_SEARCH:
+      return {
+        ...state,
+        products: action.products,
+        reloadProducts: false,
+      };
+    case constants.ERROR_MESSAGE:
+      return {
+        ...state,
+        error: true,
+        errorMessage: action.message,
+        errorSnackbarOpen: true,
+        errorSnackbarMessage: action.errorNotification,
+      };
+    case constants.SNACKBAR_CLEAR:
+      return {
+        ...state,
+        successSnackbarOpen: false,
+        errorSnackbarOpen: false,
+        warningSnackbarOpen: false,
+      };
+    case constants.CLEAR_CART:
+      return {
+        ...state,
+        cart: action.cart,
+      };
+    case constants.RESET_PASSWORD:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.GET_ALL_USERS:
+      return {
+        ...state,
+        users: action.users,
+      };
+    case constants.DELETE_FROM_USERS:
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== parseInt(action.id)),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.MAKE_USER_ADMIN:
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.reviews,
+      };
+    case constants.ADD_REVIEWS:
+      return { 
+          ...state,
+          reviews: [...state.reviews, action.review ],
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
       }
-    case ERROR_MESSAGE:
-      return { ...state, error: true, errorMessage: action.message };
+    case  constants.DELETE_REVIEWS:
+      return {
+
+          ...state,
+          reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+      }
+    case constants.GET_USER_REVIEWS:
+      return {
+        ...state,
+        userReviews: action.userReviews,
+	reviews: action.userReviews.reviews
+      }
+    case constants.MODIFY_REVIEW:
+        let rev = state.reviews.filter(
+          (rev) => rev.id === parseInt(action.id)
+        )[0];
+        if (rev === undefined) return { ...state };
+        let i = state.reviews.indexOf(rev);
+        let reviews = [...state.reviews];
+        reviews[i].commentary = action.commentary;
+        return {
+          ...state,
+          reviews, 
+          successSnackbarOpen: true,
+          successSnackbarMessage: action.message,
+        };
+
     default:
       return { ...state };
   }

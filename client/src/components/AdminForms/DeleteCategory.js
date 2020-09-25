@@ -20,7 +20,8 @@ function DeleteCategory(props) {
   const classes = useStyles();
 
   const [removeCategory, setRemoveCategory] = React.useState({
-    id: 0
+    id: 0,
+    message: 'Category was successfully removed!'
   });
 
 
@@ -34,7 +35,7 @@ function DeleteCategory(props) {
               autoComplete="off"
               onSubmit={(e) => {
                 e.preventDefault();
-                props.deleteCategory(removeCategory.id);
+                props.deleteCategory(removeCategory.id, removeCategory.message);
               }}
             >
               <TextField

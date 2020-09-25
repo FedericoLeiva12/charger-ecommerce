@@ -25,8 +25,10 @@ function CreateProducts(props) {
     description: '',
     price: '',
     stock: '',
-    img: ''
+    img: '',
+    message: 'Product created successfully!'
   });
+
 
   return (
     <Box className={classes.cont} my={0} p={3} height={'77.1vh'}>
@@ -43,7 +45,8 @@ function CreateProducts(props) {
           createProduct.description,
 					createProduct.price,
 					createProduct.stock,
-					createProduct.img.split(',').map(x => x.replace(' ', ''))
+					createProduct.img.split(',').map(x => x.replace(' ', '')),
+          createProduct.message
 				);
               }}
             >

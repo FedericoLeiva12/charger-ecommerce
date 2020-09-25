@@ -5,7 +5,14 @@ const backgroundImages = [
   'https://images.unsplash.com/photo-1548437629-18ee60d53cd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
   'https://images.unsplash.com/photo-1586396847415-2c76ae7e79fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
   'https://images.unsplash.com/photo-1503342452485-86b7f54527ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-  'https://images.unsplash.com/photo-1503341733017-1901578f9f1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'
+  'https://images.unsplash.com/photo-1503341733017-1901578f9f1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+  'https://images.unsplash.com/photo-1585529976192-0f46f58c5314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+  'https://image.freepik.com/free-photo/woman-walking-down-stairs_53876-41256.jpg',
+  'https://wallpapercave.com/wp/wp2153701.jpg',
+  'https://wallpapercave.com/wp/wp2153640.jpg',
+  'https://wallpapercave.com/wp/wp2153633.jpg',
+  'https://wallpapercave.com/wp/wp1839983.jpg',
+  
 ]
 
 export default backgroundImages;

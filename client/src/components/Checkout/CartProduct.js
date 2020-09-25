@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -7,7 +7,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-import { Button } from "@material-ui/core";
+import { Button, TableRow, TableCell } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,99 +32,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CartProduct({ product, onClose }) {
+export default function CartProduct({
+  product,
+  onClose,
+  addToCart,
+  removeFromCart,
+  deleteFromCart,
+  handleChange
+}) {
   const classes = useStyles();
-  product.image = product.image === undefined?product.imgs[0].url:product.image;
-  const [amount, setAmount] = useState(1);
+  product.image =
+    product.image === undefined ? product.imgs[0].url : product.image;
+  const [amount, setAmount] = useState(product.amount);
+
+  useEffect(() => {
+    handleChange(product.id, amount * product.price);
+  }, [amount])
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.img}
-                /*alt="complex"*/
-                src={product.image}
-              />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {product.description}
-                </Typography>
-                {/*<Typography variant="body2" color="textSecondary">
-                  ID: 1030114
-                </Typography>*/}
-              </Grid>
-              {/* <Grid item>
-                <Typography variant="body2" style={{ cursor: "pointer" }}>
-                  Remove
-                </Typography>
-              </Grid> */}
-            </Grid>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid
-                item
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <Button onClick={onClose}>
-                  <DeleteForeverIcon fontSize="large" />
-                </Button>
-              </Grid>
-              <Grid
-                item
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  onClick={(e) =>
-                    setAmount(amount < product.stock ? amount + 1 : amount)
-                  }
-                >
-                  <AddCircleIcon />
-                </Button>
-                <div
-                  style={{ color: "#eee", padding: "5px", borderRadius: "5px" }}
-                >
-                  x{amount}
-                  <span
-                    style={{
-                      borderLeft: "1px solid #eee",
-                      textAlign: "center",
-                      marginLeft: "5px",
-                      paddingLeft: "5px",
-                    }}
-                  >
-                    ${product.price * amount}
-                  </span>
-                </div>
-                <Button
-                  onClick={(e) => setAmount(amount > 1 ? amount - 1 : amount)}
-                >
-                  <RemoveCircleIcon />
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+    <>
+      <TableCell align="right">
+        <ButtonBase className={classes.image}>
+          <img
+            className={classes.img}
+            /*alt="complex"*/
+            src={product.image}
+          />
+        </ButtonBase>
+      </TableCell>
+      <TableCell align="right">
+        <Typography gutterBottom variant="subtitle1">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          {product.description}
+        </Typography>
+      </TableCell>
+      <TableCell align="right">
+        <Button
+          onClick={(e) => {
+            if (product.amount < product.stock) {
+              addToCart(product);
+              setAmount(product.amount);
+            } else {
+              //pass
+            }
+          }}
+        >
+          <AddCircleIcon />
+        </Button>
+        x{amount} {"\u00A0"} {/* \u00A0 es un espacio */}$
+        {product.price * amount}
+        <Button
+          onClick={(e) => {
+            removeFromCart(product);
+            setAmount(product.amount);
+          }}
+        >
+          <RemoveCircleIcon />
+        </Button>
+      </TableCell>
+      <TableCell align="right">
+        <Button onClick={onClose}>
+          <DeleteForeverIcon fontSize="large" />
+        </Button>
+      </TableCell>
+    </>
   );
 }

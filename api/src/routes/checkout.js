@@ -1,6 +1,11 @@
 const server = require("express").Router();
-const { Checkout, ShoppingCart, User } = require("../db.js");
+const { isAuthenticated } = require("../passport.js");
+const { Checkout, ShoppingCart, User, CreditCard } = require("../db.js");
 
+// Check if is logged
+server.get("/getuser", isAuthenticated, (req, res) => {
+  res.send({ user: req.user, logged: true });
+});
 //getCarts
 server.get("/", (req, res) => {
   ShoppingCart.findAll().then((shpcart) => {
@@ -11,37 +16,72 @@ server.get("/", (req, res) => {
 //postCarts
 server.post("/", (req, res) => {
   const { content } = req.body;
-  const { sessionToken } = req.body;
-  const useremail = new Buffer(sessionToken, "hex").toString().split(":")[0];
+  const id = req.user.id;
+
+  // Auxiliars
+  let order = null;
+  let shpcart = null;
+
   ShoppingCart.create({
     content,
   })
-    .then((shpcart) => {
-      Checkout.create()
-        .then((order) => {
-          User.findOne({
-            where: {
-              email: useremail,
-            },
-          }).then((user) => {
-            order.setUser(user);
-          });
-          return order.setShoppingCart(shpcart);
-        })
-        .then((newOrder) => {
-          res.send(newOrder);
-        });
+    .then((shopcart) => {
+      shpcart = shopcart;
+      return Checkout.create();
+    })
+    .then((norder) => {
+      order = norder;
+      return User.findOne({
+        where: {
+          id,
+        },
+      });
+    })
+    .then((user) => {
+      order.setUser(user);
+      return order.setShoppingCart(shpcart);
+    })
+    .then((newOrder) => {
+      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
     })
     .catch((err) => {
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
 });
-//CreateCheckout
-server.get("/check", (req, res) => {
-  Checkout.findAll().then((orders) => {
-    res.send(orders);
+//Get Checkout
+// Post creditCard
+server.post("/addcard/:id", (req, res) => {
+  const id = req.user.id;
+  const { cardNumber, cardName, expirationDate, CCV, orderId } = req.body;
+
+  const order = find;
+  console.log(userId);
+  User.findOne({
+    where: {
+      id,
+    },
+  }).then((loggedUser) => {
+    loggedUser
+      .createCreditCard({
+        cardNumber,
+        cardName,
+        expirationDate,
+        CCV,
+      })
+      .then((userWithCard) => {
+        console.log(userWithCard);
+        res.send(userWithCard);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
   });
 });
-
+//getcreditcards
+server.get("/creditcards", (req, res) => {
+  CreditCard.findAll().then((cards) => {
+    res.send(cards);
+  });
+});
 module.exports = server;

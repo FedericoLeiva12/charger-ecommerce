@@ -11,7 +11,7 @@ import {makeStyles} from '@material-ui/core';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCategories } from '../../store/actions';
+import { getCategories, getSearch } from '../../store/actions';
 import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
@@ -27,6 +27,13 @@ const useStyles = makeStyles(theme => ({
     },
     appBar: {
         background: 'rgba(66, 66, 66, 0.36)',
+        color: 'white',
+        [theme.breakpoints.up('sm')]: {
+            width: '100%',
+        },
+    },
+    appBarNoTransparent: {
+        background: 'rgb(66, 66, 66)',
         color: 'white',
         [theme.breakpoints.up('sm')]: {
             width: '100%',
@@ -50,7 +57,7 @@ const NavBar = props => {
     const classes = useStyles()
     return (
         <div >
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={props.noTransparent?classes.appBarNoTransparent:classes.appBar}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -68,14 +75,14 @@ const NavBar = props => {
                             </Button>
                         <Button className={classes.title}>
                         <Link to='/checkout' style={{textDecoration: 'none', color: 'white', paddingTop: '7px'}}>
-       <Badge badgeContent={props.cart?props.cart.length:0} color="primary">
+       <Badge badgeContent={props.cart?props.cart.length:0} color="secondary">
                             <LocalMallOutlinedIcon />
       </Badge>
                         </Link>
                         </Button>
                     </Typography>
                     <Link to='/' style={{textDecoration: 'none', color: 'white', marginRight: '31%'}}> <Typography variant='h5' className={classes.charger}>CHARGER</Typography> </Link>
-                    <SearchBar />
+                    <SearchBar onSearch={props.getSearch} />
                 </Toolbar>
             </AppBar>
         </div>
@@ -91,7 +98,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: () => dispatch(getCategories())
+        getCategories: () => dispatch(getCategories()),
+        getSearch: search => dispatch(getSearch(search))
     }
 }
 

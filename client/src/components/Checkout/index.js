@@ -1,8 +1,17 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
-import { getProducts, getCart, removeFromCart, checkout } from "../../store/actions";
-import CartProduct from "./CartProduct";
+import {
+  getProducts,
+  getCart,
+  addToCart,
+  removeFromCart,
+  deleteFromCart,
+  checkout,
+  clearCart,
+} from "../../store/actions";
+
+import CartCheckout from "./CartCheckout";
 
 import {
   createMuiTheme,
@@ -10,58 +19,71 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Button } from "@material-ui/core";
+import { Button, Grid, Box } from "@material-ui/core";
+
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
   },
 });
 
-const useStyles = makeStyles(() => ({
-  cont: {
-    background: "#3D3D3D",
-  },
-}));
-
-function Checkout({ cart, getCart, removeFromCart, onCheckout }) {
-  const classes = useStyles();
-
+function Checkout({
+  cart,
+  getCart,
+  addToCart,
+  removeFromCart,
+  onCheckout,
+  deleteFromCart,
+  clearCart,
+}) {
   useEffect(() => {
     getProducts();
   }, []);
 
+  const [prices, setPrices] = React.useState({})
+
+  function handleChange(key, value) {
+    setPrices({...prices, [key]:value})
+  }
+
   return (
     <>
       <NavBarCOntainer />
-      <div style={{ paddingTop: 64, backgroundColor: "#3D3D3D" }}></div>
+      <div style={{ paddingTop: 64 }}></div>
       <ThemeProvider theme={darkTheme}>
-        <div>
-          {cart.length > 0 ? (
-            /* WHEN THE CLIENT hAVE PRODUCTS IN THE CART: */
-            <>
-              {cart.map((prod, index) => (
-                <CartProduct
-                  key={index}
-                  onClose={() => {
-                    removeFromCart(prod);
-                  }}
-                  product={prod}
+        <Box mt={4}>
+          <Grid
+            container
+            direction="row"
+            justify="space-around"
+            alignItems="center"
+          >
+            {cart.length > 0 ? (
+              /* WHEN THE CLIENT HAVE PRODUCTS IN THE CART: */
+              <>
+                <CartCheckout
+                  clearCart={clearCart}
+                  onCheckout={onCheckout}
+                  cart={cart}
+                  getCart={getCart}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
+                  deleteFromCart={deleteFromCart}
+                  handleChange={handleChange}
+                  prices={prices}
                 />
-              ))}
-              <Button onClick={onCheckout} style={{
-                backgroundColor: '#F84'
-              }}>Checkout</Button>
-            </>
-          ) : (
-            /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
-            <div
-              style={{ textAlign: "center", color: "#666", marginTop: "2em" }}
-            >
-              <h1>No products in the cart</h1>
-              <RemoveShoppingCartIcon style={{ fontSize: "15em" }} />
-            </div>
-          )}
-        </div>
+              </>
+            ) : (
+              /* WHEN THE CLIENT DON'T HAVE PRODUCTS IN THE CART */
+              <div
+                style={{ textAlign: "center", color: "#666", marginTop: "2em" }}
+              >
+                <h1>No products in the cart</h1>
+                <RemoveShoppingCartIcon style={{ fontSize: "15em" }} />
+              </div>
+            )}
+          </Grid>
+        </Box>
       </ThemeProvider>
     </>
   );
@@ -76,8 +98,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCart: () => dispatch(getCart()),
-    removeFromCart: (id) => dispatch(removeFromCart(id)),
-    onCheckout: () => dispatch(checkout())
+    addToCart: (product, message) => dispatch(addToCart(product, message)),
+    removeFromCart: (id, message) => dispatch(removeFromCart(id, message)),
+    deleteFromCart: (id, message) => dispatch(deleteFromCart(id, message)),
+    onCheckout: (message) => dispatch(checkout(message)),
+    clearCart: () => dispatch(clearCart()),
   };
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { resetPassword } from '../../store/actions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -62,8 +64,14 @@ const useStyles = makeStyles((theme) => ({
   })(TextField);
 
 
-  export default function Login() {
+function Login({resetPassword}) {
     const classes = useStyles();
+
+    const [state, setState] = useState({
+      email: '',
+      password: '',
+      repassword: ''
+    });
   
     return (
       <Container component="main" maxWidth="xs">
@@ -75,26 +83,46 @@ const useStyles = makeStyles((theme) => ({
           <Typography component="h1" variant="h5" style={{color: '#f6f6f6'}}>
             RESET PASSWORD
           </Typography>
-          <form className={classes.form} noValidate>
-            <CssTextField
+          <form onSubmit={e => {
+            e.preventDefault();
+            resetPassword(state.email, state.password, state.repassword);
+            
+          }} className={classes.form} noValidate>
+          <CssTextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="New Password"
-              type="password"
+              label="Account email"
+              type="email"
               name="email"
               autoComplete="false"
+              value={state.email}
+              onChange={e => setState({...state, email: e.target.value})}
+            />
+          <CssTextField
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              label="New Password"
+              type="password"
+              name="password"
+              autoComplete="false"
+              value={state.password}
+              onChange={e => setState({...state, password: e.target.value})}
             />
             <CssTextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="repassword"
               label="Type Password Again"
               type="password"
               id="password"
               autoComplete="current-password"
+              value={state.repassword}
+              onChange={e => setState({...state, repassword: e.target.value})}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -124,3 +152,17 @@ const useStyles = makeStyles((theme) => ({
       </Container>
     );
   }
+
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return{
+    resetPassword: (email, password, repassword) => dispatch(resetPassword(email, password, repassword))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
