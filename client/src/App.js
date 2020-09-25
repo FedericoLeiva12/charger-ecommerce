@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { getUser } from './store/actions';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import UserPage from './pages/UserPage';
+import PrivateAdmin from './components/Routes/PrivateAdmin';
 
 function App({getUser}) {
   useEffect(() => {
@@ -37,7 +38,7 @@ function App({getUser}) {
       <Route exact path='/product/:product' component={ProductoPage} />
       <PrivateRoute exact path='/user' component={UserPage}/>
       {/* Admin Routes */}
-      <PrivateRoute exact path='/admin' component={AdminPage} />
+      <PrivateAdmin exact path='/admin' component={AdminPage} />
     </Switch>
   );
 }
