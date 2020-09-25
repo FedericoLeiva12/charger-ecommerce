@@ -12,6 +12,9 @@ const useStyles = makeStyles(()=>({
             transition: '0.3s'
         },
         textDecoration: 'none',
+    },
+    list: {
+        paddingLeft: 8
     }
 }))
 
@@ -19,7 +22,7 @@ function List({categories, logged, onSignout, user}){
     const classes = useStyles()
 
     return(
-        <div>
+        <div className={classes.list}>
             {categories
                 .filter(cat => 
                     (cat.name === 'Type' || cat.name === 'Season')
