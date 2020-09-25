@@ -28,7 +28,9 @@ export default function CartCheckout({
   deleteFromCart,
   clearCart,
   handleChange,
-  prices
+  prices,
+  redirectTo,
+  history
 }) {
   const [openClearCart, setOpenClearCart] = useState(false);
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -48,7 +50,7 @@ export default function CartCheckout({
     setOpenCheckout(false);
   };
   const handleOnCheckout = () => {
-    onCheckout(message);
+    onCheckout(message, redirectTo);
     //clearCart();
     handleCloseCheckout();
   };

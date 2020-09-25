@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import NavBarCOntainer from "../NavBar/Container";
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 import {
   getProducts,
   getCart,
@@ -35,6 +36,7 @@ function Checkout({
   onCheckout,
   deleteFromCart,
   clearCart,
+  history
 }) {
   useEffect(() => {
     getProducts();
@@ -71,6 +73,7 @@ function Checkout({
                   deleteFromCart={deleteFromCart}
                   handleChange={handleChange}
                   prices={prices}
+                  redirectTo={history.push}
                 />
               </>
             ) : (
@@ -101,9 +104,9 @@ function mapDispatchToProps(dispatch) {
     addToCart: (product, message) => dispatch(addToCart(product, message)),
     removeFromCart: (id, message) => dispatch(removeFromCart(id, message)),
     deleteFromCart: (id, message) => dispatch(deleteFromCart(id, message)),
-    onCheckout: (message) => dispatch(checkout(message)),
+    onCheckout: (message, redirectTo) => dispatch(checkout(message, redirectTo)),
     clearCart: () => dispatch(clearCart()),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Checkout));

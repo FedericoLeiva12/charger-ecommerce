@@ -18,7 +18,7 @@ module.exports = function sendEmail(data, vars) {
         console.log(content)
 
         mg.messages().send({
-            from: `Changer <${data.from}@${DOMAIN}>`,
+            from: `Charger <${data.from}@${DOMAIN}>`,
             to: data.to,
             subject: data.subject,
             text: content,

@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { User, Checkout, ShoppingCart } = require('../db');
+const { isAuthenticated } = require('../passport');
 
 const router = Router();
 
@@ -21,22 +22,30 @@ router.get('/:user', (req, res) => {
     })
 });
 
-router.post('/confirm/:id', (req, res) => {
-    const { id } = req.params;
+router.post('/confirm/:token', isAuthenticated, (req, res) => {
+    const { id } = req.user;
+    const { token } = req.params;
+
+    let order = null;
 
     Checkout.findOne({
         where: {
-            id
-        }
+            token
+        },
+        include: [ShoppingCart, {
+            model: User,
+            where: { id }
+        }]
     }).then(checkout => {
         if(checkout && checkout.state === 'pending') {
-            checkout.state = 'processing';
-            return checkout.save();
+            order = checkout;
+            order.state = 'processing';
+            return order.save();
         } else {
-            res.status(400).send({ message: 'Invalid id' });
+            res.status(400).send({ message: 'Invalid or already confirmed order' });
         }
     }).then(() => {
-        res.send({ success: true });
+        res.send({ success: true , order});
     }).catch(err => {
         console.error(err);
         res.status(500).send({ message: 'Interna error.'});

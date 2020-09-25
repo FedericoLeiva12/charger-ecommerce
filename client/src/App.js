@@ -22,6 +22,7 @@ import SuccessSnackbar from "./components/Snackbars/SuccessSnackbar";
 import ErrorSnackbar from "./components/Snackbars/ErrorSnackbar";
 import { getUser } from "./store/actions";
 import CreateReview from './pages/createReview.js';
+import OrderConfirmPage from "./pages/orderConfirmPage";
 
 function App({ getUser }) {
   useEffect(() => {
@@ -47,6 +48,7 @@ function App({ getUser }) {
         <Route exact path="/order/:id" component={orderPage} />
         <Route exact path='/createReview/' component={CreateReview} />
         <Route exact path='/checkout/confirm' component={OrderCheckoutPage} />
+        <Route exact path='/order/confirm/:token' component={OrderConfirmPage} />
         {/* Admin Routes */}
         <Route exact path="/admin" component={AdminPage} />
       </Switch>

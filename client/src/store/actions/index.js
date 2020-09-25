@@ -36,7 +36,7 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS, MODIFY_REVIEW
+  GET_USER_REVIEWS, MODIFY_REVIEW, CONFIRM_ORDER
 } from "../constants";
 
 const url = "localhost:3001";
@@ -561,7 +561,7 @@ export function loginUser(email, password) {
   };
 }
 
-export function checkout(message) {
+export function checkout(message, redirectTo) {
   const content = localStorage.getItem("cart");
 
   return (dispatch) => {
@@ -581,6 +581,7 @@ export function checkout(message) {
             order: order,
             message
           });
+          redirectTo('/checkout/confirm');
         } else {
           dispatch({
             type: ERROR_MESSAGE,
@@ -844,4 +845,30 @@ export function modifyReview(id, commentary, message) {
         });
       });
   };
+}
+
+export function confirmOrder(token, redirectTo, successMessage, errorMessage) {
+  return dispatch => {
+    axios.post(`http://${url}/order/confirm/${token}`, {}, {withCredentials: true})
+      .then(res => {
+        console.log(res.data)
+        dispatch({
+          type: CONFIRM_ORDER,
+          order: res.data.order,
+          message: successMessage
+        })
+        redirectTo(`/checkout/payment/${res.data.order.id}`);
+      }).catch(err => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification: errorMessage
+        })
+        if(err.response && err.response.status === 401) {
+          redirectTo('/login');
+        } else {
+          redirectTo('/');
+        }
+      })
+  }
 }
