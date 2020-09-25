@@ -39,7 +39,10 @@ import {
   GET_USER_REVIEWS, 
   MODIFY_REVIEW,
   MODIFY_USER,
-  MODIFY_MY_USER
+  MODIFY_MY_USER,
+  GET_ALL_ORDERS,
+  MODIFY_ORDERS_STATE
+  
 } from "../constants";
 
 const url = "localhost:3001";
@@ -849,6 +852,7 @@ export function modifyReview(id, commentary, message) {
   };
 }
 
+
 export function modifyUser(id, name, lastName, password, address, message) {
   return (dispatch) => {
     axios
@@ -896,5 +900,51 @@ export function modifyMyUser(data, successMessage, errorMessage) {
           errorNotification: errorMessage
         });
       })
+  }
+}
+export function getAllOrders() {
+  return (dispatch) => {
+    axios.get(`http://${url}/checkout/check/`)
+      .then(res => {
+        dispatch({
+          type: GET_ALL_ORDERS,
+          allOrders: res.data,
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
+  }
+}
+export function modifyOrdersState(orderId, newState) {
+  return (dispatch) => {
+    axios.put(`http://${url}/checkout/check/`,
+      {id:orderId, state: newState}
+    )
+      .then(res => {
+	if(res.status === 200){
+         dispatch({
+	   type: MODIFY_ORDERS_STATE,
+	   order: res.data
+	 })
+        }
+	else{
+	  dispatch({
+            type: ERROR_MESSAGE,
+            errorNotification,
+          });
+	}
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   }
 }

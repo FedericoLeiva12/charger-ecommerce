@@ -57,8 +57,10 @@ export default function CartCheckout({
   useEffect(() => {
     getCart();
   }, []);
+
   
   let tot = 0;
+
 
   Object.values(prices).forEach(price => tot += price);
 
@@ -76,7 +78,7 @@ export default function CartCheckout({
           </TableHead>
           <TableBody>
             {cart.map((prod) => {
-	      total += prod.amount * prod.price;
+	      tot += prod.amount * prod.price;
 	      return(
               <TableRow key={prod.id}>
                 <CartProduct
@@ -97,7 +99,7 @@ export default function CartCheckout({
 	  {/*<TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{tot}</TableCell> {/* tabla total */}
+              <TableCell align="right">{tot}</TableCell> {/* tabla total }
             </TableRow>
 	  </TableFooter>*/}
         </Table>

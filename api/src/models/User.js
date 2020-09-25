@@ -23,12 +23,9 @@ module.exports = (sequelize) => {
       defaultValue: "guest",
     },
   });
-  /* User.prototype.makeAdmin = function () {
-    const newAdmin = {
-      email: this.email,
-      password: this.password,
-      rol: "admin",
-    };
-    return newAdmin;
-  }; */
+  
+  User.prototype.makeAdmin = function () {
+    this.rol = 'admin';
+    return this.save();
+  };
 };

@@ -11,6 +11,7 @@ const initialState = {
   logged: false,
   user: null,
   orders: [],
+  allOrders: [],
   reloadProducts: true,
   checkoutTotal: 0,
   reviews: [],
@@ -290,6 +291,23 @@ export default function Provider(state = initialState, action) {
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
         };
+    case constants.GET_ALL_ORDERS:
+      return {
+	...state,
+	allOrders: action.allOrders,
+      }
+    case constants.MODIFY_ORDERS_STATE:
+      let ord = state.allOrders.filter(
+          (order) => order.id === action.order.id
+        )[0];
+      if (ord === undefined) return { ...state };
+      let ind = state.allOrders.indexOf(ord);
+      let allOrders = [...state.allOrders];
+      allOrders[ind] = action.order;
+      return {
+	...state,
+	allOrders,
+      }
     case constants.MODIFY_USER: 
       return {
         ...state,
