@@ -16,7 +16,10 @@ import {
     getUserReviews,
     modifyReview,
     deleteReviews,
-    getOrders
+    getOrders,
+    allOrders,
+    getAllOrders,
+    modifyOrdersState
 } from '../store/actions'
 import {connect} from 'react-redux'
 import NavBar from '../components/NavBar/Container'
@@ -35,6 +38,7 @@ import DeleteCategory from '../components/AdminForms/DeleteCategory'
 import Tables from '../components/AdminForms/Tables'
 import ListUsers from '../components/AdminForms/ListUsers'
 import SeeReviews from '../components/SeeReviews'
+import ListOrders from '../components/AdminForms/ListOrders.js'
 
 const darkTheme = createMuiTheme({
     palette: {
@@ -64,7 +68,10 @@ function AdminPage({
     getUserReviews,
     user,
     getOrders,
-    reviews
+    reviews,
+    allOrders,
+    getAllOrders,
+    modifyOrdersState
 }) {
     const [selectedTab, setSelectedTab] = React.useState(0)
 
@@ -101,6 +108,7 @@ function AdminPage({
                         <Tab label="Edit Categories" />
                         <Tab label="Delete Categories" />
                         <Tab label="Users" />
+                        <Tab label="Orders" />
                     </Tabs>
                 </AppBar>
                 {selectedTab === 0 && (
@@ -130,6 +138,9 @@ function AdminPage({
                     <DeleteCategory deleteCategory={deleteCategory} />
                 )}
                 {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} getUserReviews={getUserReviews} modifyReview={modifyReview} deleteReviews={deleteReviews} reviews={reviews} />}
+		{selectedTab === 8 && (
+		  <ListOrders allOrders={allOrders} getAllOrders={getAllOrders} modifyOrdersState={modifyOrdersState} /> 
+                )}
             </ThemeProvider>
         </>
     )
@@ -142,7 +153,8 @@ function mapStateToProps(state) {
         users: state.users,
         user: state.user,
         reviews: state.reviews,
-        userReviews: state.userReviews
+        userReviews: state.userReviews,
+        allOrders: state.allOrders,
     }
 }
 
@@ -172,7 +184,9 @@ function mapDispatchToProps(dispatch) {
         getUserReviews: (userId) => dispatch(getUserReviews(userId)),
         deleteReviews: (reviewId, message) => dispatch(deleteReviews(reviewId, message)),
         getOrders: (userId) => dispatch(getOrders(userId)),
-        modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message))
+        modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message)),
+        getAllOrders: () => dispatch(getAllOrders()),
+        modifyOrdersState: (id, state) => dispatch(modifyOrdersState(id, state))
     }
 }
 

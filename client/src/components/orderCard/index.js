@@ -24,9 +24,9 @@ export default function OrderCard({ id, products, status }) {
 
   let total = 0;
 
-  products.forEach((prod) => {
-    total += prod.price * prod.amount;
-  });
+    products.forEach(prod => {
+        total += prod.price * prod.amount;
+    });
 
   return (
     <Card className={classes.card}>

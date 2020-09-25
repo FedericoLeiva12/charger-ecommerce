@@ -76,6 +76,18 @@ export default function ProductCard(props) {
         </div>
         <div className={Style.contents}>
           <table>
+	    <tr>
+	      <th>
+	      Description:
+	      </th>
+	    </tr>
+	    <tr>
+	      <td>
+		{props.product.description}
+	      </td> 
+	    </tr>
+
+
             {/* <tr>
           <th>Talle</th>
           <th>Color</th>

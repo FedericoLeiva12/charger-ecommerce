@@ -30,7 +30,7 @@ export default function CartCheckout({
   handleChange,
   prices,
   redirectTo,
-  history
+  history,
 }) {
   const [openClearCart, setOpenClearCart] = useState(false);
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -51,7 +51,6 @@ export default function CartCheckout({
   };
   const handleOnCheckout = () => {
     onCheckout(message, redirectTo);
-    //clearCart();
     handleCloseCheckout();
   };
 
@@ -61,7 +60,7 @@ export default function CartCheckout({
 
   let tot = 0;
 
-  Object.values(prices).forEach(price => tot += price);
+  Object.values(prices).forEach((price) => (tot += price));
 
   return (
     <Grid item xs={12}>
@@ -76,27 +75,30 @@ export default function CartCheckout({
             </TableRow>
           </TableHead>
           <TableBody>
-            {cart.map((prod) => (
-              <TableRow key={prod.id}>
-                <CartProduct
-                  key={prod.id}
-                  onClose={() => {
-                    deleteFromCart(prod);
-                  }}
-                  product={prod}
-                  addToCart={addToCart}
-                  removeFromCart={removeFromCart}
-                  handleChange={handleChange}
-                />
-              </TableRow>
-            ))}
+            {cart.map((prod) => {
+              tot += prod.amount * prod.price;
+              return (
+                <TableRow key={prod.id}>
+                  <CartProduct
+                    key={prod.id}
+                    onClose={() => {
+                      deleteFromCart(prod);
+                    }}
+                    product={prod}
+                    addToCart={addToCart}
+                    removeFromCart={removeFromCart}
+                    handleChange={handleChange}
+                  />
+                </TableRow>
+              );
+            })}
           </TableBody>
-          <TableFooter>
+          {/*<TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{tot}</TableCell> {/* tabla total */}
+              <TableCell align="right">{tot}</TableCell> {/* tabla total }
             </TableRow>
-          </TableFooter>
+	  </TableFooter>*/}
         </Table>
       </TableContainer>
       <br />

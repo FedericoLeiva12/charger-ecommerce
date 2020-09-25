@@ -1,17 +1,62 @@
 const server = require("express").Router();
-const sendEmail = require('../services/email');
+const sendEmail = require("../services/email");
 const { isAuthenticated } = require("../passport.js");
-const { Checkout, ShoppingCart, User, CreditCard, InfoUser } = require("../db.js");
+
+const {
+  Checkout,
+  ShoppingCart,
+  User,
+  CreditCard,
+  InfoUser,
+} = require("../db.js");
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
   res.send({ user: req.user, logged: true });
 });
+
 //getCarts
 server.get("/", (req, res) => {
   ShoppingCart.findAll().then((shpcart) => {
     res.send(shpcart);
   });
+});
+
+//change the state of order
+server.put("/check", (req, res) => {
+  Checkout.findOne({
+    where: { id: req.body.id },
+    include: { model: User, include: InfoUser },
+  })
+    .then((order) => {
+      if (req.body.state === "shipping" || req.body.state === "complete") {
+        order.state = req.body.state;
+        order.save();
+        res.send(order);
+        sendEmail(
+          {
+            from: "admin",
+            to: order.user.email,
+            subject: "Charger Order Status",
+            content: "templeteState.html",
+          },
+          {
+            NAME: order.user.infoUser.name,
+            ID: order.id,
+            ORDER: order.state,
+          }
+        ).catch((err) => {
+          res.status(500).send({ text: "Internal error" });
+          console.error(err);
+        });
+      } else {
+        res.status(500).send({ text: "invalid state" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    });
 });
 
 //postCarts
@@ -39,60 +84,50 @@ server.post("/", (req, res) => {
         where: {
           id,
         },
-        include: InfoUser
+        include: InfoUser,
       });
     })
     .then((nuser) => {
       user = nuser;
       order.setUser(nuser);
       return order.setShoppingCart(shpcart);
-    }).then(() => {
+    })
+    .then(() => {
       return order.genToken();
-    }).then((norder) => {
-      return sendEmail({
-        from: 'checkout',
-        to: user.email,
-        subject: 'Order confirmation',
-        content: 'template.html'
-      }, {
-        NAME: user.infoUser.name,
-        LINK: 'http://localost:3000/order/confirm/' + order.token,
-        CART: Object.values(JSON.parse(content)).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n')
-      })
-    }).then(() => {
-      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } })
-    }).catch((err) => {
-      if(order) {
+    })
+    .then((norder) => {
+      return sendEmail(
+        {
+          from: "checkout",
+          to: user.email,
+          subject: "Order confirmation",
+          content: "template.html",
+        },
+        {
+          NAME: user.infoUser.name,
+          LINK: "http://localost:3000/order/confirm/" + order.token,
+          CART: Object.values(JSON.parse(content))
+            .map(
+              (product) =>
+                `<li>${product.name} - $${product.price * product.amount} ($${
+                  product.price
+                } x ${product.amount})</li>`
+            )
+            .join("\n"),
+        }
+      );
+    })
+    .then(() => {
+      res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
+    })
+    .catch((err) => {
+      if (order) {
         order.destroy();
       }
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
 });
-//Modify cart
-/* server.put("/modifyCart/:orderId", (req, res) => {
-  const { orderId } = req.params;
-  const { content } = req.body;
-  shoppingCart
-    .findOne({
-      where: {
-        orderId,
-      },
-    })
-    .then((cart) => {
-      cart
-        .update({
-          content,
-        })
-        .then((newCart) => {
-          res.send(newCart);
-        })
-        .catch((err) => {
-          res.status(500).send({ text: "Internal error" });
-          console.error(err);
-        });
-    });
-}); */
 
 // Set Payment and Shipping
 server.put("/payment/:orderId", (req, res) => {

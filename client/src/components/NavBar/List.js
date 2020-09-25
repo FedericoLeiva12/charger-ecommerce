@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {makeStyles, Typography} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core'
 import { getCategories, logout } from '../../store/actions';
 import { connect } from 'react-redux';
 
@@ -12,14 +12,17 @@ const useStyles = makeStyles(()=>({
             transition: '0.3s'
         },
         textDecoration: 'none',
+    },
+    list: {
+        paddingLeft: 8
     }
 }))
 
-function List({categories, logged, onSignout}){
+function List({categories, logged, onSignout, user}){
     const classes = useStyles()
 
     return(
-        <div>
+        <div className={classes.list}>
             {categories
                 .filter(cat => 
                     (cat.name === 'Type' || cat.name === 'Season')
@@ -27,10 +30,12 @@ function List({categories, logged, onSignout}){
                     <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
                 ))
             }
-            <Link to='/admin' className={classes.categories}>
+            {user && user.rol === 'admin' ?
+                <Link to='/admin' className={classes.categories}>
                 <h1>ADMIN</h1>
             </Link>
-            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGNOUT</h1></Link>)}
+        : null}
+            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGN OUT</h1></Link>)}
         </div>
     )
 }
@@ -38,7 +43,8 @@ function List({categories, logged, onSignout}){
 function mapStateToProps(state) {
     return {
         categories: state.categories,
-        logged: state.logged
+        logged: state.logged,
+        user: state.user
     }
 }
 
