@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {connect} from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import {
   Box,
   Card,
@@ -11,89 +11,90 @@ import {
   Modal,
   Button,
   Divider,
-} from '@material-ui/core'
-import PaymentIcon from '@material-ui/icons/Payment'
-import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-import NavBarContainer from '../components/NavBar/Container'
-import CreateReview from '../components/CreateReview'
-import {useParams} from 'react-router-dom'
-import {getOrders} from '../store/actions'
+} from "@material-ui/core";
+import PaymentIcon from "@material-ui/icons/Payment";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import NavBarContainer from "../components/NavBar/Container";
+import CreateReview from "../components/CreateReview";
+import { useParams } from "react-router-dom";
+import { getOrders } from "../store/actions";
+import { Link } from "react-router-dom";
 
 const useStyle = makeStyles({
   root: {
-    marginTop: '4em',
-    background: '#3d3d3d',
-    height: '90.8vh',
+    marginTop: "4em",
+    background: "#3d3d3d",
+    height: "90.8vh",
   },
   card: {
-    margin: '2em',
+    margin: "2em",
   },
   product: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: '1em',
-    marginBottom: '1em',
+    display: "flex",
+    alignItems: "center",
+    marginTop: "1em",
+    marginBottom: "1em",
   },
   process: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
-})
+});
 
-function OrderPage({user, orders, getOrders}) {
-  const classes = useStyle()
+function OrderPage({ user, orders, getOrders }) {
+  const classes = useStyle();
 
-  const {id} = useParams()
+  const { id } = useParams();
 
-  const [order, setOrder] = useState(null)
+  const [order, setOrder] = useState(null);
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
-  const [p, setP] = React.useState(0)
+  const [p, setP] = React.useState(0);
 
-  const handleOpen = productId => {
-    setOpen(true)
-    setP(productId)
-  }
+  const handleOpen = (productId) => {
+    setOpen(true);
+    setP(productId);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   useEffect(() => {
-    if (user) getOrders(user.id)
-  }, [user])
+    if (user) getOrders(user.id);
+  }, [user]);
 
   useEffect(() => {
     if (orders)
       setOrder(
         orders
-          .map(order => ({
+          .map((order) => ({
             ...order,
             shoppingCard: undefined,
             products: order.shoppingCart.content,
           }))
-          .filter(order => {
-            console.log(order.id, id)
-            return order.id === id
+          .filter((order) => {
+            console.log(order.id, id);
+            return order.id === id;
           })[0]
-      )
-    console.log(order)
-  }, [orders])
+      );
+    console.log(order);
+  }, [orders]);
 
-  let total = 0
+  let total = 0;
 
   if (order !== null && order !== undefined) {
-    console.log(order)
-    order.products.map(prod => {
-      total += prod.price * prod.amount
-      return prod
-    })
+    console.log(order);
+    order.products.map((prod) => {
+      total += prod.price * prod.amount;
+      return prod;
+    });
     return (
       <>
         <NavBarContainer noTransparent={true} />
@@ -107,9 +108,9 @@ function OrderPage({user, orders, getOrders}) {
                 {order.products.map((prod, index) => (
                   <>
                     <Box key={index} className={classes.product}>
-                      <Avatar src={prod.image} style={{marginRight: '8px'}} />
+                      <Avatar src={prod.image} style={{ marginRight: "8px" }} />
                       <Typography>
-                        {' '}
+                        {" "}
                         {prod.name} - ${prod.price * prod.amount} ( $
                         {prod.price} x{prod.amount} )
                       </Typography>
@@ -128,7 +129,7 @@ function OrderPage({user, orders, getOrders}) {
                 ))}
                 <Box
                   mt={1}
-                  style={{maxWidth: '100%'}}
+                  style={{ maxWidth: "100%" }}
                   display="flex"
                   justifyContent="flex-end"
                 >
@@ -142,48 +143,57 @@ function OrderPage({user, orders, getOrders}) {
             <Card className={classes.card}>
               <CardContent>
                 <Typography>
-                  Status:{' '}
+                  Status:{" "}
                   <Box component="span">
                     {order.state
-                      .split('')
+                      .split("")
                       .map((l, i) => (i === 0 ? l.toUpperCase() : l))
-                      .join('')}
+                      .join("")}
                   </Box>
                 </Typography>
                 <Box component="div">
                   <Box component="div" className={classes.process}>
                     <PaymentIcon />
-                    Payment:{' '}
-                    {order.state === 'pending' ? 'Processing...' : 'Completed'}
+                    Payment:{" "}
+                    {order.state === "pending" ? "Processing..." : "Completed"}
                   </Box>
                   <Box component="div" className={classes.process}>
                     <LocalShippingIcon />
-                    Shipping:{' '}
-                    {order.state === 'shipping'
-                      ? 'Shipping'
-                      : order.state === 'complete'
-                      ? 'Completed'
-                      : 'Waiting'}
+                    Shipping:{" "}
+                    {order.state === "shipping"
+                      ? "Shipping"
+                      : order.state === "complete"
+                      ? "Completed"
+                      : "Waiting"}
                   </Box>
                   <Box component="div" className={classes.process}>
                     <LocalShippingIcon />
-                    Reception:{' '}
-                    {order.state === 'complete' ? 'Completed' : 'Waiting'}
+                    Reception:{" "}
+                    {order.state === "complete" ? "Completed" : "Waiting"}
                   </Box>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
-        <Modal open={open} onClose={handleClose} className={classes.modal} disableAutoFocus disableEnforceFocus>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          className={classes.modal}
+          disableAutoFocus
+          disableEnforceFocus
+        >
           <Box alignItems="center" justifyContent="center">
             <CreateReview userId={user.id} productId={p} />
           </Box>
         </Modal>
+        <Link to={`/checkout/purchase/${order.id}`}>
+          <Button>Purchase</Button>
+        </Link>
       </>
-    )
+    );
   } else {
-    return <Box>No orders</Box>
+    return <Box>No orders</Box>;
   }
 }
 
@@ -193,13 +203,13 @@ function mapStateToProps(state) {
   return {
     orders: state.orders,
     user: state.user,
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrders: userId => dispatch(getOrders(userId)),
-  }
+    getOrders: (userId) => dispatch(getOrders(userId)),
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderPage)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);

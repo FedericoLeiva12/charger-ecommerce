@@ -14,6 +14,9 @@ function Purchase({ user, orders, getOrders }) {
     },
   });
 
+  useEffect(() => {
+    if (user) getOrders(user.id);
+  }, [user]);
   return (
     <>
       <div style={{ paddingTop: 64 }}></div>
