@@ -266,7 +266,6 @@ export default function Provider(state = initialState, action) {
       }
     case  constants.DELETE_REVIEWS:
       return {
-
           ...state,
           reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
           successSnackbarOpen: true,
@@ -276,7 +275,7 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         userReviews: action.userReviews,
-	reviews: action.userReviews.reviews
+        reviews: action.userReviews.reviews
       }
     case constants.MODIFY_REVIEW:
         let rev = state.reviews.filter(
@@ -308,6 +307,19 @@ export default function Provider(state = initialState, action) {
       return {
 	...state,
 	allOrders,
+      }
+    case constants.MODIFY_USER: 
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      }
+    case constants.MODIFY_MY_USER:
+      return {
+        ...state,
+        user: action.user,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
       }
     default:
       return { ...state };

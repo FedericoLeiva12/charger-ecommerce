@@ -58,7 +58,9 @@ export default function CartCheckout({
     getCart();
   }, []);
 
-  let total = 0;
+  
+  let tot = 0;
+
 
   Object.values(prices).forEach(price => total += price);
 
@@ -76,7 +78,7 @@ export default function CartCheckout({
           </TableHead>
           <TableBody>
             {cart.map((prod) => {
-	      total += prod.amount * prod.price;
+	      tot += prod.amount * prod.price;
 	      return(
               <TableRow key={prod.id}>
                 <CartProduct
