@@ -12,11 +12,6 @@ import {
 import { useParams } from "react-router-dom";
 
 const useStyle = makeStyles({
-  root: {
-    marginTop: "4em",
-    background: "#3d3d3d",
-    height: "90.8vh",
-  },
   card: {
     margin: "2em",
   },
@@ -64,7 +59,7 @@ export default function PurchaseContainer({ user, orders, getOrders }) {
 
     return (
       <>
-        <Grid container className={classes.root}>
+        <Grid>
           <Grid xs={6} item>
             <Card className={classes.card}>
               <CardContent>
@@ -96,6 +91,12 @@ export default function PurchaseContainer({ user, orders, getOrders }) {
             </Card>
           </Grid>
         </Grid>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <h1>No orders</h1>
       </>
     );
   }
