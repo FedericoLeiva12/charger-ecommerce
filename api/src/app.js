@@ -7,7 +7,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const routes = require("./routes/index.js");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieSession = require('cookie-session')
 const { User, InfoUser } = require("./db.js");
 
 const server = express();

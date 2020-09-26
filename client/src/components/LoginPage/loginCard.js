@@ -49,6 +49,20 @@ const useStyles = makeStyles(theme => ({
             transition: '0.7s',
         },
     },
+    google: {
+        textAlign: 'center',
+        width: '100%',
+        border: '2px solid #fafafa',
+        color: '#fafafa',
+        textDecoration: 'none',
+        padding: 10,
+        borderRadius: 5,
+        '&:hover': {
+            backgroundColor: '#fafafa',
+            color: '#1C1C1C',
+            transition: '0.7s',
+        },
+    }
 }))
 
 const CssTextField = withStyles({
@@ -154,10 +168,7 @@ function Login({onLogin, logged, history}) {
                           )
                         }}
                     />
-                    {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+                    
                     <Button
                         type="submit"
                         fullWidth
@@ -166,7 +177,10 @@ function Login({onLogin, logged, history}) {
                     >
                         Login
                     </Button>
-                    <a href='http://localhost:3001/google'>Hola</a>
+                    <Grid style={{marginBottom: 15, width: '100%', display: 'flex', justifyContent: 'center',}} >
+                        <a href='http://localhost:3001/google' className={classes.google}>Sign up with Google  </a>
+                    </Grid>
+
                     <Grid container>
                         <Grid item xs>
                             <Link

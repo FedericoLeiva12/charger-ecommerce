@@ -6,7 +6,7 @@ const useStyle = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         padding: 20,
-        width: 250,
+        width: '100%',
         height: 280,
         backgroundColor: 'rgba(66, 66, 66, 0.36)',
         boxShadow: '5px 10px 10px rgba(0, 0, 0, 0.2)',
@@ -59,7 +59,9 @@ export default function UserCard({name, email, address}) {
             <Divider/>
             <Typography className={classes.name}>Name: {name}</Typography>
             <Typography className={classes.info}>Email: {email}</Typography>
-            <Typography className={classes.info}>Address: {address}</Typography>       
+            {
+                !address ? null : <Typography className={classes.info}>Address: {address}</Typography>       
+            }
         </Paper>
     )
 }
