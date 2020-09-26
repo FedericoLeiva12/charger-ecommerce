@@ -69,31 +69,34 @@ function Login({onLogin, logged}) {
     const classes = useStyles()
 
     const [values, setValues] = React.useState({
-      email: '',
-      password: '',
-      showPassword: false,
+        email: '',
+        password: '',
+        showPassword: false,
     });
-  
+    
+    const errorMessage = 'Email or password invalid, please try again!'
+
     const handleChange = (prop) => (event) => {
-      setValues({ ...values, [prop]: event.target.value });
+        setValues({ ...values, [prop]: event.target.value });
     };
-  
+
     const handleClickShowPassword = () => {
-      setValues({ ...values, showPassword: !values.showPassword });
+        setValues({ ...values, showPassword: !values.showPassword });
     };
-  
+
     const handleMouseDownPassword = (event) => {
-      event.preventDefault();
+        event.preventDefault();
     };
 
     const handleSubmit = e => {
         e.preventDefault();
-        onLogin(values.email, values.password);
+        onLogin(values.email, values.password, errorMessage);
     }
 
     if(logged) {
         return <Redirect path='/' />
     }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -140,28 +143,23 @@ function Login({onLogin, logged}) {
                         id="password"
                         autoComplete="current-password"
                         InputProps={{
-                          endAdornment: (
+                            endAdornment: (
                             <InputAdornment position="end">
-                              <IconButton
+                                <IconButton
                                 aria-label="toggle password visibility"
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}
                                 style={{color:'#fafafa'}}
-                              >
+                                >
                                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                              </IconButton>
+                                </IconButton>
                             </InputAdornment>
-                          )
+                            )
                         }}
                     />
-                    {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
                     <Button
                         type="submit"
                         fullWidth
-                        //   color='primary'
                         className={classes.submit}
                     >
                         Login
@@ -172,7 +170,7 @@ function Login({onLogin, logged}) {
                                 to="/forgotPassword"
                                 style={{
                                     textDecoration: 'none',
-                                    color: '#f6f6f6',
+                                    color: '#fafafa',
                                 }}
                             >
                                 Forgot password?
@@ -183,7 +181,7 @@ function Login({onLogin, logged}) {
                                 to="/signUp"
                                 style={{
                                     textDecoration: 'none',
-                                    color: '#f6f6f6',
+                                    color: '#fafafa',
                                 }}
                             >
                                 {"Don't have an account? Sign Up"}
@@ -204,7 +202,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onLogin: (email, password) => dispatch(loginUser(email, password))
+        onLogin: (email, password, errorMessage) => dispatch(loginUser(email, password, errorMessage))
     }
 }
 

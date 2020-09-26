@@ -12,6 +12,10 @@ const backgroundImages = [
   'https://wallpapercave.com/wp/wp2153640.jpg',
   'https://wallpapercave.com/wp/wp2153633.jpg',
   'https://wallpapercave.com/wp/wp1839983.jpg',
+  'https://images.unsplash.com/photo-1511132746656-b870798961bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+  'https://images.unsplash.com/photo-1516736411414-eccd8a221d76?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=757&q=80',
+  'https://images.unsplash.com/photo-1543327031-a3ed4b36ab2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+  'https://images.unsplash.com/photo-1577462637488-d74f6206201e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
   
 ]
 
