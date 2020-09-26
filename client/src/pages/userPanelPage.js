@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, AppBar, Tabs, Tab, makeStyles } from '@material-ui/core';
+import { Box, AppBar, Tabs, Tab, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import SettingsIcon from '@material-ui/icons/Settings';
 import RateReviewIcon from '@material-ui/icons/RateReview';
@@ -13,20 +13,30 @@ import { getOrders, getUserReviews, deleteReviews, modifyReview } from '../store
 import { Link } from 'react-router-dom';
 import SeeReviews from '../components/SeeReviews';
 import { AccountSettings } from '../components/AccountSettings';
+import imageProfileBG from '../assets/imgs/background-img-profile.png'
 
 const useStyle = makeStyles({
     content: {
         marginTop: '4em',
+        background: '#3d3d3d',
+        height: '90.9vh'
     },
     appbar: {
-        backgroundColor: '#444',
+        backgroundColor: '#3d3d3d',
         justifyContent: 'center',
         display: 'flex'
     },
     infoUser: {
+        display: 'flex',
         justifyContent: 'center',
-        display: 'flex'
-    }
+        alignItems: 'center',
+    },
+})
+
+const darkTheme = createMuiTheme({
+    palette: {
+        type: 'dark',
+    },
 })
 
 function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteReviews, getUserReviews, modifyReview}) {
@@ -58,7 +68,9 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
     }
 
     return (
-        <><NavBarContainer noTransparent={true}/>
+        <>
+        <NavBarContainer noTransparent={true}/>
+        <ThemeProvider theme={darkTheme}>
         <Box compoent="div" className={classes.content}>
             <AppBar className={classes.appbar} position="static">
                 <Tabs value={tab} onChange={handleChange} centered>
@@ -69,9 +81,8 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                 </Tabs>
             </AppBar>
             <div className={classes.infoUser}>
-
             {/* USER INFORMATION */}
-            <TabPanel value={tab} index={0}  >
+            <TabPanel value={tab} index={0} style={{backgroundColor: 'black'}}>
                 {user && (<UserCard
                     name={`${user.name} ${user.lastName}`}
                     email={user.email}
@@ -81,6 +92,7 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
             </div>
 
             {/* ORDERS */}
+            <div className={classes.infoUser}>
             <TabPanel value={tab} index={1}>
                 {orders.map((order, index) => (
                     <Link to={`/order/${order.id}`} style={{textDecoration: 'none'}} key={index}>
@@ -91,10 +103,11 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                     </Link>
                 ))}
             </TabPanel>
+            </div>
 
             {/* ACCOUNT SETTINGS */}
             <TabPanel value={tab} index={2}>
-                  <div style={{backgroundColor: 'rgba(224, 224, 224, 0.4)', width: '100%', display: 'flex', height:'77vh', margin: 0, justifyContent: 'center', alignItems: 'center'}}>
+                  <div style={{width: '100%', display: 'flex', margin: 0, justifyContent: 'center', alignItems: 'center'}}>
                     {user && (<AccountSettings 
                           user={user}
                           />)
@@ -107,7 +120,8 @@ function UserPanelPage ({user, orders, reviews, getOrders, userReviews, deleteRe
                 <SeeReviews reviews={reviews} userReviews={userReviews} deleteReviews={deleteReviews} getUserReviews={getUserReviews} user={user} modifyReview={modifyReview}/>
             </TabPanel>
         </Box>
-        </>
+        </ThemeProvider>
+    </>
     )
 }
 

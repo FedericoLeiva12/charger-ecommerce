@@ -13,9 +13,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   container: {
-    backgroundColor: 'rgba(245, 245, 245, 0.7)',
-    border: '2px solid #fafafa',
-    borderRadius: '8px',
     padding: '4px',
     marginTop: '8px',
   },
@@ -33,6 +30,9 @@ const useStyles = makeStyles({
     padding: '16px',
     marginTop: 4,
     marginBottom: 4,
+  },
+  title: {
+    color: '#fafafa'
   }
 })
 
@@ -90,7 +90,7 @@ export const AccountSettings = (props) => {
 
   return (
     <div className={classes.root}>
-      <Typography variant='h4'>Account Settings</Typography>
+      <Typography variant='h4' className={classes.title}>Account Settings</Typography>
       <Divider />
       <Grid container className={classes.container}>
         <Grid item container xs={12} direction='column'>
