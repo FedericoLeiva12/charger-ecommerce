@@ -95,7 +95,7 @@ server.post("/", (req, res) => {
     .then(() => {
       return order.genToken();
     })
-    .then((norder) => {
+    /*.then((norder) => {
       return sendEmail(
         {
           from: "checkout",
@@ -116,7 +116,7 @@ server.post("/", (req, res) => {
             .join("\n"),
         }
       );
-    })
+    })*/
     .then(() => {
       res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
     })
