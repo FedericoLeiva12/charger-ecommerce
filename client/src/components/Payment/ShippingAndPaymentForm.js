@@ -7,6 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import StripeCreditcard from './DialogStripeForm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,9 @@ export default function PurchaseForm({ setPurchaseData }) {
   };
   const handleChangeShippingAdress = (event) => {
     setshippinAdress(event.target.value);
-  };
+  }
+
+
 
   return (
     <>
@@ -63,13 +66,17 @@ export default function PurchaseForm({ setPurchaseData }) {
                   onChange={handleChangeSelect}
                 >
                   <MenuItem value={"Credit Card"}>Credit Card</MenuItem>
-                  <MenuItem value={"Google Pay"}>Google Pay</MenuItem>
-                  <MenuItem value={"Paypal"}>Paypal</MenuItem>
+                  <MenuItem value={null}>------------</MenuItem>
                 </Select>
+                {paymentMethod=== 'Credit Card'? <StripeCreditcard/>: null}
+                  
+
+
+
+
                 <FormHelperText> Choose a payment method</FormHelperText>
               </FormControl>
-            </Grid>
-            <TextField
+              <TextField
               required
               label="Adress"
               onChange={handleChangeShippingAdress}
@@ -80,12 +87,15 @@ export default function PurchaseForm({ setPurchaseData }) {
               margin="normal"
               color="secondary"
             />
-            <Button variant="contained" type="submit" color="secondary">
+             <Button variant="contained" type="submit" color="secondary">
               Purchase
             </Button>
+            </Grid>
+
           </Grid>
         </div>
       </form>
     </>
   );
-}
+};
+
