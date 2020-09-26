@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const mailgun = require('mailgun-js');
 
-const DOMAIN = 'sandboxa23a4bcd74294927928cef787aee45fe.mailgun.org';
-const mg = mailgun({apiKey: 'c6ef60a490abf34aca5f9fe7ec42fae2-cb3791c4-a74ef4bc', domain: 'sandboxa23a4bcd74294927928cef787aee45fe.mailgun.org'});
+const DOMAIN = 'sandboxbc776d77e90e4b16943a8e104e3aacbe.mailgun.org';
+const mg = mailgun({apiKey: 'ebf4929ce866b33661666188b2ace957-cb3791c4-e17ea7ce', domain: 'sandboxbc776d77e90e4b16943a8e104e3aacbe.mailgun.org'});
 
 module.exports = function sendEmail(data, vars) {
     return new Promise((res, rej) => {

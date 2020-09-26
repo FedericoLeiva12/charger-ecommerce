@@ -105,7 +105,7 @@ server.post("/", (req, res) => {
         },
         {
           NAME: user.infoUser.name,
-          LINK: "http://localost:3000/order/confirm/" + order.token,
+          LINK: "http://localhost:3000/order/confirm/" + order.token,
           CART: Object.values(JSON.parse(content))
             .map(
               (product) =>

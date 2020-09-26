@@ -34,7 +34,7 @@ export default function PurchaseContainer({ user, orders, getOrders }) {
   }, [user]);
 
   useEffect(() => {
-    if (orders) console.log(orders);
+    if (orders)/*  console.log(orders) */;
     setOrder(
       orders
         .map((order) => ({
@@ -51,7 +51,7 @@ export default function PurchaseContainer({ user, orders, getOrders }) {
   let total = 0;
 
   if (order !== null && order !== undefined) {
-    console.log(order);
+    /* console.log(order) */;
     order.products.map((prod) => {
       total += prod.price * prod.amount;
       return prod;

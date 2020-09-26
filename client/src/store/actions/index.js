@@ -587,7 +587,7 @@ export function checkout(message, redirectTo) {
             order: order,
             message,
           });
-          redirectTo("/checkout/confirm");
+          redirectTo(`/checkout/purchase/${res.data.order.id}`);
         } else {
           dispatch({
             type: ERROR_MESSAGE,
@@ -886,7 +886,7 @@ export function confirmOrder(token, redirectTo, successMessage, errorMessage) {
           order: res.data.order,
           message: successMessage,
         });
-        redirectTo(`/checkout/payment/${res.data.order.id}`);
+        redirectTo("/checkout/confirm");
       })
       .catch((err) => {
         console.error(err);

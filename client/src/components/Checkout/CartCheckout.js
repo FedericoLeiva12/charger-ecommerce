@@ -59,9 +59,11 @@ export default function CartCheckout({
   }, []);
 
   let tot = 0;
-
-  Object.values(prices).forEach((price) => (tot += price));
-
+  
+  
+  Object.values(prices).forEach((price) => tot+=price
+   );
+console.log(tot)
   return (
     <Grid item xs={12}>
       <TableContainer component={Paper}>
@@ -76,7 +78,7 @@ export default function CartCheckout({
           </TableHead>
           <TableBody>
             {cart.map((prod) => {
-              tot += prod.amount * prod.price;
+              
               return (
                 <TableRow key={prod.id}>
                   <CartProduct
@@ -93,12 +95,12 @@ export default function CartCheckout({
               );
             })}
           </TableBody>
-          {/*<TableFooter>
+          <TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{tot}</TableCell> {/* tabla total }
+              <TableCell align="right">{tot}</TableCell> {/* tabla total*/ }
             </TableRow>
-	  </TableFooter>*/}
+	  </TableFooter>
         </Table>
       </TableContainer>
       <br />
