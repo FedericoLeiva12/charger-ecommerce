@@ -122,20 +122,20 @@ function AdminPage({
                     />
                 )}
                 {selectedTab === 1 && (
-                    <CreateProducts addProduct={addProduct} />
+                    <CreateProducts addProduct={addProduct} products={products} viewProducts={getProducts} />
                 )}
                 {selectedTab === 2 && (
-                    <EditProduct modifyProduct={modifyProduct} />
+                    <EditProduct modifyProduct={modifyProduct} products={products} viewProducts={getProducts}/>
                 )}
                 {selectedTab === 3 && (
-                    <DeleteProduct deleteProduct={deleteProduct} />
+                    <DeleteProduct deleteProduct={deleteProduct} products={products} viewProducts={getProducts}/>
                 )}
-                {selectedTab === 4 && <AddCategory addCategory={addCategory} />}
+                {selectedTab === 4 && <AddCategory addCategory={addCategory} viewCategories={getCategories} categories={categories} />}
                 {selectedTab === 5 && (
-                    <EditCategory modifyCategory={modifyCategory} />
+                    <EditCategory modifyCategory={modifyCategory} viewCategories={getCategories} categories={categories}/>
                 )}
                 {selectedTab === 6 && (
-                    <DeleteCategory deleteCategory={deleteCategory} />
+                    <DeleteCategory deleteCategory={deleteCategory} viewCategories={getCategories} categories={categories}/>
                 )}
                 {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} getUserReviews={getUserReviews} modifyReview={modifyReview} deleteReviews={deleteReviews} reviews={reviews} />}
 		{selectedTab === 8 && (
