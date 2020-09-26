@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import {Link, Redirect} from 'react-router-dom'
+import {Link, Redirect, withRouter} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
@@ -65,7 +65,7 @@ const CssTextField = withStyles({
     },
 })(TextField)
 
-function Login({onLogin, logged}) {
+function Login({onLogin, logged, history}) {
     const classes = useStyles()
 
     const [values, setValues] = React.useState({
@@ -166,6 +166,7 @@ function Login({onLogin, logged}) {
                     >
                         Login
                     </Button>
+                    <a href='http://localhost:3001/google'>Hola</a>
                     <Grid container>
                         <Grid item xs>
                             <Link
@@ -208,4 +209,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

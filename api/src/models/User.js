@@ -22,6 +22,10 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM("admin", "client", "guest"),
       defaultValue: "guest",
     },
+    isGoogleAccount: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
   /* User.prototype.makeAdmin = function () {
     const newAdmin = {
