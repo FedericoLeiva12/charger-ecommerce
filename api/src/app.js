@@ -6,7 +6,8 @@ const morgan = require("morgan");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const routes = require("./routes/index.js");
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const cookieSession = require('cookie-session')
 const { User, InfoUser } = require("./db.js");
 
 const server = express();
@@ -110,7 +111,46 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-server.use("/", routes);
+
+
+
+//Google login
+
+server.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+passport.use(new GoogleStrategy({
+  clientID: "154532621294-9u25ju9euevc23akcsa0379mb8tv475u.apps.googleusercontent.com",
+  clientSecret: "1MFA1SvOPhx8G1v8v8buSImC",
+  callbackURL: "http://localhost:3000/google/callback"
+},
+(accessToken, refreshToken, profile, done) => {
+  User.findOne({
+    where: {
+      googleId: profile.id,
+    },
+    include: [InfoUser],
+  }), (err, user)=> {
+    return done(err, user);
+  };
+}
+));
+
+
+server.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+server.get('/google/callback',passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
+
+  
+  server.use("/", routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
@@ -120,5 +160,6 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
+
 
 module.exports = server;
