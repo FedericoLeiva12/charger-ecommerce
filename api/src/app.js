@@ -179,7 +179,7 @@ passport.use(new GoogleStrategy({
 ));
 
 
-server.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+server.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], prompt : "select_account" }), (req, res) => {
   console.log(req.user)
 });
 
