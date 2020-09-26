@@ -580,14 +580,22 @@ export function checkout(message, redirectTo) {
         { withCredentials: true }
       )
       .then((res) => {
-        const order = res.data.order;
+        let order = res.data.order;
         if (order) {
+          order = {
+            ...order,
+            shoppingCart: {
+              ...order.shoppingCart,
+              content: JSON.parse(order.shoppingCart.content),
+            },
+          };
+
           dispatch({
             type: CHECKOUT,
             order: order,
             message,
           });
-          redirectTo(`/checkout/purchase/${res.data.order.id}`);
+          redirectTo(`/checkout/purchase/${order.id}`);
         } else {
           dispatch({
             type: ERROR_MESSAGE,
@@ -894,6 +902,7 @@ export function confirmOrder(token, redirectTo, successMessage, errorMessage) {
           type: ERROR_MESSAGE,
           errorNotification,
         });
+        redirectTo('/');
       });
   };
 }
