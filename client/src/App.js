@@ -52,7 +52,7 @@ function App({ getUser }) {
         {/* Admin Routes */}
         <PrivateAdmin exact path="/admin" component={AdminPage} />
       </Switch>
-   </>
+    </>
   );
 }
 
