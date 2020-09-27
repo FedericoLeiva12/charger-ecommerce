@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     state: {
-      type: DataTypes.ENUM("pending", "processing", "shipping", "complete", "canceled"),
+      type: DataTypes.STRING,
       defaultValue: "pending",
     },
     token: {

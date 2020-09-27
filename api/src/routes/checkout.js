@@ -1,6 +1,6 @@
 const server = require("express").Router();
 const sendEmail = require('../services/email');
-const { isAuthenticated } = require("../passport.js");
+const { isAuthenticated, isAdmin } = require("../passport.js");
 
 const { Checkout, ShoppingCart, User, CreditCard, InfoUser, Product } = require("../db.js");
 
@@ -10,19 +10,31 @@ server.get("/getuser", isAuthenticated, (req, res) => {
 });
 
 //getCarts
-server.get("/", (req, res) => {
+server.get("/", isAdmin,(req, res) => {
   ShoppingCart.findAll().then((shpcart) => {
     res.send(shpcart);
   });
 });
 
 //change the state of order
-server.put("/check",(req, res) => {
+server.put("/check", isAdmin,(req, res) => {
+  if(req.body.state === 'canceled') {
+    return res.status(400).send('Use the correct way to cancel a order.');
+  }
+
+  if(['pending', 'processing', 'shipping', 'completed', 'canceled'].indexOf(req.body.state) < 0) {
+    return res.status(400).send({ text: 'Invalid params.' });
+  }
+
   Checkout.findOne({
     where: { id: req.body.id },
     include: { model: User, include: InfoUser }
   })
   .then(order => {
+    if(order.state === 'completed' || order.state === 'canceled') {
+      return res.status(400).send({ text: 'You can\'t modify canceled or completed orders.'});
+    }
+
     if(req.body.state === "shipping"|| req.body.state === "complete"){
       order.state = req.body.state;
       order.save();
@@ -152,7 +164,7 @@ server.delete('/:id', (req, res) => {
       checkout.state = 'canceled';
       return checkout.save();
     }).then(() => {
-      res.send({ success: true })
+      res.send({ success: true, order: id })
     }).catch(err => {
       console.error(err);
       res.status(500).send({ text: 'Error canceling order' });

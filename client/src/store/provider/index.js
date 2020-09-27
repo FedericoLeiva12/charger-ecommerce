@@ -324,7 +324,7 @@ export default function Provider(state = initialState, action) {
     case constants.CANCEL_ORDER:
       return {
         ...state,
-        orders: state.orders.map(order => order===action.order?{...order, state: 'canceled'}:order),
+        allOrders: state.allOrders.map(order => order.id===action.order?{...order, state: 'canceled'}:order),
         successSnackbarMessage: action.message,
         successSnackbarOpen: true
       }

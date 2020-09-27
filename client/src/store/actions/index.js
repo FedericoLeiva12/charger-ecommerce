@@ -927,6 +927,11 @@ export function getAllOrders() {
   }
 }
 export function modifyOrdersState(orderId, newState) {
+  if(newState === 'canceled') return {
+    type: ERROR_MESSAGE,
+    errorNotification: 'To cancel a order you have to use the "Cancel order" button.'
+  }
+
   return (dispatch) => {
     axios.put(`http://${url}/checkout/check/`,
       {id:orderId, state: newState}
@@ -959,7 +964,7 @@ export function cancelOrder(id, successMessage, errorMessage) {
   return dispatch => {
     axios.delete(`http://${url}/checkout/${id}`)
       .then(res => {
-        if(res.success) {
+        if(res.data.success) {
           dispatch({
             type: CANCEL_ORDER,
             order: id,

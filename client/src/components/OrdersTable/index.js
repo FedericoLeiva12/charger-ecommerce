@@ -132,6 +132,7 @@ function OrdersTable({
               pending: 'pending',
               shipping: 'shipping',
               complete: 'complete',
+              canceled: 'canceled'
             },
           },
           {title: 'Email', field: 'email', editable: 'never'},
