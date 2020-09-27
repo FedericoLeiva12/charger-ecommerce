@@ -2,7 +2,7 @@ const server = require("express").Router();
 const sendEmail = require('../services/email');
 const { isAuthenticated } = require("../passport.js");
 
-const { Checkout, ShoppingCart, User, CreditCard, InfoUser } = require("../db.js");
+const { Checkout, ShoppingCart, User, CreditCard, InfoUser, Product } = require("../db.js");
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
@@ -60,15 +60,28 @@ server.post("/", (req, res) => {
   let order = null;
   let shpcart = null;
   let user = null;
+  let productsWithAmount = null;
+  let hasStock = true;
 
   ShoppingCart.create({
     content,
   })
     .then((shopcart) => {
       shpcart = shopcart;
-      return Checkout.create();
+      productsWithAmount = shpcart.getProductsWithAmount();
+      productsWithAmount.map(async prod => {
+        let product = await Product.findOne({where: { id: prod[0] }});
+        if(product.stock < prod[1]) hasStock = false;
+      })
+      if(hasStock)
+        return Checkout.create();
+      else {
+        shpcart.destroy();
+        res.status(400).send({text: 'No stock, please check your products.'});
+      }
     })
     .then((norder) => {
+      if(!hasStock) return;
       order = norder;
       return User.findOne({
         where: {
@@ -78,32 +91,61 @@ server.post("/", (req, res) => {
       });
     })
     .then((nuser) => {
+      if(!hasStock) return;
       user = nuser;
       order.setUser(nuser);
       return order.setShoppingCart(shpcart);
     }).then(() => {
+      if(!hasStock) return;
       return order.genToken();
-    }).then((norder) => {
-      return sendEmail({
-        from: 'checkout',
-        to: user.email,
-        subject: 'Order confirmation',
-        content: 'template.html'
-      }, {
-        NAME: user.infoUser.name,
-        LINK: 'http://localost:3000/order/confirm/' + order.token,
-        CART: Object.values(JSON.parse(content)).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n')
-      })
+    // }).then((norder) => {
+    //   return sendEmail({
+    //     from: 'checkout',
+    //     to: user.email,
+    //     subject: 'Order confirmation',
+    //     content: 'template.html'
+    //   }, {
+    //     NAME: user.infoUser.name,
+    //     LINK: 'http://localost:3000/order/confirm/' + order.token,
+    //     CART: Object.values(JSON.parse(content)).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n')
+    //   })
     }).then(() => {
+      if(!hasStock) return;
+
+      productsWithAmount.map(async prod => {
+        let product = await Product.findOne({where: { id: prod[0] }});
+        product.stock -= prod[1];
+        product.save();
+      });
+
       res.send({ order: { ...order.dataValues, shoppingCart: shpcart } })
     }).catch((err) => {
       if(order) {
         order.destroy();
       }
+      if(shpcart) {
+        shpcart.destroy();
+      }
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
 });
+
+// Cancel Checkout
+server.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  Checkout.findByPk(id)
+    .then(checkout => {
+      return checkout.cancelOrder();
+    }).then(() => {
+      res.send({ success: true })
+    }).catch(err => {
+      console.error(err);
+      res.status(500).send({ text: 'Error canceling order' });
+    });
+    
+})
 //Get Checkout
 server.get("/check", (req, res) => {
   Checkout.findAll({ 
