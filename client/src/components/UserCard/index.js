@@ -13,10 +13,10 @@ const useStyle = makeStyles({
         borderRadius: 10,
         fontSize: 50,
         border: '2px solid #fafafa',
-      '&:hover':{
-       boxShadow: '15px 20px 30px rgba(0, 0, 0, 0.2)',
-       transition: '0.7s',
-     },
+        '&:hover':{
+        boxShadow: '15px 20px 30px rgba(0, 0, 0, 0.2)',
+        transition: '0.7s',
+        },
     },
     avatar: {
         border: '2px solid #fafafa',

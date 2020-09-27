@@ -15,12 +15,15 @@ import CreateUserPage from "./pages/createUserPage";
 import userPanelPage from "./pages/userPanelPage";
 import orderPage from "./pages/orderPage";
 import ForgotPasswordPage from "./pages/forgotPasswordPage";
+import OrderCheckoutPage from './pages/orderCheckoutPage';
 import { connect } from "react-redux";
 import { checkLogin } from "./store/actions";
 import SuccessSnackbar from "./components/Snackbars/SuccessSnackbar";
 import ErrorSnackbar from "./components/Snackbars/ErrorSnackbar";
 import { getUser } from "./store/actions";
 import CreateReview from './pages/createReview.js';
+import PrivateRoute from './components/Routes/PrivateRoute';
+import PrivateAdmin from './components/Routes/PrivateAdmin';
 
 function App({ getUser }) {
   useEffect(() => {
@@ -42,11 +45,12 @@ function App({ getUser }) {
         <Route exact path="/category/:categoryId" component={CategoriaPage} />
         <Route exact path="/checkout" component={CheckoutPage} />
         <Route exact path="/product/:product" component={ProductoPage} />
-        <Route exact path="/user" component={userPanelPage} />
+        <PrivateRoute exact path="/user" component={userPanelPage} />
         <Route exact path="/order/:id" component={orderPage} />
         <Route exact path='/createReview/' component={CreateReview} />
+        <Route exact path='/checkout/confirm' component={OrderCheckoutPage} />
         {/* Admin Routes */}
-        <Route exact path="/admin" component={AdminPage} />
+        <PrivateAdmin exact path="/admin" component={AdminPage} />
       </Switch>
    </>
   );

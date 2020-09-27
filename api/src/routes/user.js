@@ -1,7 +1,7 @@
 const passport = require("passport");
 const server = require("express").Router();
 const { User, InfoUser } = require("../db.js");
-const { isAuthenticated, isNotAuthenticated } = require("../passport");
+const { isAuthenticated, isNotAuthenticated, isAdmin } = require("../passport");
 
 // All users
 server.get("/", (req, res, next) => {
@@ -65,11 +65,11 @@ server.post("/", (req, res, next) => {
     });
 });
 
-// Modify Users
-server.put("/:id", (req, res) => {
-  const { email, password, name, lastName, address } = req.body;
-  const { id } = req.params;
-  if (!id || !email || !password || !name || !lastName || !address) {
+server.post('/modify', isAuthenticated, (req, res) => {
+  console.log(req.body)
+  const { email, password, apassword, repassword, name, lastName, address } = req.body;
+  const { id } = req.user;
+  if (!email && !(password && repassword && apassword) && !name && !lastName && !address) {
     return res.status(400).send({ text: "Invalid data" });
   }
 
@@ -84,11 +84,82 @@ server.put("/:id", (req, res) => {
     .then((userFinded) => {
       console.log(user);
       user = userFinded;
-      user.email = email;
-      user.password = password;
-      user.infoUser.name = name;
-      user.infoUser.lastName = lastName;
-      user.infoUser.address = address;
+      if(email) {
+        user.email = email;
+        req.user.email = email;
+      }
+
+      if(password) {
+        console.log(`${apassword} === ${user.password} && ${password} === ${repassword}`)
+        if(!(apassword === user.password && password === repassword)) {
+          return res.status(400).send({message: 'Invalid data'});
+        }
+        user.password = password;
+      } 
+      
+      if(name) {
+        user.infoUser.name = name;
+        req.user.name = name;
+      }
+
+      if(lastName) {
+        user.infoUser.lastName = lastName;
+        req.user.lastName = lastName;
+      }
+
+      if(address) {
+        user.infoUser.address = address;
+        req.user.address = address;
+      }
+
+      return user.save();
+    })
+    .then((user) => {
+      return user.infoUser.save();
+    })
+    .then((userUpdated) => {
+      res.send({ text: "User updated", user: req.user });
+    })
+    .catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    });
+});
+
+// Modify Users
+server.put("/:id", isAdmin, (req, res, next) => {
+  const { email, password, name, lastName, address } = req.body;
+  const { id } = req.params;
+
+  if(parseInt(id) === NaN) {
+    return next();
+  }
+
+  if (!id || (!email && !password && !name && !lastName && !address)) {
+    return res.status(400).send({ text: "Invalid data" });
+  }
+
+  let user = null;
+
+  User.findOne({
+    where: {
+      id: id,
+    },
+    include: InfoUser,
+  })
+    .then((userFinded) => {
+      console.log(user);
+      user = userFinded;
+      if(email)
+        user.email = email;
+      if(password)
+        user.password = password;
+      if(name)
+        user.infoUser.name = name;
+      if(lastName)
+        user.infoUser.lastName = lastName;
+      if(address)
+        user.infoUser.address = address;
 
       return user.save();
     })

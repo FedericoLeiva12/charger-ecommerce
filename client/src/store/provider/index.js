@@ -11,6 +11,7 @@ const initialState = {
   logged: false,
   user: null,
   orders: [],
+  allOrders: [],
   reloadProducts: true,
   checkoutTotal: 0,
   reviews: [],
@@ -265,7 +266,6 @@ export default function Provider(state = initialState, action) {
       }
     case  constants.DELETE_REVIEWS:
       return {
-
           ...state,
           reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
           successSnackbarOpen: true,
@@ -275,7 +275,7 @@ export default function Provider(state = initialState, action) {
       return {
         ...state,
         userReviews: action.userReviews,
-	reviews: action.userReviews.reviews
+        reviews: action.userReviews.reviews
       }
     case constants.MODIFY_REVIEW:
         let rev = state.reviews.filter(
@@ -291,7 +291,36 @@ export default function Provider(state = initialState, action) {
           successSnackbarOpen: true,
           successSnackbarMessage: action.message,
         };
-
+    case constants.GET_ALL_ORDERS:
+      return {
+	...state,
+	allOrders: action.allOrders,
+      }
+    case constants.MODIFY_ORDERS_STATE:
+      let ord = state.allOrders.filter(
+          (order) => order.id === action.order.id
+        )[0];
+      if (ord === undefined) return { ...state };
+      let ind = state.allOrders.indexOf(ord);
+      let allOrders = [...state.allOrders];
+      allOrders[ind] = action.order;
+      return {
+	...state,
+	allOrders,
+      }
+    case constants.MODIFY_USER: 
+      return {
+        ...state,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      }
+    case constants.MODIFY_MY_USER:
+      return {
+        ...state,
+        user: action.user,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message
+      }
     default:
       return { ...state };
   }
