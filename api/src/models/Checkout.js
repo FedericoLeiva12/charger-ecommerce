@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { ShoppingCart } = require("../db");
+// const { ShoppingCart } = require("../db");
 
 module.exports = (sequelize) => {
   const checkout = sequelize.define("checkout", {
