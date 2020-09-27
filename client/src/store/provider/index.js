@@ -321,6 +321,13 @@ export default function Provider(state = initialState, action) {
         successSnackbarOpen: true,
         successSnackbarMessage: action.message
       }
+    case constants.CANCEL_ORDER:
+      return {
+        ...state,
+        orders: state.orders.map(order => order===action.order?{...order, state: 'canceled'}:order),
+        successSnackbarMessage: action.message,
+        successSnackbarOpen: true
+      }
     default:
       return { ...state };
   }

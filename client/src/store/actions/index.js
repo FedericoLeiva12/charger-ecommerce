@@ -41,7 +41,7 @@ import {
   MODIFY_USER,
   MODIFY_MY_USER,
   GET_ALL_ORDERS,
-  MODIFY_ORDERS_STATE
+  MODIFY_ORDERS_STATE, CANCEL_ORDER
   
 } from "../constants";
 
@@ -952,5 +952,30 @@ export function modifyOrdersState(orderId, newState) {
           errorNotification,
         });
       });
+  }
+}
+
+export function cancelOrder(id, successMessage, errorMessage) {
+  return dispatch => {
+    axios.delete(`http://${url}/checkout/${id}`)
+      .then(res => {
+        if(res.success) {
+          dispatch({
+            type: CANCEL_ORDER,
+            order: id,
+            message: successMessage
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            errorNotification: errorMessage
+          });
+        }
+      }).catch(err => {
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification: errorMessage
+        });
+      })
   }
 }
