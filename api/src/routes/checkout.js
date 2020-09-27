@@ -135,16 +135,29 @@ server.post("/", (req, res) => {
 server.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  Checkout.findByPk(id)
-    .then(checkout => {
-      return checkout.cancelOrder();
+  let productsWithAmount = null;
+  let checkout = null;
+
+  Checkout.findOne({ where: {id}, include: ShoppingCart })
+    .then(check => {
+      checkout = check;
+      productsWithAmount = check.shoppingCart.getProductsWithAmount();
+
+      productsWithAmount.map(async prod => {
+        let product = await Product.findOne({where: { id: prod[0] }});
+        product.stock += prod[1];
+        product.save();
+      });
+
+      checkout.state = 'canceled';
+      return checkout.save();
     }).then(() => {
       res.send({ success: true })
     }).catch(err => {
       console.error(err);
       res.status(500).send({ text: 'Error canceling order' });
     });
-    
+
 })
 //Get Checkout
 server.get("/check", (req, res) => {

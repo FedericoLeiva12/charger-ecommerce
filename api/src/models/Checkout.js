@@ -30,27 +30,27 @@ module.exports = (sequelize) => {
     return this.save();
   }
 
-  checkout.prototype.cancelOrder = function cancelOrded() {
-    return new Promise((res, rej) => {
-      if(this.state !== 'complete' && this.state !== 'canceled') {
-        checkout.findOne({ where: { id: this.id }, include: ShoppingCart })
-          .then(shoppingCart => {
-            let productsWithAmount = shoppingCart.getProductsWithAmount();
+  // checkout.prototype.cancelOrder = function cancelOrded() {
+  //   return new Promise((res, rej) => {
+  //     if(this.state !== 'complete' && this.state !== 'canceled') {
+  //       checkout.findOne({ where: { id: this.id }, include: ShoppingCart })
+  //         .then(shoppingCart => {
+  //           let productsWithAmount = shoppingCart.getProductsWithAmount();
 
-            productsWithAmount.map(async prod => {
-              let product = await Product.findOne({where: { id: prod[0] }});
-              product.stock += prod[1];
-              product.save();
-            });
-            this.state = 'canceled';
-            res(this.save());
-          }).catch(err => {
-            console.error(err);
-            rej(err);
-          })
-      } else {
-        rej(new Error('You can\'t cancel completed or canceled orders.'));
-      }
-    });
-  }
+  //           productsWithAmount.map(async prod => {
+  //             let product = await Product.findOne({where: { id: prod[0] }});
+  //             product.stock += prod[1];
+  //             product.save();
+  //           });
+  //           this.state = 'canceled';
+  //           res(this.save());
+  //         }).catch(err => {
+  //           console.error(err);
+  //           rej(err);
+  //         })
+  //     } else {
+  //       rej(new Error('You can\'t cancel completed or canceled orders.'));
+  //     }
+  //   });
+  // }
 };
