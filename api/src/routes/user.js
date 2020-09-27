@@ -4,7 +4,7 @@ const { User, InfoUser } = require("../db.js");
 const { isAuthenticated, isNotAuthenticated, isAdmin } = require("../passport");
 
 // All users
-server.get("/", isAdmin, (req, res, next) => {
+server.get("/", isAuthenticated, isAdmin, (req, res, next) => {
   User.findAll({ include: [InfoUser] })
     .then((users) => {
       res.status(200).send(users);
@@ -36,7 +36,6 @@ server.get("/getuser", isAuthenticated, (req, res) => {
 // Create Users
 server.post("/", (req, res, next) => {
   const { email, password, name, lastName, address } = req.body;
-  console.log(req.body);
 
   if (!email || !password || !name || !lastName || !address) {
     return res.status(400).send({ text: "Invalid data" });
@@ -87,7 +86,6 @@ server.post('/modify', isAuthenticated, (req, res) => {
     include: InfoUser,
   })
     .then((userFinded) => {
-      console.log(user);
       user = userFinded;
       if(email) {
         user.email = email;
@@ -132,7 +130,7 @@ server.post('/modify', isAuthenticated, (req, res) => {
 });
 
 // Modify Users
-server.put("/:id", isAdmin, (req, res, next) => {
+server.put("/:id", isAuthenticated, isAdmin, (req, res, next) => {
   const { email, password, name, lastName, address } = req.body;
   const { id } = req.params;
 
@@ -182,7 +180,7 @@ server.put("/:id", isAdmin, (req, res, next) => {
 
 //Remove Users
 
-server.delete("/:id", isAdmin,(req, res) => {
+server.delete("/:id", isAuthenticated, isAdmin,(req, res) => {
   const { id } = req.params;
 
   if (!id) {
