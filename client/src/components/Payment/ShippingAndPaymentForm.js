@@ -7,8 +7,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import StripeCreditcard from './DialogStripeForm'
-
+import CardForm from './DialogStripeCC'
+import { Elements } from "@stripe/react-stripe-js";
+import {loadStripe} from '@stripe/stripe-js'
+import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
+const stripePromise= loadStripe('pk_test_51HVqxeCJbTm2zZUewzVqUxrwjYz9MnzEYwZUJ2QCBcbjfzWyNLZT8vut0cXlIt28Gn6HGssqUZercMaRa0hplIqF00c5g6uOth')
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -36,18 +39,16 @@ export default function PurchaseForm({ setPurchaseData }) {
     setshippinAdress(event.target.value);
   }
 
-
-
   return (
     <>
       <form
         className={classes.root}
         noValidate
         autoComplete="off"
-        onSubmit={(e) => {
+/*         onSubmit={(e) => {
           e.preventDefault();
           setPurchaseData(paymentMethod, shippingAdress);
-        }}
+        }} */
       >
         <div>
           <Grid
@@ -57,6 +58,17 @@ export default function PurchaseForm({ setPurchaseData }) {
             alignItems="center"
           >
             <Grid item={12}>
+              <TextField
+              required
+              label="Adress"
+              onChange={handleChangeShippingAdress}
+              value={shippingAdress}
+              placeholder="Exampleadress 1489"
+              helperText="Complete the shipping adress"
+              fullWidth
+              margin="normal"
+              color="secondary"
+              />
               <FormControl required fullWidth className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Payment</InputLabel>
                 <Select
@@ -68,29 +80,14 @@ export default function PurchaseForm({ setPurchaseData }) {
                   <MenuItem value={"Credit Card"}>Credit Card</MenuItem>
                   <MenuItem value={null}>------------</MenuItem>
                 </Select>
-                {paymentMethod=== 'Credit Card'? <StripeCreditcard/>: null}
-                  
-
-
-
-
                 <FormHelperText> Choose a payment method</FormHelperText>
               </FormControl>
-              <TextField
-              required
-              label="Adress"
-              onChange={handleChangeShippingAdress}
-              value={shippingAdress}
-              placeholder="Exampleadress 1489"
-              helperText="Complete the shipping adress"
-              fullWidth
-              margin="normal"
-              color="secondary"
-            />
-             <Button variant="contained" type="submit" color="secondary">
-              Purchase
-            </Button>
-            </Grid>
+                {paymentMethod=== 'Credit Card'?
+                <Elements stripe={stripePromise}>
+                  <CardForm  />
+                </Elements>
+                : null}
+              </Grid>
 
           </Grid>
         </div>
