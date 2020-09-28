@@ -2,7 +2,7 @@ import React from 'react'
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import { Button } from "@material-ui/core";
 
-export default function CardForm  ()  {
+export default function CardForm  ({setPaymentMethod})  {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -11,13 +11,10 @@ export default function CardForm  ()  {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      
       return;
     }
 
-   
     const cardElement = elements.getElement(CardElement);
-
 
     const {error, paymentMethod} = await stripe.createPaymentMethod({
       type: 'card',
@@ -28,6 +25,7 @@ export default function CardForm  ()  {
       console.log('[error]', error);
     } else {
       console.log('[PaymentMethod]', paymentMethod);
+      setPaymentMethod(paymentMethod);
     }
   };
 

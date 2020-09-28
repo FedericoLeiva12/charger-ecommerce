@@ -60,7 +60,7 @@ export default function PurchaseContainer({ user, orders, getOrders }) {
     return (
       <>
         <Grid>
-          <Grid xs={6} item>
+          <Grid xs={12} item>
             <Card className={classes.card}>
               <CardContent>
                 <Box>

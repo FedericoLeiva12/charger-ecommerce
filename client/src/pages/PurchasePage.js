@@ -6,9 +6,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { getOrders } from "../store/actions";
 
-
-
-
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
@@ -29,7 +26,7 @@ function PurchasePage({ user, orders, getOrders }) {
         justify="space-around"
         alignItems="center"
       >
-        <Grid item xs={6}>
+        <Grid item xs={10}>
           <Purchase orders={orders} user={user} getOrders={getOrders} />
         </Grid>
       </Grid>

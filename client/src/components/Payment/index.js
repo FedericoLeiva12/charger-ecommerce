@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import NavBarCOntainer from "../NavBar/Container";
-import PurchaseForm from "./ShippingAndPaymentForm";
+import ShippingAndPaymentForm from "./ShippingAndPaymentForm";
 import { Box, Grid, makeStyles } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import PurchaseContainer from "./PurchaseContainer";
@@ -24,7 +24,14 @@ function Purchase({ user, orders, getOrders }) {
     },
   });
 
+  const [paymentMethod, setPaymentMethod] = useState(null);
+
   const classes = useStyle();
+
+  useEffect(() => {
+    console.log('Recibí un payment method');
+    console.log(paymentMethod)
+  }, [paymentMethod]);
 
   useEffect(() => {
     if (user) getOrders(user.id);
@@ -33,7 +40,7 @@ function Purchase({ user, orders, getOrders }) {
     <>
       <div style={{ paddingTop: 20 }}></div>
       <ThemeProvider theme={darkTheme}>
-        <Box mt={4}>
+        <Box mt={2}>
           <Grid
             fullwidth
             container
@@ -48,7 +55,7 @@ function Purchase({ user, orders, getOrders }) {
               user={user}
               getOrders={getOrders}
             />
-            <PurchaseForm />
+            <ShippingAndPaymentForm setPaymentMethodDos={setPaymentMethod} />
           </Grid>
         </Box>
       </ThemeProvider>

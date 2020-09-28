@@ -132,8 +132,12 @@ server.post("/", (req, res) => {
 //Stripe checkout
 server.post('/purchase/:orderId',  (req,res)=>{
   const {paymentMethod, total} = req.body
+  // Busca la orden en la base de datos e incluile la shoppingCart
+  // a esa shopping cart hacele JSON.parse al content y hacele un map
+  // en ese map anda sumandole a una variable "total" la multiplicación entre amount y price de cada producto
+  // Al final del map vas a tener el total
    stripe.paymentIntents.create({
-    amount: total,
+    amount: total, // Aca iria el total obtenido del proceso que les dije
     paymentMethod,
     confirm: true
   }).then(confirmation=>{

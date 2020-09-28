@@ -28,15 +28,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PurchaseForm({ setPurchaseData }) {
+export default function ShippingAndPaymentForm({ setPurchaseData, setPaymentMethodDos }) {
   const classes = useStyles();
   const [paymentMethod, setpaymentMethod] = React.useState("");
-  const [shippingAdress, setshippinAdress] = React.useState("");
+  const [shippingAdress, setshippingAdress] = React.useState("");
   const handleChangeSelect = (event) => {
     setpaymentMethod(event.target.value);
   };
   const handleChangeShippingAdress = (event) => {
-    setshippinAdress(event.target.value);
+    setshippingAdress(event.target.value);
   }
 
   return (
@@ -84,7 +84,7 @@ export default function PurchaseForm({ setPurchaseData }) {
               </FormControl>
                 {paymentMethod=== 'Credit Card'?
                 <Elements stripe={stripePromise}>
-                  <CardForm  />
+                  <CardForm  setPaymentMethod={setPaymentMethodDos} />
                 </Elements>
                 : null}
               </Grid>
