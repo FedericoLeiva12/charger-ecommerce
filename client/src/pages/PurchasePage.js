@@ -44,7 +44,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getOrders: (userId) => dispatch(getOrders(userId)),
-    doPayment: (paymentMethod, orderId) => dispatch(doPayment(paymentMethod, orderId))
+    doPayment: (paymentMethod, orderId, message) => dispatch(doPayment(paymentMethod, orderId, message))
   };
 }
 

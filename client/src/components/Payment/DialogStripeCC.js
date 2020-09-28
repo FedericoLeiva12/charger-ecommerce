@@ -22,6 +22,7 @@ export default function CardForm  ({doPayment})  {
   const stripe = useStripe();
   const elements = useElements();
   const { orderId } = useParams();
+  const message = 'Your order has been confirmed, wait for shipping'
 
   // const element = elements.create('card', {
   //   style: {
@@ -65,7 +66,7 @@ export default function CardForm  ({doPayment})  {
       console.log('[error]', error);
     } else {
       console.log('[PaymentMethod]', paymentMethod);
-      doPayment(paymentMethod, orderId)
+      doPayment(paymentMethod, orderId, message)
     }
   };
 
