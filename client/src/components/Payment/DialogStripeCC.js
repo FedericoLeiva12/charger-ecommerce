@@ -1,10 +1,12 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import { Button } from "@material-ui/core";
 
-export default function CardForm  ({setPaymentMethod})  {
+export default function CardForm  ({doPayment})  {
   const stripe = useStripe();
   const elements = useElements();
+  const { orderId } = useParams();
 
   const handleSubmit = async (event) => {
     
@@ -25,7 +27,7 @@ export default function CardForm  ({setPaymentMethod})  {
       console.log('[error]', error);
     } else {
       console.log('[PaymentMethod]', paymentMethod);
-      setPaymentMethod(paymentMethod);
+      doPayment(paymentMethod, orderId)
     }
   };
 

@@ -43,6 +43,7 @@ import {
   MODIFY_MY_USER,
   GET_ALL_ORDERS,
   MODIFY_ORDERS_STATE,
+  DO_PAYMENT
 } from "../constants";
 
 const url = "localhost:3001";
@@ -1015,4 +1016,25 @@ export function modifyOrdersState(orderId, newState) {
         });
       });
   };
+}
+
+export function doPayment(paymentMethod, orderId) {
+  return dispatch => {
+    axios
+      .post(`http://${url}/checkout/purchase/${orderId}`, {paymentMethod}, {withCredentials: true})
+        .then(res => {
+          if (res.status === 200) {
+            dispatch({
+              type: DO_PAYMENT
+            })
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          dispatch({ // lee meet
+            type: ERROR_MESSAGE,
+            errorNotification,
+          });
+        });
+  }
 }

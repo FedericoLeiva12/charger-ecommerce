@@ -28,15 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ShippingAndPaymentForm({ setPurchaseData, setPaymentMethodDos }) {
+export default function ShippingAndPaymentForm({shippingAdress, purchaseMethod, setPurchaseData, setPaymentMethodDos, setShippingAdress, setPurchaseMethod, doPayment }) {
   const classes = useStyles();
-  const [paymentMethod, setpaymentMethod] = React.useState("");
-  const [shippingAdress, setshippingAdress] = React.useState("");
+  
   const handleChangeSelect = (event) => {
-    setpaymentMethod(event.target.value);
+    setPurchaseMethod(event.target.value);
   };
   const handleChangeShippingAdress = (event) => {
-    setshippingAdress(event.target.value);
+    setShippingAdress(event.target.value);
   }
 
   return (
@@ -74,7 +73,7 @@ export default function ShippingAndPaymentForm({ setPurchaseData, setPaymentMeth
                 <Select
                   label="Payment Method"
                   id="demo-simple-select"
-                  value={paymentMethod}
+                  value={purchaseMethod}
                   onChange={handleChangeSelect}
                 >
                   <MenuItem value={"Credit Card"}>Credit Card</MenuItem>
@@ -82,9 +81,9 @@ export default function ShippingAndPaymentForm({ setPurchaseData, setPaymentMeth
                 </Select>
                 <FormHelperText> Choose a payment method</FormHelperText>
               </FormControl>
-                {paymentMethod=== 'Credit Card'?
+                {purchaseMethod=== 'Credit Card'?
                 <Elements stripe={stripePromise}>
-                  <CardForm  setPaymentMethod={setPaymentMethodDos} />
+                  <CardForm  doPayment={doPayment} />
                 </Elements>
                 : null}
               </Grid>

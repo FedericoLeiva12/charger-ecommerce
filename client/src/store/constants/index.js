@@ -39,4 +39,4 @@ export const GET_ALL_ORDERS = "GET_ALL_ORDERS";
 export const MODIFY_ORDERS_STATE = "MODIFY_ORDERS_STATE";
 export const MODIFY_USER = "MODIFY_USER";
 export const MODIFY_MY_USER = "MODIFY_MY_USER";
-export const SEND_CREDIT_CARD ='SEND_CREDIT_CARD'
+export const DO_PAYMENT = "DO_PAYMENT";

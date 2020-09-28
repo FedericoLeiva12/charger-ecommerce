@@ -4,7 +4,7 @@ import Purchase from "../components/Payment";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-import { getOrders } from "../store/actions";
+import { doPayment, getOrders } from "../store/actions";
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -12,7 +12,7 @@ const darkTheme = createMuiTheme({
   },
 });
 
-function PurchasePage({ user, orders, getOrders }) {
+function PurchasePage({ user, orders, getOrders, doPayment }) {
   React.useEffect(() => {
     if (user) getOrders(user.id);
   }, [user]);
@@ -27,7 +27,7 @@ function PurchasePage({ user, orders, getOrders }) {
         alignItems="center"
       >
         <Grid item xs={10}>
-          <Purchase orders={orders} user={user} getOrders={getOrders} />
+          <Purchase orders={orders} user={user} getOrders={getOrders} doPayment={doPayment} />
         </Grid>
       </Grid>
     </ThemeProvider>
@@ -44,6 +44,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getOrders: (userId) => dispatch(getOrders(userId)),
+    doPayment: (paymentMethod, orderId) => dispatch(doPayment(paymentMethod, orderId))
   };
 }
 

@@ -334,6 +334,10 @@ export default function Provider(state = initialState, action) {
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
       };
+    case constants.DO_PAYMENT:
+      return {
+        ...state
+      }
     default:
       return { ...state };
   }

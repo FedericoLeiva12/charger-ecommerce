@@ -17,14 +17,16 @@ const useStyle = makeStyles({
   },
 });
 
-function Purchase({ user, orders, getOrders }) {
+function Purchase({ user, orders, getOrders, doPayment }) {
   const darkTheme = createMuiTheme({
     palette: {
       type: "dark",
     },
   });
-
+  //hay que hacer el resfasfsa hiciste un pequeño lio "insertar sticker de lio chiquito"
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [purchaseMethod, setPurchaseMethod] = React.useState("");
+  const [shippingAdress, setShippingAdress] = React.useState("");
 
   const classes = useStyle();
 
@@ -36,6 +38,11 @@ function Purchase({ user, orders, getOrders }) {
   useEffect(() => {
     if (user) getOrders(user.id);
   }, [user]);
+
+  function handleSubmit() {
+    // Aca corres el doPayment
+  }
+
   return (
     <>
       <div style={{ paddingTop: 20 }}></div>
@@ -55,7 +62,14 @@ function Purchase({ user, orders, getOrders }) {
               user={user}
               getOrders={getOrders}
             />
-            <ShippingAndPaymentForm setPaymentMethodDos={setPaymentMethod} />
+            <ShippingAndPaymentForm
+              setPaymentMethodDos={setPaymentMethod}
+              setPurchaseMethod={setPurchaseMethod}
+              setShippingAdress={setShippingAdress}
+              shippingAdress={shippingAdress}
+              purchaseMethod={purchaseMethod}
+              doPayment={doPayment}
+              />
           </Grid>
         </Box>
       </ThemeProvider>

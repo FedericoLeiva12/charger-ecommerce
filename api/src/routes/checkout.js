@@ -133,25 +133,29 @@ server.post("/", (req, res) => {
 });
 //Stripe checkout
 server.post('/purchase/:orderId',  (req,res)=>{
-  const {paymentMethod, total, id} = req.body
+  const {paymentMethod} = req.body
   const {orderId} = req.params
-ShoppingCart.findOne({
-  where:{ checkoutId:orderId,},
-  includes:{ Checkout}
-}).then(order=>{
-  const contenido= order.map(order => JSON.parse(order.content))
-  const total= 0;
-  contenido.forEach(producto => {
-  total += producto.amount * producto. price
-  })
+  let total = 0;
+
+  ShoppingCart.findOne({
+    where:{ checkoutId:orderId,},
+    includes:{ Checkout}
+  }).then(order=>{
+    console.log(order)
+    let content =  JSON.parse(order.content)
+    for(let product of content) {
+    total += (product.amount * product. price)*100
+    console.log(total)
+    }
   
-})
-   stripe.paymentIntents.create({
-    amount: total*100, 
-    paymentMethod,
-    currency:'USD',
-    confirm: true,
-    payment_method:id
+  })
+  .then(() => {
+    return stripe.paymentIntents.create({
+      amount: total, 
+      currency:'USD',
+      confirm: true,
+      payment_method: paymentMethod.id
+    })
   })
   .then(confirmation=>{
     res.send(confirmation)
