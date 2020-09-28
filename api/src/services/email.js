@@ -1,10 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const mailgun = require('mailgun-js');
-const { domain } = require('process');
 
 const DOMAIN = process.env.EMAIL_DOMAIN;
-const mg = mailgun({apiKey: process.env.EMAIL_API_KEY, domain: domain});
+const mg = mailgun({apiKey: process.env.EMAIL_API_KEY, domain: DOMAIN});
 
 module.exports = function sendEmail(data, vars) {
     return new Promise((res, rej) => {
@@ -30,6 +29,7 @@ module.exports = function sendEmail(data, vars) {
                 console.log(err)
                 }
             else {
+                console.log(response)
                 res(response);
             }
         });

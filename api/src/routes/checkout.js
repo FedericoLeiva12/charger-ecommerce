@@ -98,28 +98,28 @@ server.post("/", (req, res) => {
     .then(() => {
       return order.genToken();
     })
-    .then((norder) => {
-      return sendEmail(
-        {
-          from: "checkout",
-          to: user.email,
-          subject: "Order confirmation",
-          content: "template.html",
-        },
-        {
-          NAME: user.infoUser.name,
-          LINK: "http://localhost:3000/order/confirm/" + order.token,
-          CART: Object.values(JSON.parse(content))
-            .map(
-              (product) =>
-                `<li>${product.name} - $${product.price * product.amount} ($${
-                  product.price
-                } x ${product.amount})</li>`
-            )
-            .join("\n"),
-        }
-      );
-    })
+    // .then((norder) => {
+    //   return sendEmail(
+    //     {
+    //       from: "checkout",
+    //       to: user.email,
+    //       subject: "Order confirmation",
+    //       content: "template.html",
+    //     },
+    //     {
+    //       NAME: user.infoUser.name,
+    //       LINK: "http://localhost:3000/order/confirm/" + order.token,
+    //       CART: Object.values(JSON.parse(content))
+    //         .map(
+    //           (product) =>
+    //             `<li>${product.name} - $${product.price * product.amount} ($${
+    //               product.price
+    //             } x ${product.amount})</li>`
+    //         )
+    //         .join("\n"),
+    //     }
+    //   );
+    // })
     .then(() => {
       res.send({ order: { ...order.dataValues, shoppingCart: shpcart } });
     })
@@ -150,8 +150,8 @@ server.post("/", (req, res) => {
     total += (product.amount * product. price)*100
     console.log(total)
     }
-    checkout = order
-    console.log(checkout.token)
+    checkout = order.checkout.dataValues
+    console.log(checkout)
   })
   .then(() => {
     return stripe.paymentIntents.create({
@@ -164,7 +164,7 @@ server.post("/", (req, res) => {
     confirmation = conf;
     console.log(req.user.email)
     return sendEmail({
-      from: 'Charger payment',
+      from: 'changer',
       to: req.user.email,
       subject: 'Charger payment confirmation',
       content: 'template.html'
