@@ -28,7 +28,9 @@ export default function CartCheckout({
   deleteFromCart,
   clearCart,
   handleChange,
-  prices
+  prices,
+  redirectTo,
+  history,
 }) {
   const [openClearCart, setOpenClearCart] = useState(false);
   const [openCheckout, setOpenCheckout] = useState(false);
@@ -48,9 +50,7 @@ export default function CartCheckout({
     setOpenCheckout(false);
   };
   const handleOnCheckout = () => {
-    onCheckout(message);
-    clearCart();
-
+    onCheckout(message, redirectTo);
     handleCloseCheckout();
   };
 
@@ -58,12 +58,12 @@ export default function CartCheckout({
     getCart();
   }, []);
 
-  
   let tot = 0;
-
-
-  Object.values(prices).forEach(price => tot += price);
-
+  
+  
+  Object.values(prices).forEach((price) => tot+=price
+   );
+console.log(tot)
   return (
     <Grid item xs={12}>
       <TableContainer component={Paper}>
@@ -78,30 +78,29 @@ export default function CartCheckout({
           </TableHead>
           <TableBody>
             {cart.map((prod) => {
-	      tot += prod.amount * prod.price;
-	      return(
-              <TableRow key={prod.id}>
-                <CartProduct
-                  key={prod.id}
-                  onClose={() => {
-                    deleteFromCart(prod);
-                  }}
-                  product={prod}
-                  addToCart={addToCart}
-                  removeFromCart={removeFromCart}
-                  handleChange={handleChange}
-                />
-              </TableRow>
-	      )
-	    } 
-	    )}
+              
+              return (
+                <TableRow key={prod.id}>
+                  <CartProduct
+                    key={prod.id}
+                    onClose={() => {
+                      deleteFromCart(prod);
+                    }}
+                    product={prod}
+                    addToCart={addToCart}
+                    removeFromCart={removeFromCart}
+                    handleChange={handleChange}
+                  />
+                </TableRow>
+              );
+            })}
           </TableBody>
-	  {/*<TableFooter>
+          <TableFooter>
             <TableRow>
               <TableCell align="right">Total</TableCell>
-              <TableCell align="right">{tot}</TableCell> {/* tabla total }
+              <TableCell align="right">{tot}</TableCell> {/* tabla total*/ }
             </TableRow>
-	  </TableFooter>*/}
+	  </TableFooter>
         </Table>
       </TableContainer>
       <br />

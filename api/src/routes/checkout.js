@@ -1,6 +1,7 @@
 const server = require("express").Router();
-const sendEmail = require('../services/email');
+const sendEmail = require("../services/email");
 const { isAuthenticated, isAdmin } = require("../passport.js");
+const stripe = require('../services/stripe')
 
 const { Checkout, ShoppingCart, User, CreditCard, InfoUser, Product } = require("../db.js");
 
@@ -28,7 +29,7 @@ server.put("/check", isAdmin,(req, res) => {
 
   Checkout.findOne({
     where: { id: req.body.id },
-    include: { model: User, include: InfoUser }
+    include: { model: User, include: InfoUser },
   })
   .then(order => {
     if(order.state === 'completed' || order.state === 'canceled') {
@@ -49,19 +50,16 @@ server.put("/check", isAdmin,(req, res) => {
         ID: order.id,
         ORDER: order.state
       }).catch((err) => {
-      res.status(500).send({ text: "Internal error" });
-      console.error(err);
-    })
-
-    }else{
-      res.status(500).send({ text: "invalid state"});
+        res.status(500).send({ text: "Internal error" });
+        console.error(err);
+      })
     }
   })
-    .catch((err) => {
-      res.status(500).send({ text: "Internal error" });
-      console.error(err);
-    })
-})
+  .catch((err) => {
+    res.status(500).send({ text: "Internal error" });
+    console.error(err);
+  });
+});
 
 //postCarts
 server.post("/", (req, res) => {
@@ -77,6 +75,7 @@ server.post("/", (req, res) => {
 
   ShoppingCart.create({
     content,
+    state: "closed",
   })
     .then((shopcart) => {
       shpcart = shopcart;
@@ -99,7 +98,7 @@ server.post("/", (req, res) => {
         where: {
           id,
         },
-        include: InfoUser
+        include: InfoUser,
       });
     })
     .then((nuser) => {
@@ -182,38 +181,76 @@ server.get("/check", (req, res) => {
     res.send(orders);
   });
 });
-// Post creditCard
-server.post("/addcard/:id", (req, res) => {
-  const id = req.user.id;
-  const { cardNumber, cardName, expirationDate, CCV, orderId } = req.body;
 
-  const order = find;
-  console.log(userId);
-  User.findOne({
-    where: {
-      id,
-    },
-  }).then((loggedUser) => {
-    loggedUser
-      .createCreditCard({
-        cardNumber,
-        cardName,
-        expirationDate,
-        CCV,
-      })
-      .then((userWithCard) => {
-        console.log(userWithCard);
-        res.send(userWithCard);
-      })
-      .catch((err) => {
-        res.status(500).send(err);
+  //Stripe checkout
+  server.post('/purchase/:orderId',  (req,res)=>{
+    const {paymentMethod} = req.body
+    const {orderId} = req.params
+    let total = 0;
+    let confirmation = null;
+    let content;
+    let checkout;
+
+  ShoppingCart.findOne({
+    where:{ checkoutId:orderId,},
+    include:[Checkout]
+  }).then(order=>{
+    console.log(order)
+    content =  JSON.parse(order.content)
+    for(let product of content) {
+    total += (product.amount * product. price)*100
+    console.log(total)
+    }
+    checkout = order.checkout.dataValues
+    console.log(checkout)
+  })
+  .then(() => {
+    return stripe.paymentIntents.create({
+      amount: total, 
+      currency:'USD',
+      confirm: true,
+      payment_method: paymentMethod.id
+    })
+  }).then(conf => {
+    confirmation = conf;
+    console.log(req.user.email)
+    return sendEmail({
+      from: 'changer',
+      to: req.user.email,
+      subject: 'Charger payment confirmation',
+      content: 'template.html'
+    }, {
+      NAME: req.user.name,
+      LINK: 'http://localhost:3000/order/confirm/' + checkout.token,
+      CART: Object.values(content).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n'),
+      CARD_NUMBER: paymentMethod.card.last4
+    })
+  })
+  .then(() => {
+    res.send(confirmation)
+  })
+  .catch((err) => {
+    res.status(500).send({ text: "Internal error" });
+    console.error(err);
+  });
+})
+// Set Payment and Shipping
+server.put("/payment/:orderId", (req, res) => {
+  const { orderId } = req.params;
+  const { paymentMethod, shippingAdress } = req.body;
+  Checkout.findOne({ where: { id: orderId } })
+    .then((order) => {
+      order.update({
+        paymentMethod,
+        shippingAdress,
       });
-  });
-});
-//getcreditcards
-server.get("/creditcards", (req, res) => {
-  CreditCard.findAll().then((cards) => {
-    res.send(cards);
-  });
+    })
+    .then((orderUpdated) => {
+      res.send(orderUpdated);
+    })
+    .catch((err) => {
+      res.status(500).send({ text: "Internal error" });
+      console.error(err);
+    });
 });
 module.exports = server;

@@ -36,13 +36,15 @@ import {
   GET_REVIEWS,
   ADD_REVIEWS,
   DELETE_REVIEWS,
-  GET_USER_REVIEWS, 
+  CONFIRM_ORDER,
+  GET_USER_REVIEWS,
   MODIFY_REVIEW,
   MODIFY_USER,
   MODIFY_MY_USER,
   GET_ALL_ORDERS,
-  MODIFY_ORDERS_STATE, CANCEL_ORDER
-  
+  MODIFY_ORDERS_STATE,
+  DO_PAYMENT,
+  CANCEL_ORDER
 } from "../constants";
 
 const url = "localhost:3001";
@@ -573,7 +575,7 @@ export function loginUser(email, password, errorNotification) {
   };
 }
 
-export function checkout(message) {
+export function checkout(message, redirectTo) {
   const content = localStorage.getItem("cart");
 
   return (dispatch) => {
@@ -586,19 +588,34 @@ export function checkout(message) {
         { withCredentials: true }
       )
       .then((res) => {
-        const order = res.data.order;
+        let order = res.data.order;
         if (order) {
+          order = {
+            ...order,
+            shoppingCart: {
+              ...order.shoppingCart,
+              content: JSON.parse(order.shoppingCart.content),
+            },
+          };
+
           dispatch({
             type: CHECKOUT,
             order: order,
-            message
+            message,
           });
+          redirectTo(`/checkout/purchase/${order.id}`);
         } else {
           dispatch({
             type: ERROR_MESSAGE,
             message: res.data.text,
           });
         }
+      })
+      .then(() => {
+        dispatch({
+          type: CLEAR_CART,
+          cart: [],
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -619,6 +636,12 @@ export function logout() {
           type: LOGOUT,
           logged: false,
           user: null,
+        });
+      })
+      .then(() => {
+        dispatch({
+          type: CLEAR_CART,
+          cart: [],
         });
       });
   };
@@ -765,7 +788,7 @@ export function getReviews(Id) {
   };
 }
 
-export function addReviews(userId,productId,commentary, rating, message) {
+export function addReviews(userId, productId, commentary, rating, message) {
   return (dispatch) => {
     axios
       .post(`http://${url}/reviews/`, { 
@@ -785,24 +808,23 @@ export function addReviews(userId,productId,commentary, rating, message) {
       });
   };
 }
-export function deleteReviews(reviewId, message){
+export function deleteReviews(reviewId, message) {
   return (dispatch) => {
     axios.delete(`http://${url}/reviews/${reviewId}`, {withCredentials: true})
       .then((res) => {
-          dispatch({
-            type: DELETE_REVIEWS,
-            id: reviewId,
-            message
-          });
-      }).catch((err) => {
+        dispatch({
+          type: DELETE_REVIEWS,
+          id: reviewId,
+          message,
+        });
+      })
+      .catch((err) => {
         console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
           errorNotification,
         });
       });
-
-
   };
 }
 
@@ -813,8 +835,8 @@ export function getUserReviews(userId) {
         console.log(res.data.text)
         dispatch({
           type: GET_USER_REVIEWS,
-          userReviews: res.data
-        })
+          userReviews: res.data,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -823,7 +845,7 @@ export function getUserReviews(userId) {
           errorNotification,
         });
       });
-  }
+  };
 }
 // en este caso, vamos a llevarnos esta funcion |
 
@@ -839,7 +861,7 @@ export function modifyReview(id, commentary, message) {
             type: MODIFY_REVIEW,
             id,
             commentary,
-            message
+            message,
           });
         } else {
           dispatch({
@@ -858,6 +880,33 @@ export function modifyReview(id, commentary, message) {
   };
 }
 
+export function confirmOrder(token, redirectTo, successMessage, errorMessage) {
+  return (dispatch) => {
+    axios
+      .post(
+        `http://${url}/order/confirm/${token}`,
+        {},
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: CONFIRM_ORDER,
+          order: res.data.order,
+          message: successMessage,
+        });
+        redirectTo("/");
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+        redirectTo('/');
+      });
+  };
+}
 
 export function modifyUser(id, name, lastName, password, address, message) {
   return (dispatch) => {
@@ -869,8 +918,8 @@ export function modifyUser(id, name, lastName, password, address, message) {
         if(res.status === 200) {
           dispatch({
             type: MODIFY_USER,
-            user: res.data.user
-          })
+            user: res.data.user,
+          });
         } else {
           dispatch({
             type: ERROR_MESSAGE,
@@ -889,24 +938,30 @@ export function modifyUser(id, name, lastName, password, address, message) {
 }
 
 export function modifyMyUser(data, successMessage, errorMessage) {
-  return dispatch => {
-    axios.post(`http://${url}/users/modify`, {...data},{withCredentials: true})
-      .then(res => {
-        if(res.status >= 200 || res.status <= 299) {
+  return (dispatch) => {
+    axios
+      .post(
+        `http://${url}/users/modify`,
+        { ...data },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        if (res.status >= 200 || res.status <= 299) {
           dispatch({
             type: MODIFY_MY_USER,
             user: res.data.user,
-            message: successMessage
-          })
+            message: successMessage,
+          });
         }
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.error(err.response);
         dispatch({
           type: ERROR_MESSAGE,
-          errorNotification: errorMessage
+          errorNotification: errorMessage,
         });
-      })
-  }
+      });
+  };
 }
 export function getAllOrders() {
   return (dispatch) => {
@@ -915,7 +970,7 @@ export function getAllOrders() {
         dispatch({
           type: GET_ALL_ORDERS,
           allOrders: res.data,
-        })
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -924,7 +979,7 @@ export function getAllOrders() {
           errorNotification,
         });
       });
-  }
+  };
 }
 export function modifyOrdersState(orderId, newState) {
   if(newState === 'canceled') return {
@@ -948,7 +1003,7 @@ export function modifyOrdersState(orderId, newState) {
             type: ERROR_MESSAGE,
             errorNotification,
           });
-	}
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -957,6 +1012,27 @@ export function modifyOrdersState(orderId, newState) {
           errorNotification,
         });
       });
+  };
+}
+
+export function doPayment(paymentMethod, orderId) {
+  return dispatch => {
+    axios
+      .post(`http://${url}/checkout/purchase/${orderId}`, {paymentMethod}, {withCredentials: true})
+        .then(res => {
+          if (res.status === 200) {
+            dispatch({
+              type: DO_PAYMENT
+            })
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          dispatch({ // lee meet
+            type: ERROR_MESSAGE,
+            errorNotification,
+          });
+        });
   }
 }
 

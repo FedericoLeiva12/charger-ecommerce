@@ -258,68 +258,85 @@ export default function Provider(state = initialState, action) {
         reviews: action.reviews,
       };
     case constants.ADD_REVIEWS:
-      return { 
-          ...state,
-          reviews: [...state.reviews, action.review ],
-          successSnackbarOpen: true,
-          successSnackbarMessage: action.message,
-      }
-    case  constants.DELETE_REVIEWS:
       return {
-          ...state,
-          reviews: state.reviews.filter((reviews) => reviews.id !== Number(action.id)),
-          successSnackbarOpen: true,
-          successSnackbarMessage: action.message,
-      }
+        ...state,
+        reviews: [...state.reviews, action.review],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.DELETE_REVIEWS:
+      return {
+        ...state,
+        reviews: state.reviews.filter(
+          (reviews) => reviews.id !== Number(action.id)
+        ),
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
     case constants.GET_USER_REVIEWS:
       return {
         ...state,
         userReviews: action.userReviews,
-        reviews: action.userReviews.reviews
-      }
+        reviews: action.userReviews.reviews,
+      };
     case constants.MODIFY_REVIEW:
-        let rev = state.reviews.filter(
-          (rev) => rev.id === parseInt(action.id)
-        )[0];
-        if (rev === undefined) return { ...state };
-        let i = state.reviews.indexOf(rev);
-        let reviews = [...state.reviews];
-        reviews[i].commentary = action.commentary;
-        return {
-          ...state,
-          reviews, 
-          successSnackbarOpen: true,
-          successSnackbarMessage: action.message,
-        };
+      let rev = state.reviews.filter(
+        (rev) => rev.id === parseInt(action.id)
+      )[0];
+      if (rev === undefined) return { ...state };
+      let i = state.reviews.indexOf(rev);
+      let reviews = [...state.reviews];
+      reviews[i].commentary = action.commentary;
+      return {
+        ...state,
+        reviews,
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+    case constants.CONFIRM_ORDER:
+      return {
+        ...state,
+        orders: [
+          ...state.orders.filter((order) => order.id != action.order.id),
+          action.order,
+        ],
+        successSnackbarOpen: true,
+        successSnackbarMessage: action.message,
+      };
+
     case constants.GET_ALL_ORDERS:
       return {
-	...state,
-	allOrders: action.allOrders,
-      }
+        ...state,
+        allOrders: action.allOrders,
+      };
     case constants.MODIFY_ORDERS_STATE:
       let ord = state.allOrders.filter(
-          (order) => order.id === action.order.id
-        )[0];
+        (order) => order.id === action.order.id
+      )[0];
       if (ord === undefined) return { ...state };
       let ind = state.allOrders.indexOf(ord);
       let allOrders = [...state.allOrders];
       allOrders[ind] = action.order;
       return {
-	...state,
-	allOrders,
-      }
-    case constants.MODIFY_USER: 
+        ...state,
+        allOrders,
+      };
+    case constants.MODIFY_USER:
       return {
         ...state,
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
-      }
+      };
     case constants.MODIFY_MY_USER:
       return {
         ...state,
         user: action.user,
         successSnackbarOpen: true,
-        successSnackbarMessage: action.message
+        successSnackbarMessage: action.message,
+      };
+    case constants.DO_PAYMENT:
+      return {
+        ...state
       }
     case constants.CANCEL_ORDER:
       return {

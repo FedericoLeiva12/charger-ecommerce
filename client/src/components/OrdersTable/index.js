@@ -131,6 +131,7 @@ function OrdersTable({
             lookup: {
               pending: 'pending',
               shipping: 'shipping',
+              processing: 'processing',
               complete: 'complete',
               canceled: 'canceled'
             },
