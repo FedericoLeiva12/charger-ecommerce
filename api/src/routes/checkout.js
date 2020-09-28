@@ -131,8 +131,9 @@ server.post("/", (req, res) => {
 });
 //Stripe checkout
 server.post('/purchase/:orderId',  (req,res)=>{
-  const {paymentMethod} = req.body
+  const {paymentMethod, total} = req.body
    stripe.paymentIntents.create({
+    amount: total,
     paymentMethod,
     confirm: true
   }).then(confirmation=>{
