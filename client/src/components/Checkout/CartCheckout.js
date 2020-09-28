@@ -48,7 +48,7 @@ export default function CartCheckout({
     setOpenCheckout(false);
   };
   const handleOnCheckout = () => {
-    onCheckout();
+    onCheckout(message);
     clearCart();
 
     handleCloseCheckout();

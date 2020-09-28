@@ -40,7 +40,7 @@ function AddCategory(props) {
                 addCategory.description,
                 addCategory.message
               )
-              setAddCategory({name: '', description: ''})
+              setAddCategory({...addCategory, name: '', description: ''})
             }}
           >
             <TextField

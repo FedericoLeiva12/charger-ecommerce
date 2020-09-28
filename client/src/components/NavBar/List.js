@@ -15,7 +15,15 @@ const useStyles = makeStyles(()=>({
     },
     list: {
         paddingLeft: 8
-    }
+    },
+    admin:{
+        color: 'white',
+        "&:hover":{
+            color: '#9C9C9C',
+            transition: '0.3s'
+        },
+        textDecoration: 'none',
+    },
 }))
 
 function List({categories, logged, onSignout, user}){
@@ -27,15 +35,15 @@ function List({categories, logged, onSignout, user}){
                 .filter(cat => 
                     (cat.name === 'Type' || cat.name === 'Season')
                 ).map((cat, index) => (
-                    <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description}</h1></Link>
+                    <Link key={index} to={`/category/${cat.id}`} className={classes.categories}><h1>{cat.description.toUpperCase()}</h1></Link>
                 ))
             }
             {user && user.rol === 'admin' ?
-                <Link to='/admin' className={classes.categories}>
+                <Link to='/admin' className={classes.admin}>
                 <h1>ADMIN</h1>
             </Link>
         : null}
-            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.categories}><h1>SIGN OUT</h1></Link>)}
+            {logged && (<Link onClick={e => {e.preventDefault(); onSignout();}} className={classes.admin}><h1>SIGN OUT</h1></Link>)}
         </div>
     )
 }
