@@ -132,13 +132,17 @@ server.post("/", (req, res) => {
 //Stripe checkout
 server.post('/purchase/:orderId',  (req,res)=>{
   const {paymentMethod, total} = req.body
-   stripe.paymentIntents.create({
+   
+  stripe.paymentIntents.create({
     amount: total,
     paymentMethod,
+    currency:'USD',
     confirm: true
-  }).then(confirmation=>{
+  })
+  .then(confirmation=>{
     res.send(confirmation)
-  }).catch((err) => {
+  })
+  .catch((err) => {
     res.status(500).send({ text: "Internal error" });
     console.error(err);
   });
