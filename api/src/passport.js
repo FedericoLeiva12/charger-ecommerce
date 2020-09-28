@@ -13,8 +13,8 @@ function isNotAuthenticated(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if(req.user && req.user.rol === "admin") {
-    return next;
+  if((req.body.adminKey && req.body.adminKey === process.env.ADMIN_KEY) || (req.user && req.user.rol === "admin")) {
+    return next();
   } else {
     return res.status(401).send();
   }

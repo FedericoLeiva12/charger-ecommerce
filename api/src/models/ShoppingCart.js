@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("shoppingCart", {
+  const ShoppingCart = sequelize.define("shoppingCart", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -34,4 +34,13 @@ module.exports = (sequelize) => {
       },
     },
   });
+
+  ShoppingCart.prototype.getProductsWithAmount = function() {
+    let json = JSON.parse(this.content);
+    let res = [];
+    json.forEach(product => {
+      res.push([product.id, product.amount]);
+    });
+    return res;
+  }
 };

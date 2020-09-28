@@ -46,9 +46,9 @@ function App({ getUser }) {
         <Route exact path="/checkout" component={CheckoutPage} />
         <Route exact path="/product/:product" component={ProductoPage} />
         <PrivateRoute exact path="/user" component={userPanelPage} />
-        <Route exact path="/order/:id" component={orderPage} />
-        <Route exact path='/createReview/' component={CreateReview} />
-        <Route exact path='/checkout/confirm' component={OrderCheckoutPage} />
+        <PrivateRoute exact path="/order/:id" component={orderPage} />
+        <PrivateRoute exact path='/createReview/' component={CreateReview} />
+        <PrivateRoute exact path='/checkout/confirm' component={OrderCheckoutPage} />
         {/* Admin Routes */}
         <PrivateAdmin exact path="/admin" component={AdminPage} />
       </Switch>

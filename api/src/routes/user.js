@@ -4,7 +4,7 @@ const { User, InfoUser } = require("../db.js");
 const { isAuthenticated, isNotAuthenticated, isAdmin } = require("../passport");
 
 // All users
-server.get("/", (req, res, next) => {
+server.get("/", isAdmin, (req, res, next) => {
   User.findAll({ include: [InfoUser] })
     .then((users) => {
       res.status(200).send(users);
@@ -36,7 +36,6 @@ server.get("/getuser", isAuthenticated, (req, res) => {
 // Create Users
 server.post("/", (req, res, next) => {
   const { email, password, name, lastName, address } = req.body;
-  console.log(req.body);
 
   if (!email || !password || !name || !lastName || !address) {
     return res.status(400).send({ text: "Invalid data" });
@@ -66,9 +65,14 @@ server.post("/", (req, res, next) => {
 });
 
 server.post('/modify', isAuthenticated, (req, res) => {
-  console.log(req.body)
+  let id = null;
+  if(req.user.rol === 'admin' && req.body.id) {
+    id = req.body.id;
+  } else {
+    id = req.user.id;
+  }
   const { email, password, apassword, repassword, name, lastName, address } = req.body;
-  const { id } = req.user;
+
   if (!email && !(password && repassword && apassword) && !name && !lastName && !address) {
     return res.status(400).send({ text: "Invalid data" });
   }
@@ -82,7 +86,6 @@ server.post('/modify', isAuthenticated, (req, res) => {
     include: InfoUser,
   })
     .then((userFinded) => {
-      console.log(user);
       user = userFinded;
       if(email) {
         user.email = email;
@@ -177,7 +180,7 @@ server.put("/:id", isAdmin, (req, res, next) => {
 
 //Remove Users
 
-server.delete("/:id", (req, res) => {
+server.delete("/:id", isAdmin,(req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -198,18 +201,16 @@ server.delete("/:id", (req, res) => {
 });
 
 // Set user rol to admin
-server.put("/usertoadmin/:id", (req, res) => {
+server.put("/usertoadmin/:id", isAdmin, (req, res) => {
   const { id } = req.params;
 
   User.findByPk(id)
     .then((user) => {
-      user.update({ rol: "admin" }).then((newAdmin) => {
-        return newAdmin;
-      });
+      return user.update({ rol: "admin" })
     })
     .then((newAdmin) => {
       res.send({
-        text: newAdmin + " is an admin now!",
+        text: newAdmin.email + " is an admin now!",
       });
     });
 });
