@@ -130,24 +130,28 @@ server.post("/", (req, res) => {
       res.status(500).send({ text: "Internal error" });
       console.error(err);
     });
-});
-//Stripe checkout
-server.post('/purchase/:orderId',  (req,res)=>{
-  const {paymentMethod} = req.body
-  const {orderId} = req.params
-  let total = 0;
+  });
+  //Stripe checkout
+  server.post('/purchase/:orderId',  (req,res)=>{
+    const {paymentMethod} = req.body
+    const {orderId} = req.params
+    let total = 0;
+    let confirmation = null;
+    let content;
+    let checkout;
 
   ShoppingCart.findOne({
     where:{ checkoutId:orderId,},
-    includes:{ Checkout}
+    include:[Checkout]
   }).then(order=>{
     console.log(order)
-    let content =  JSON.parse(order.content)
+    content =  JSON.parse(order.content)
     for(let product of content) {
     total += (product.amount * product. price)*100
     console.log(total)
     }
-  
+    checkout = order
+    console.log(checkout.token)
   })
   .then(() => {
     return stripe.paymentIntents.create({
@@ -156,8 +160,22 @@ server.post('/purchase/:orderId',  (req,res)=>{
       confirm: true,
       payment_method: paymentMethod.id
     })
+  }).then(conf => {
+    confirmation = conf;
+    console.log(req.user.email)
+    return sendEmail({
+      from: 'Charger payment',
+      to: req.user.email,
+      subject: 'Charger payment confirmation',
+      content: 'template.html'
+    }, {
+      NAME: req.user.name,
+      LINK: 'http://localhost:3000/order/confirm/' + checkout.token,
+      CART: Object.values(content).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n'),
+      CARD_NUMBER: paymentMethod.card.last4
+    })
   })
-  .then(confirmation=>{
+  .then(() => {
     res.send(confirmation)
   })
   .catch((err) => {

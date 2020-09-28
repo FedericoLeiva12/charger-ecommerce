@@ -27,6 +27,7 @@ module.exports = function sendEmail(data, vars) {
         }, (err, response) => {
             if(err) {
                 rej(err);
+                console.log(err)
                 }
             else {
                 res(response);
