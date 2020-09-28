@@ -48,6 +48,7 @@ const Comments = ({data}) => {
                                 <Typography
                                     component="span"
                                     variant="body2"
+                                    style={{color: '#adadad'}}
                                 >
                                     {c.user ? c.user.infoUser.name +': ' : 'Usuario: '}
                                 </Typography>
