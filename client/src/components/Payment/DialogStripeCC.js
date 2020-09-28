@@ -22,7 +22,7 @@ export default function CardForm  ({doPayment})  {
   const stripe = useStripe();
   const elements = useElements();
   const { orderId } = useParams();
-  const message = 'Your order has been confirmed, wait for shipping'
+  const message = 'Your payment was succesfull, check your email to confirm your purchase'
 
   // const element = elements.create('card', {
   //   style: {

@@ -12,7 +12,7 @@ import {Elements} from '@stripe/react-stripe-js'
 import {loadStripe} from '@stripe/stripe-js'
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js'
 const stripePromise = loadStripe(
-  'pk_test_51HVqxeCJbTm2zZUewzVqUxrwjYz9MnzEYwZUJ2QCBcbjfzWyNLZT8vut0cXlIt28Gn6HGssqUZercMaRa0hplIqF00c5g6uOth'
+  'pk_test_51HWD2UEtDTWo6noV3gUPNIrAxavzvLeteUfpgbzKVyfmvy69AhCqQ6EBNQYXovnkSrt55NRajtc7FFYfrAkm1fiy00vqjtQjMz'
 )
 const useStyles = makeStyles(theme => ({
   root: {
