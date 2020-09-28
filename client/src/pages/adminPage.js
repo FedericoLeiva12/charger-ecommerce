@@ -19,7 +19,8 @@ import {
     getOrders,
     allOrders,
     getAllOrders,
-    modifyOrdersState
+    modifyOrdersState,
+    cancelOrder
 } from '../store/actions'
 import {connect} from 'react-redux'
 import NavBar from '../components/NavBar/Container'
@@ -71,7 +72,8 @@ function AdminPage({
     reviews,
     allOrders,
     getAllOrders,
-    modifyOrdersState
+    modifyOrdersState,
+    cancelOrder
 }) {
     const [selectedTab, setSelectedTab] = React.useState(0)
 
@@ -139,7 +141,7 @@ function AdminPage({
                 )}
                 {selectedTab === 7 && <ListUsers getAllUsers={getAllUsers} makeAdmin={makeAdmin} deleteUser={deleteUser} users={users} getUserReviews={getUserReviews} modifyReview={modifyReview} deleteReviews={deleteReviews} reviews={reviews} />}
 		{selectedTab === 8 && (
-		  <ListOrders allOrders={allOrders} getAllOrders={getAllOrders} modifyOrdersState={modifyOrdersState} /> 
+		  <ListOrders allOrders={allOrders} getAllOrders={getAllOrders} modifyOrdersState={modifyOrdersState} cancelOrder={cancelOrder} /> 
                 )}
             </ThemeProvider>
         </>
@@ -186,7 +188,8 @@ function mapDispatchToProps(dispatch) {
         getOrders: (userId) => dispatch(getOrders(userId)),
         modifyReview: (id, commentary, message)=> dispatch(modifyReview(id, commentary, message)),
         getAllOrders: () => dispatch(getAllOrders()),
-        modifyOrdersState: (id, state) => dispatch(modifyOrdersState(id, state))
+        modifyOrdersState: (id, state) => dispatch(modifyOrdersState(id, state)),
+        cancelOrder: (id, successMessage, errorMessage) => dispatch(cancelOrder(id, successMessage, errorMessage))
     }
 }
 

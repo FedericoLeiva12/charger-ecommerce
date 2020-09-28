@@ -4,7 +4,7 @@ const { Categories } = require("./Categories");
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define("product", {
+  const Product = sequelize.define("product", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -24,4 +24,9 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
   });
+
+  Product.prototype.hasStock = function (amount) {
+    if(this.stock >= amount) return true;
+    return false;
+  }
 };
