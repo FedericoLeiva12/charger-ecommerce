@@ -130,13 +130,30 @@ server.post("/", (req, res) => {
     });
 });
 //Stripe checkout
-server.post('/purchase/:orderId',  (req,res)=>{
+server.post('/purchase/:orderId', isAuthenticated,(req,res)=>{
   const {paymentMethod, total} = req.body
-   stripe.paymentIntents.create({
+  let confirmation = null;
+
+  stripe.paymentIntents.create({
     amount: total,
     paymentMethod,
     confirm: true
-  }).then(confirmation=>{
+  }).then(async conf=>{
+    confirmation = conf;
+    const order = await Checkout.findOne({ where: { id: req.params.orderId }, include: ShoppingCart });
+    const content = JSON.parse(order.shoppingCart.content);
+    return sendEmail({
+      from: 'Charger payment',
+      to: req.user.email,
+      subject: 'Charger payment confirmation',
+      content: 'template.html'
+    }, {
+      NAME: req.user.name,
+      LINK: 'http://localhost:3000/order/confirm/' + order.token,
+      CART: Object.values(JSON.parse(content)).map(product => `<li>${product.name} - $${product.price * product.amount} ($${product.price} x ${product.amount})</li>`).join('\n'),
+      CARD_NUMBER: paymentMethod.card.last4
+    });
+  }).then(() => {
     res.send(confirmation)
   }).catch((err) => {
     res.status(500).send({ text: "Internal error" });
