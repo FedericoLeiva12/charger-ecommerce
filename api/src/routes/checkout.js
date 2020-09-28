@@ -7,9 +7,11 @@ const {
   Checkout,
   ShoppingCart,
   User,
-  CreditCard,
+  
   InfoUser,
 } = require("../db.js");
+
+
 
 // Check if is logged
 server.get("/getuser", isAuthenticated, (req, res) => {
@@ -131,13 +133,25 @@ server.post("/", (req, res) => {
 });
 //Stripe checkout
 server.post('/purchase/:orderId',  (req,res)=>{
-  const {paymentMethod, total} = req.body
-   
-  stripe.paymentIntents.create({
-    amount: total,
+  const {paymentMethod, total, id} = req.body
+  const {orderId} = req.params
+ShoppingCart.findOne({
+  where:{ checkoutId:orderId,},
+  includes:{ Checkout}
+}).then(order=>{
+  const contenido= order.map(order => JSON.parse(order.content))
+  const total= 0;
+  contenido.forEach(producto => {
+  total += producto.amount * producto. price
+  })
+  
+})
+   stripe.paymentIntents.create({
+    amount: total*100, 
     paymentMethod,
     currency:'USD',
-    confirm: true
+    confirm: true,
+    payment_method:id
   })
   .then(confirmation=>{
     res.send(confirmation)
