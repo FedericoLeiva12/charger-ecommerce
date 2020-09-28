@@ -540,7 +540,7 @@ export function createUser(email, password, name, lastName, address, message) {
   };
 }
 
-export function loginUser(email, password) {
+export function loginUser(email, password, errorNotification) {
   return (dispatch) => {
     axios
       .post(
@@ -563,7 +563,13 @@ export function loginUser(email, password) {
           });
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification,
+        });
+      });
   };
 }
 

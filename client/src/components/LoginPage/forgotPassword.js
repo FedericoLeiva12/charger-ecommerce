@@ -96,7 +96,7 @@ function Login({resetPassword}) {
               label="Account email"
               type="email"
               name="email"
-              autoComplete="false"
+              autoComplete="off"
               value={state.email}
               onChange={e => setState({...state, email: e.target.value})}
             />
@@ -108,7 +108,7 @@ function Login({resetPassword}) {
               label="New Password"
               type="password"
               name="password"
-              autoComplete="false"
+              autoComplete="off"
               value={state.password}
               onChange={e => setState({...state, password: e.target.value})}
             />
@@ -120,18 +120,13 @@ function Login({resetPassword}) {
               label="Type Password Again"
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="off"
               value={state.repassword}
               onChange={e => setState({...state, repassword: e.target.value})}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth
-            //   color='primary'
               className={classes.submit}
             >
               Reset
@@ -147,7 +142,6 @@ function Login({resetPassword}) {
           </form>
         </div>
         <Box mt={8}>
-         
         </Box>
       </Container>
     );

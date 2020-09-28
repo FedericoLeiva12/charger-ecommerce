@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const routes = require("./routes/index.js");
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { User, InfoUser } = require("./db.js");
 
 const server = express();
@@ -59,11 +59,11 @@ passport.use(
       })
         .then((user) => {
           if (user) {
-            if (user.password === password) {
+            if (!user.isGoogleAccount && user.password === password) {
               return done(null, {
                 email: user.email,
                 ...user.infoUser.dataValues,
-                ...(user.roles ? user.roled.dataValues : {}),
+                rol: user.rol,
                 id: user.id,
               });
             } else {
@@ -82,6 +82,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+  console.log(user)
   done(null, user.id);
 });
 
@@ -110,7 +111,87 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-server.use("/", routes);
+
+
+
+//Google login
+
+// server.use(cookieSession({
+//   name: 'session',
+//   keys: ['key1', 'key2']
+// }))
+
+passport.use(new GoogleStrategy({
+  clientID: "154532621294-9u25ju9euevc23akcsa0379mb8tv475u.apps.googleusercontent.com",
+  clientSecret: "1MFA1SvOPhx8G1v8v8buSImC",
+  callbackURL: "http://localhost:3001/google/callback"
+},
+(accessToken, refreshToken, profile, done) => {
+  //console.log(profile)
+  let exists = false;
+  let saveUser = null;
+  User.findOne({
+    where: {
+      email: profile.emails[0].value,
+      isGoogleAccount: true
+    },
+    include: [InfoUser],
+  }).then((user)=> {
+    if(!user) {
+      return User.create({
+        email: profile.emails[0].value,
+        isGoogleAccount: true,
+        rol: 'client',
+        password: 'EstoEsGoogle12'
+      });
+    } else {
+      exists = true;
+      return done(null, {
+        email: user.email,
+        ...user.infoUser.dataValues,
+        rol: user.rol,
+        id: user.id,
+      });
+    }
+  }).then(user => {
+    if(exists) return;
+    saveUser = user;
+    return saveUser.createInfoUser({
+      name: profile.name.givenName,
+      lastName: profile.name.familyName,
+      address: '',
+    });
+  }).then((user) => {
+    if(exists) return;
+    saveUser = {...saveUser.dataValues, infoUser: user};
+    console.log(user)
+    return done(null, {
+      email: saveUser.email,
+      ...saveUser.infoUser.dataValues,
+      rol: saveUser.rol,
+      id: saveUser.id,
+    });
+  }).catch(err => {
+    return done(err, null);
+  });
+}
+));
+
+
+server.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], prompt : "select_account" }), (req, res) => {
+  console.log(req.user)
+});
+
+server.get('/google/callback',passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('http://localhost:3000/');
+  });
+
+
+
+  
+  server.use("/", routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
@@ -120,5 +201,6 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
+
 
 module.exports = server;

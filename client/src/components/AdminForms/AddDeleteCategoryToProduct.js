@@ -51,6 +51,7 @@ function AddDeleteCategoryToProduct(props) {
                 placeholder="0"
                 helperText="ID of the category"
                 fullWidth
+                color="secondary"
                 margin="normal"
               />
               <TextField
@@ -60,6 +61,7 @@ function AddDeleteCategoryToProduct(props) {
                 placeholder="0"
                 helperText="ID of the product"
                 fullWidth
+                color="secondary"
                 margin="normal"
               />
               <div style={{color: '#fafafa'}}>
