@@ -43,7 +43,8 @@ import {
   MODIFY_MY_USER,
   GET_ALL_ORDERS,
   MODIFY_ORDERS_STATE,
-  DO_PAYMENT
+  DO_PAYMENT,
+  CANCEL_ORDER
 } from "../constants";
 
 const url = "localhost:3001";
@@ -52,7 +53,7 @@ const errorNotification = "Oh no! Something has gone wrong. Try again!";
 export function getCategories() {
   return (dispatch) => {
     axios
-      .get(`http://${url}/products/category`)
+      .get(`http://${url}/products/category`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -82,7 +83,7 @@ export function addCategory(name, description, message) {
       .post(`http://${url}/products/category`, {
         name,
         description,
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -114,7 +115,7 @@ export function modifyCategory(id, name, description, message) {
       .put(`http://${url}/products/category/${id}`, {
         name,
         description,
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -144,7 +145,7 @@ export function modifyCategory(id, name, description, message) {
 export function deleteCategory(id, message) {
   return (dispatch) => {
     axios
-      .delete(`http://${url}/products/category/${id}`)
+      .delete(`http://${url}/products/category/${id}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -172,7 +173,7 @@ export function deleteCategory(id, message) {
 export function getProducts() {
   return (dispatch) => {
     axios
-      .get(`http://${url}/products?showOutStock=true`)
+      .get(`http://${url}/products?showOutStock=true`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -199,7 +200,7 @@ export function getProducts() {
 export function deleteProduct(id, message) {
   return (dispatch) => {
     axios
-      .delete(`http://${url}/products/${id}`)
+      .delete(`http://${url}/products/${id}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -233,7 +234,7 @@ export function addProduct(name, description, price, stock, img, message) {
         price,
         stock,
         img,
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -262,7 +263,7 @@ export function addCategoryProduct(productId, categoryId, message) {
   return (dispatch) => {
     console.log({ productId, categoryId });
     axios
-      .put(`http://${url}/products/${productId}/${categoryId}`)
+      .put(`http://${url}/products/${productId}/${categoryId}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -293,7 +294,7 @@ export function addCategoryProduct(productId, categoryId, message) {
 export function removeCategoryProduct(productId, categoryId, message) {
   return (dispatch) => {
     axios
-      .delete(`http://${url}/products/${productId}/${categoryId}`)
+      .delete(`http://${url}/products/${productId}/${categoryId}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -319,7 +320,7 @@ export function removeCategoryProduct(productId, categoryId, message) {
 export function getProductsByCategory(categoryId) {
   return (dispatch) => {
     axios
-      .get(`http://${url}/products/searchByCategory/${categoryId}`)
+      .get(`http://${url}/products/searchByCategory/${categoryId}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -346,7 +347,7 @@ export function getProductsByCategory(categoryId) {
 export function getSearch(searchKey) {
   return (dispatch) => {
     axios
-      .post(`http://${url}/products/search/`, { search: searchKey })
+      .post(`http://${url}/products/search/`, { search: searchKey }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -380,7 +381,7 @@ export function modifyProduct(
         stock,
         description,
         img,
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -454,7 +455,7 @@ export function deleteFromCart(product) {
 export function getSelectors() {
   return (dispatch) => {
     axios
-      .get(`http://${url}/products/selectors`)
+      .get(`http://${url}/products/selectors`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -481,7 +482,7 @@ export function getSelectors() {
 export function getOrders(userId) {
   return (dispatch) => {
     axios
-      .get(`http://${url}/order/${userId}`)
+      .get(`http://${url}/order/${userId}`, {withCredentials: true})
       .then((res) => {
         if (res.status >= 200 && res.status <= 299) {
           // console.log(res.data.orders);
@@ -516,7 +517,7 @@ export function createUser(email, password, name, lastName, address, message) {
         name,
         lastName,
         address, //aca se los pasamos por body
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -671,7 +672,7 @@ export function getUser() {
 export function getAllUsers() {
   return (dispatch) => {
     axios
-      .get(`http://${url}/users`)
+      .get(`http://${url}/users`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);
@@ -699,7 +700,7 @@ export function getAllUsers() {
 export function deleteUser(id, message) {
   return (dispatch) => {
     axios
-      .delete(`http://${url}/users/${id}`)
+      .delete(`http://${url}/users/${id}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -722,7 +723,7 @@ export function deleteUser(id, message) {
 export function makeAdmin(id, message) {
   return (dispatch) => {
     axios
-      .put(`http://${url}/users/usertoadmin/${id}`)
+      .put(`http://${url}/users/usertoadmin/${id}`, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -748,7 +749,7 @@ export const clearSnackbar = () => {
 export const resetPassword = (email, password, repassword) => {
   return (dispatch) => {
     axios
-      .put(`http://${url}/users/password/${email}`, { password, repassword })
+      .put(`http://${url}/users/password/${email}`, { password, repassword }, {withCredentials: true})
       .then((res) => {
         if (res.status >= 200 && res.status < 300) {
           return dispatch({
@@ -776,7 +777,7 @@ export const resetPassword = (email, password, repassword) => {
 export function getReviews(Id) {
   return (dispatch) => {
     axios
-      .get(`http://${url}/reviews/${Id}`)
+      .get(`http://${url}/reviews/${Id}`, {withCredentials: true})
       .then((res) => {
         dispatch({
           type: GET_REVIEWS,
@@ -790,20 +791,15 @@ export function getReviews(Id) {
 export function addReviews(userId, productId, commentary, rating, message) {
   return (dispatch) => {
     axios
-      .post(`http://${url}/reviews/`, {
-        userId,
-        productId,
-        commentary,
-        rating,
-      })
-      .then((res) => {
-        dispatch({
-          type: ADD_REVIEWS,
-          review: res.data.review,
-          message,
-        });
-      })
-      .catch((err) => {
+      .post(`http://${url}/reviews/`, { 
+	userId, productId, commentary, rating 
+      }, {withCredentials: true}).then((res) => {
+          dispatch({
+            type: ADD_REVIEWS,
+            review: res.data.review,
+            message
+          });
+      }).catch((err) => {
         console.error(err);
         dispatch({
           type: ERROR_MESSAGE,
@@ -814,8 +810,7 @@ export function addReviews(userId, productId, commentary, rating, message) {
 }
 export function deleteReviews(reviewId, message) {
   return (dispatch) => {
-    axios
-      .delete(`http://${url}/reviews/${reviewId}`)
+    axios.delete(`http://${url}/reviews/${reviewId}`, {withCredentials: true})
       .then((res) => {
         dispatch({
           type: DELETE_REVIEWS,
@@ -835,10 +830,9 @@ export function deleteReviews(reviewId, message) {
 
 export function getUserReviews(userId) {
   return (dispatch) => {
-    axios
-      .get(`http://${url}/reviews/user/${userId}`)
-      .then((res) => {
-        console.log(res.data.text);
+    axios.get(`http://${url}/reviews/user/${userId}`, {withCredentials: true})
+      .then(res => {
+        console.log(res.data.text)
         dispatch({
           type: GET_USER_REVIEWS,
           userReviews: res.data,
@@ -860,7 +854,7 @@ export function modifyReview(id, commentary, message) {
     axios
       .put(`http://${url}/reviews/${id}`, {
         commentary,
-      })
+      }, {withCredentials: true})
       .then((res) => {
         if (res.status === 200) {
           dispatch({
@@ -918,13 +912,10 @@ export function modifyUser(id, name, lastName, password, address, message) {
   return (dispatch) => {
     axios
       .put(`http://${url}/users/${id}`, {
-        name,
-        lastName,
-        password,
-        address,
-      })
-      .then((res) => {
-        if (res.status === 200) {
+        name, lastName, password, address
+      }, {withCredentials: true})
+      .then(res => {
+        if(res.status === 200) {
           dispatch({
             type: MODIFY_USER,
             user: res.data.user,
@@ -974,9 +965,8 @@ export function modifyMyUser(data, successMessage, errorMessage) {
 }
 export function getAllOrders() {
   return (dispatch) => {
-    axios
-      .get(`http://${url}/checkout/check/`)
-      .then((res) => {
+    axios.get(`http://${url}/checkout/check/`, {withCredentials: true})
+      .then(res => {
         dispatch({
           type: GET_ALL_ORDERS,
           allOrders: res.data,
@@ -992,17 +982,24 @@ export function getAllOrders() {
   };
 }
 export function modifyOrdersState(orderId, newState) {
+  if(newState === 'canceled') return {
+    type: ERROR_MESSAGE,
+    errorNotification: 'To cancel a order you have to use the "Cancel order" button.'
+  }
+
   return (dispatch) => {
-    axios
-      .put(`http://${url}/checkout/check/`, { id: orderId, state: newState })
-      .then((res) => {
-        if (res.status === 200) {
-          dispatch({
-            type: MODIFY_ORDERS_STATE,
-            order: res.data,
-          });
-        } else {
-          dispatch({
+    axios.put(`http://${url}/checkout/check/`,
+      {id:orderId, state: newState}, {withCredentials: true}
+    )
+      .then(res => {
+	if(res.status === 200){
+         dispatch({
+	   type: MODIFY_ORDERS_STATE,
+	   order: res.data
+	 })
+        }
+	else{
+	  dispatch({
             type: ERROR_MESSAGE,
             errorNotification,
           });
@@ -1036,5 +1033,30 @@ export function doPayment(paymentMethod, orderId) {
             errorNotification,
           });
         });
+  }
+}
+
+export function cancelOrder(id, successMessage, errorMessage) {
+  return dispatch => {
+    axios.delete(`http://${url}/checkout/${id}`, {withCredentials: true})
+      .then(res => {
+        if(res.data.success) {
+          dispatch({
+            type: CANCEL_ORDER,
+            order: id,
+            message: successMessage
+          });
+        } else {
+          dispatch({
+            type: ERROR_MESSAGE,
+            errorNotification: errorMessage
+          });
+        }
+      }).catch(err => {
+        dispatch({
+          type: ERROR_MESSAGE,
+          errorNotification: errorMessage
+        });
+      })
   }
 }

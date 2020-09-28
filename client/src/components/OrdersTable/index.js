@@ -18,7 +18,14 @@ import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart'
 import Modal from '@material-ui/core/Modal'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from '@material-ui/core/Button'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import CartTable from './cartTable.js'
@@ -47,57 +54,91 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 }
 const useStyles = makeStyles(theme => ({
-
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
 }))
 
-function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
-
+function OrdersTable({
+  allOrders,
+  getAllOrders,
+  modifyOrdersState,
+  cancelOrder,
+}) {
   useEffect(() => {
     getAllOrders()
   }, [])
   const classes = useStyles()
 
-  const [open, setOpen] = React.useState(false);
-  const data = allOrders && allOrders.map(ord => {
-    return {
-      state: ord.state,
-      id: ord.id,
-      email: ord.user.email,
-      username: ord.user.infoUser.name +" "+ ord.user.infoUser.lastName,
-      address: ord.user.infoUser.address,
-    }
-  })
+  const [open, setOpen] = React.useState(false)
+  const [cancelOpen, setCancelOpen] = React.useState(false)
+  const [orderId, setOrderId] = React.useState(0)
 
-  const [cart, setCart] = React.useState([]);
+  const successMessage = 'Order succesfully canceled!'
+  const errorMessage = 'Can not cancel the order, please try again!'
 
-  const handleOpen = (id) => {
-    setOpen(true);
-    setCart(JSON.parse(allOrders.filter(order => order.id === id)[0].shoppingCart.content));
+  const data =
+    allOrders &&
+    allOrders.map(ord => {
+      return {
+        state: ord.state,
+        id: ord.id,
+        email: ord.user.email,
+        username: ord.user.infoUser.name + ' ' + ord.user.infoUser.lastName,
+        address: ord.user.infoUser.address,
+      }
+    })
+
+  const [cart, setCart] = React.useState([])
+
+  const handleOpen = id => {
+    setOpen(true)
+    setCart(
+      JSON.parse(
+        allOrders.filter(order => order.id === id)[0].shoppingCart.content
+      )
+    )
+  }
+
+  const handleCancelOpen = id => {
+    setCancelOpen(true)
+    setOrderId(id)
+  }
+
+  const handleCancelClose = () => {
+    cancelOrder(orderId, successMessage, errorMessage)
+    setCancelOpen(false)
   }
 
   const handleClose = () => {
     setOpen(false)
+    setCancelOpen(false)
   }
 
   return (
     <div>
-     <MaterialTable
-        title='All orders'
+      <MaterialTable
+        title="All orders"
         icons={tableIcons}
         data={data}
         columns={[
-          {title: 'State', field: 'state', editable: 'onUpdate', 
-	      lookup: { 'pending': 'pending', 'shipping': 'shipping','complete':'complete'}},
+          {
+            title: 'State',
+            field: 'state',
+            editable: 'onUpdate',
+            lookup: {
+              pending: 'pending',
+              shipping: 'shipping',
+              complete: 'complete',
+              canceled: 'canceled'
+            },
+          },
           {title: 'Email', field: 'email', editable: 'never'},
           {title: 'Address', field: 'address', editable: 'never'},
-	  {title: 'Username', field: 'username', editable: 'never'},
-	  {title: 'ID', field: 'id', editable: 'never'},
+          {title: 'Username', field: 'username', editable: 'never'},
+          {title: 'ID', field: 'id', editable: 'never'},
         ]}
         actions={[
           rowData => ({
@@ -105,20 +146,24 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
             tooltip: 'See Cart',
             onClick: () => handleOpen(rowData.id),
           }),
+          rowData => ({
+            icon: () => <RemoveShoppingCartIcon />,
+            tooltip: 'Cancel order',
+            onClick: () => handleCancelOpen(rowData.id),
+          }),
         ]}
-
         editable={{
           onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              dataUpdate[index] = newData;
-	      modifyOrdersState(oldData.id, newData.state);
-	      getAllOrders();
-              resolve();
-            }, 1000)
-          }),
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const dataUpdate = [...data]
+                const index = oldData.tableData.id
+                dataUpdate[index] = newData
+                modifyOrdersState(oldData.id, newData.state)
+                getAllOrders()
+                resolve()
+              }, 1000)
+            }),
         }}
       />
       <Modal
@@ -131,12 +176,29 @@ function OrdersTable({allOrders, getAllOrders, modifyOrdersState}) {
           timeout: 500,
         }}
       >
-	<CartTable shoppingCart={cart}/>
-
+        <CartTable shoppingCart={cart} />
       </Modal>
+      <Dialog open={cancelOpen} onClose={handleClose}>
+        <DialogTitle>
+          {'Are you sure you want to cancel the order?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            If you cancel the order, the customer will not to be able to recive
+            his products
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Disagree
+          </Button>
+          <Button onClick={handleCancelClose} color="secondary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
 
-
-export default  OrdersTable;
+export default OrdersTable
