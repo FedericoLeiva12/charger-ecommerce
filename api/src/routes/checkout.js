@@ -1,6 +1,7 @@
 const server = require("express").Router();
 const sendEmail = require("../services/email");
 const { isAuthenticated } = require("../passport.js");
+const stripe = require('../services/stripe')
 
 const {
   Checkout,
@@ -128,7 +129,19 @@ server.post("/", (req, res) => {
       console.error(err);
     });
 });
-
+//Stripe checkout
+server.post('/purchase/:orderId',  (req,res)=>{
+  const {paymentMethod} = req.body
+   stripe.paymentIntents.create({
+    paymentMethod,
+    confirm: true
+  }).then(confirmation=>{
+    res.send(confirmation)
+  }).catch((err) => {
+    res.status(500).send({ text: "Internal error" });
+    console.error(err);
+  });
+})
 // Set Payment and Shipping
 server.put("/payment/:orderId", (req, res) => {
   const { orderId } = req.params;
