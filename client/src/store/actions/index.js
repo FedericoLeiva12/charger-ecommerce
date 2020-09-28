@@ -895,7 +895,7 @@ export function confirmOrder(token, redirectTo, successMessage, errorMessage) {
           order: res.data.order,
           message: successMessage,
         });
-        redirectTo("/checkout/confirm");
+        redirectTo("/");
       })
       .catch((err) => {
         console.error(err);
