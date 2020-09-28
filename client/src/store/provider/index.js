@@ -336,7 +336,9 @@ export default function Provider(state = initialState, action) {
       };
     case constants.DO_PAYMENT:
       return {
-        ...state
+        ...state,
+        successSnackbarMessage: action.message,
+        successSnackbarOpen: true
       }
     case constants.CANCEL_ORDER:
       return {

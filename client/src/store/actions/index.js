@@ -1015,14 +1015,15 @@ export function modifyOrdersState(orderId, newState) {
   };
 }
 
-export function doPayment(paymentMethod, orderId) {
+export function doPayment(paymentMethod, orderId, message) {
   return dispatch => {
     axios
       .post(`http://${url}/checkout/purchase/${orderId}`, {paymentMethod}, {withCredentials: true})
         .then(res => {
           if (res.status === 200) {
             dispatch({
-              type: DO_PAYMENT
+              type: DO_PAYMENT,
+              message
             })
           }
         })
